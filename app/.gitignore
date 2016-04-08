@@ -1,3 +1,5 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Android template
 # Built application files
 *.apk
 *.ap_
@@ -28,19 +30,3 @@ proguard/
 # Android Studio Navigation editor temp files
 .navigation/
 
-# Eclipse project files
-.classpath
-.project
-.settings/
-
-# Intellij project files
-*.iml
-*.ipr
-*.iws
-.idea/
-
-# Android Studio captures folder
-captures/
-
-# Mac system files
-.DS_Store
