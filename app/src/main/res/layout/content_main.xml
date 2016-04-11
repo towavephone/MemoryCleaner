@@ -12,8 +12,94 @@
     tools:showIn="@layout/app_bar_main"
     tools:context="edu.wkd.towave.memorycleaner.MainActivity">
 
-    <TextView
-        android:text="Hello World!"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+    <RelativeLayout
+        android:id="@+id/linearlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp" >
+
+        <lecho.lib.hellocharts.view.PieChartView
+            android:id="@+id/piechartview"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/piechartview"
+            android:layout_alignTop="@+id/piechartview"
+            android:layout_toRightOf="@+id/piechartview"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:layout_alignParentRight="true"
+            android:weightSum="3" >
+
+            <TableRow android:layout_weight="1" >
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="#0000FF" />
+
+                <TextView
+                    android:id="@+id/textview1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    />
+            </TableRow>
+
+            <TableRow android:layout_weight="1" >
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="#00FFFF" />
+
+                <TextView
+                    android:id="@+id/textview2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    />
+            </TableRow>
+
+            <TableRow android:layout_weight="1" >
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/sum_memory" />
+
+                <TextView
+                    android:id="@+id/textview3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    />
+            </TableRow>
+        </TableLayout>
+
+        <Button
+            android:id="@+id/clear_memory_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/piechartview"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="33dp"
+            android:background="@null"
+            android:gravity="center"
+            android:text="12.73%\n一键清理"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            />
+    </RelativeLayout>
+
+    <lecho.lib.hellocharts.view.LineChartView
+        android:id="@+id/linechartview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearlayout"
+        android:layout_alignParentBottom="true" />
 </RelativeLayout>

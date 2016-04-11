@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="libtitle">#A10F0F</color>
+    <color name="libbottom">#707070</color>
+    <color name="edutitle">#051630</color>
+    <color name="edubackground">#1B4491</color>
+    <color name="darkgray">#ff404040</color>
+    <color name="black">#ff000000</color>
+    <color name="red">#ffff0000</color>
+    <color name="green">#ff00ff00</color>
+    <color name="lightgray">#ffc0c0c0</color>
+    <color name="white">#ffffffff</color>
+    <color name="yellow">#ffffff00</color>
+    <color name="blue">#ff0000ff</color>
+    <color name="gray">#ff808080</color>
+    <color name="magenta">#ffff00ff</color>
+    <color name="cyan">#ff00ffff</color>
+    <color name="transparent">#00000000</color>
+    <color name="semitransparent">#55000000</color>
+    <color name="orange_menu">#bfFF7F24</color>
+    <color name="blue_menu">#bf3399ff</color>
+    <color name="light_blue_menu">#8f3399ee</color>
+    <color name="gray_menu">#bf999999</color>
+    <color name="white_wymimicry">#F0F0F0</color>
+    <color name="orange_menu1">#FF7F24</color>
+
+</resources>
