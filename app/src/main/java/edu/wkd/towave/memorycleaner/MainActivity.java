@@ -14,15 +14,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import com.mikhaellopez.circularfillableloaders.CircularFillableLoaders;
 import edu.wkd.towave.memorycleaner.tools.MemoryUsedMessage;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,27 +34,31 @@ import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
-import lecho.lib.hellocharts.model.PieChartData;
 import lecho.lib.hellocharts.model.PointValue;
-import lecho.lib.hellocharts.model.SliceValue;
 import lecho.lib.hellocharts.view.LineChartView;
-import lecho.lib.hellocharts.view.PieChartView;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    TextView textView, textView2, textView3;
+
+    @Bind(R.id.textview1) TextView textView;
+    @Bind(R.id.textview2) TextView textView2;
+    @Bind(R.id.textview3) TextView textView3;
+    @Bind(R.id.clear_memory_button) Button button;
+    @Bind(R.id.fab) FloatingActionButton fab;
+    @Bind(R.id.circularFillableLoaders) CircularFillableLoaders mCircularFillableLoaders;
+    @Bind(R.id.nav_view) NavigationView navigationView;
+    @Bind(R.id.drawer_layout) DrawerLayout drawer;
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.linechartview) LineChartView mLineChartView;
+
     Context context;
-    Button button;
     private long exitTime = 0;
     private List<PointValue> mPointValues;
     private List<AxisValue> mAxisValues;
-    private List<SliceValue> sliceValues;
     private List<Line> lines;
-    private LineChartView mLineChartView;
-    private PieChartView mpieChartView;
     final static int MAX_COUNT = 2 * 60;
     final static int REAL_MAX_COUNT = MAX_COUNT + MAX_COUNT / 15;
-    private Animation animation;
     int count;
     long sum, available;
     float percent;
@@ -63,7 +67,7 @@ public class MainActivity extends AppCompatActivity
     public static final int IS_NORMAL = 101;
     public static final int IS_CLEAN_FINISH = 102;
     private Handler mh = new Handler() {
-         public void handleMessage(Message msg) {
+        public void handleMessage(Message msg) {
             super.handleMessage(msg);
             int msgId = msg.what;
             switch (msgId) {
@@ -79,81 +83,74 @@ public class MainActivity extends AppCompatActivity
                 default:
                     break;
             }
-        };
+        }
+
+
+        ;
     };
 
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        initViews();
         context = getApplicationContext();
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(
-                R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action",
                         Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer,
                 toolbar, R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(
-                R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        initViews();
         setTimeTask();
         addListener();
     }
 
+
     public void addListener() {
         button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            @Override public void onClick(View v) {
                 // TODO Auto-generated method stub
                 switchStatusByClick();
             }
         });
     }
+
+
     private void switchStatusByClick() {
         if (status == IS_NORMAL) {
             status = IS_CLEANING;
             switchStatus();
-        } else if (status == IS_CLEAN_FINISH) {
+        }
+        else if (status == IS_CLEAN_FINISH) {
             status = IS_NORMAL;
         }
     }
+
+
     private void initViews() {
-        mLineChartView = (LineChartView) findViewById(R.id.linechartview);
-        mpieChartView = (PieChartView) findViewById(R.id.piechartview);
         mPointValues = new ArrayList<PointValue>();
         mAxisValues = new ArrayList<AxisValue>();
-        sliceValues = new ArrayList<SliceValue>();
-        animation = AnimationUtils.loadAnimation(context, R.anim.my_rotate);
         count = 0;
-        button = (Button) findViewById(R.id.clear_memory_button);
-        textView = (TextView) findViewById(R.id.textview1);
-        textView2 = (TextView) findViewById(R.id.textview2);
-        textView3 = (TextView) findViewById(R.id.textview3);
     }
+
 
     private void switchStatus() {
         // TODO Auto-generated method stub
         switch (status) {
             case IS_CLEANING:
                 button.setText("正在清理");
-                startAnimation();
+                //startAnimation();
                 button.setClickable(false);
                 //clearMemory();
                 break;
@@ -162,7 +159,7 @@ public class MainActivity extends AppCompatActivity
                 break;
             case IS_CLEAN_FINISH:
                 button.setText("清理完成");
-                clearAnimation();
+                //clearAnimation();
                 button.performClick();
                 // Main a = (Main) getActivity();
                 // a.getAdapter().reLoad();
@@ -171,6 +168,8 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
     }
+
+
     private void setTimeTask() {
         new Timer().schedule(new TimerTask() {
             @Override public void run() {
@@ -189,22 +188,12 @@ public class MainActivity extends AppCompatActivity
         }, 0, 1000);
     }
 
+
     public void updateChartsData(int count, float percent) {
         Date date = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
         String time = simpleDateFormat.format(date);
-
-        sliceValues.clear();
-        SliceValue sliceValue = new SliceValue(percent,
-                Color.parseColor("#0000FF"));
-        sliceValues.add(sliceValue);
-
-        sliceValue = new SliceValue(100 - percent, Color.parseColor("#00FFFF"));
-        sliceValues.add(sliceValue);
-        PieChartData pieChartData = new PieChartData(sliceValues)
-                .setHasCenterCircle(true);
-        mpieChartView.setPieChartData(pieChartData);
-        mpieChartView.setVisibility(View.VISIBLE);
+        mCircularFillableLoaders.setProgress((int) (100 - percent));
 
         mPointValues.add(new PointValue(count, percent));
         mAxisValues.add(new AxisValue(count).setLabel(time));
@@ -212,20 +201,24 @@ public class MainActivity extends AppCompatActivity
             mPointValues.remove(0);
             mAxisValues.remove(0);
         }
-        Line line = new Line(mPointValues)
-                .setColor(Color.parseColor("#bf3399ff")).setCubic(true)
-                .setFilled(true).setHasPoints(false);
+        Line line = new Line(mPointValues).setColor(Color.parseColor("#3f51b5"))
+                                          .setCubic(true)
+                                          .setFilled(true)
+                                          .setHasPoints(false);
         lines = new ArrayList<Line>();
         lines.add(line);
         LineChartData data = new LineChartData();
         data.setLines(lines);
         // 坐标轴
         Axis axisX = new Axis(mAxisValues).setTextColor(Color.BLACK)
-                                          .setHasLines(true).setLineColor(Color.BLACK)
+                                          .setHasLines(true)
+                                          .setLineColor(Color.BLACK)
                                           .setMaxLabelChars(8); // X轴
         data.setAxisXBottom(axisX);
-        Axis axisY = new Axis().setHasLines(true).setTextColor(Color.BLACK)
-                               .setLineColor(Color.BLACK).setMaxLabelChars(6); // Y轴
+        Axis axisY = new Axis().setHasLines(true)
+                               .setTextColor(Color.BLACK)
+                               .setLineColor(Color.BLACK)
+                               .setMaxLabelChars(6); // Y轴
         // Float num[]=new Float[]{(float) 0,(float) 20,(float)
         // 40,(float) 60,(float) 80,(float) 100};
         //
@@ -242,12 +235,14 @@ public class MainActivity extends AppCompatActivity
         mLineChartView.setLineChartData(data);
         mLineChartView.setVisibility(View.VISIBLE);
     }
-    public void startAnimation(){
-        mpieChartView.startAnimation(animation);
-    }
-    public void clearAnimation(){
-        mpieChartView.clearAnimation();
-    }
+
+
+    //public void startAnimation(){
+    //    mpieChartView.startAnimation(animation);
+    //}
+    //public void clearAnimation(){
+    //    mpieChartView.clearAnimation();
+    //}
     public void updateTextViews() {
         // TODO Auto-generated method stub
         textView.setText("已用内存:\n" + (sum - available) + "MB");
@@ -260,7 +255,7 @@ public class MainActivity extends AppCompatActivity
 
 
     @Override public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }
@@ -316,7 +311,7 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

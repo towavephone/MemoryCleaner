@@ -27,4 +27,6 @@ dependencies {
     compile 'com.android.support:design:23.2.1'
     compile 'com.github.lecho:hellocharts-library:1.5.8@aar'
     compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.mikhaellopez:circularfillableloaders:1.2.0'
+    compile 'com.android.support:support-v4:23.2.1'
 }
