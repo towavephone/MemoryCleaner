@@ -14,9 +14,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-
+import edu.wkd.towave.memorycleaner.fragment.MemoryStatusFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -27,42 +28,59 @@ public class MainActivity extends AppCompatActivity
     @Bind(R.id.toolbar) Toolbar toolbar;
     Snackbar snackbar;
     Context context;
+    ActionBarDrawerToggle toggle;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         context = getApplicationContext();
+        //初始化view
+        initViews();
 
+        loadData();
+        addListener();
+
+    }
+
+
+    public void initViews() {
         ButterKnife.bind(this);
+        getSupportFragmentManager().beginTransaction()
+                                   .replace(R.id.content_frame, new MemoryStatusFragment())
+                                   .commit();
         setSupportActionBar(toolbar);
-        snackbar=Snackbar.make(drawer,
-                "你确定要退出吗？",
-                Snackbar.LENGTH_LONG);
-        snackbar.setAction("退出",
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //snackbar.dismiss();
-                        finish();
-                        System.exit(0);
-                    }
-                });
+        snackbar = Snackbar.make(drawer, "你确定要退出吗？", Snackbar.LENGTH_LONG);
+
+        toggle = new ActionBarDrawerToggle(this, drawer,
+                toolbar, R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
+    }
 
 
+    public void loadData() {
+
+    }
+
+
+    public void addListener() {
+        snackbar.setAction("退出", new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                //snackbar.dismiss();
+                finish();
+                System.exit(0);
+            }
+        });
         fab.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action",
                         Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer,
-                toolbar, R.string.navigation_drawer_open,
-                R.string.navigation_drawer_close);
+
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
-
     }
 
 
@@ -72,8 +90,8 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         }
         else {
-            Log.e("ssss",snackbar.isShown()+"");
-            if(!snackbar.isShown()){
+            Log.e("ssss", snackbar.isShown() + "");
+            if (!snackbar.isShown()) {
                 snackbar.show();
             }
         }
@@ -109,6 +127,8 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
+            //goToContentFragment();
+            Toast.makeText(context, "2333", Toast.LENGTH_SHORT).show();
         }
         else if (id == R.id.nav_gallery) {
 
@@ -129,4 +149,9 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    //public void goToContentFragment() {
+    //    MemoryStatusFragment contentFragment = new MemoryStatusFragment();
+    //    getSupportFragmentManager().beginTransaction()
+    //                        .replace(R.id.content_frame, contentFragment).commit();
+    //}
 }

@@ -31,13 +31,6 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"/>/>
 
-        <!--<lecho.lib.hellocharts.view.PieChartView-->
-        <!--android:id="@+id/piechartview"-->
-        <!--android:layout_width="150dp"-->
-        <!--android:layout_height="150dp"-->
-        <!--android:layout_alignParentLeft="true"-->
-        <!--android:layout_centerVertical="true" />-->
-
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

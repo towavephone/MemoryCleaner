@@ -63,19 +63,19 @@ public class ChartsTools {
             mAxisValues.remove(0);
         }
         Line line = new Line(mPointValues)
-                .setColor(Color.parseColor("#bf3399ff")).setCubic(true)
+                .setColor(Color.parseColor("#3f51b5")).setCubic(true)
                 .setFilled(true).setHasPoints(false);
         lines = new ArrayList<Line>();
         lines.add(line);
         LineChartData data = new LineChartData();
         data.setLines(lines);
         // 坐标轴
-        Axis axisX = new Axis(mAxisValues).setTextColor(Color.WHITE)
-                                          .setHasLines(true).setLineColor(Color.WHITE)
+        Axis axisX = new Axis(mAxisValues).setTextColor(Color.BLACK)
+                                          .setHasLines(true).setLineColor(Color.BLACK)
                                           .setMaxLabelChars(8); // X轴
         data.setAxisXBottom(axisX);
-        Axis axisY = new Axis().setHasLines(true).setTextColor(Color.WHITE)
-                               .setLineColor(Color.WHITE).setMaxLabelChars(6); // Y轴
+        Axis axisY = new Axis().setHasLines(true).setTextColor(Color.BLACK)
+                               .setLineColor(Color.BLACK).setMaxLabelChars(6); // Y轴
 
         // 默认是3，只能看最后三个数字
         data.setAxisYLeft(axisY);
