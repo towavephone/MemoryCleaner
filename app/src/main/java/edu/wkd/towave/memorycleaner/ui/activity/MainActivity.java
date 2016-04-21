@@ -1,11 +1,14 @@
-package edu.wkd.towave.memorycleaner;
+package edu.wkd.towave.memorycleaner.ui.activity;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,21 +17,30 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import edu.wkd.towave.memorycleaner.fragment.MemoryStatusFragment;
+import edu.wkd.towave.memorycleaner.R;
+import edu.wkd.towave.memorycleaner.ui.adapter.MemoryStatusPageAdapter;
+import edu.wkd.towave.memorycleaner.ui.fragment.CircularLoader;
+import edu.wkd.towave.memorycleaner.ui.fragment.LineChartView;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener{
 
+    @Bind(R.id.viewpager) ViewPager mViewPager;
+    @Bind(R.id.tabLayout) TabLayout mTabLayout;
     @Bind(R.id.fab) FloatingActionButton fab;
     @Bind(R.id.nav_view) NavigationView navigationView;
     @Bind(R.id.drawer_layout) DrawerLayout drawer;
     @Bind(R.id.toolbar) Toolbar toolbar;
+
+    MemoryStatusPageAdapter mMemoryStatusPageAdapter;
     Snackbar snackbar;
     Context context;
     ActionBarDrawerToggle toggle;
+    ArrayList<Fragment> items;
+
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,24 +48,20 @@ public class MainActivity extends AppCompatActivity
         context = getApplicationContext();
         //初始化view
         initViews();
-
         loadData();
         addListener();
-
     }
 
 
     public void initViews() {
         ButterKnife.bind(this);
-        getSupportFragmentManager().beginTransaction()
-                                   .replace(R.id.content_frame, new MemoryStatusFragment())
-                                   .commit();
         setSupportActionBar(toolbar);
         snackbar = Snackbar.make(drawer, "你确定要退出吗？", Snackbar.LENGTH_LONG);
 
-        toggle = new ActionBarDrawerToggle(this, drawer,
-                toolbar, R.string.navigation_drawer_open,
+        toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);
+
     }
 
 
@@ -81,6 +89,20 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
+
+        //init viewpager
+        items=new ArrayList<>();
+        items.add(new CircularLoader());
+        items.add(new LineChartView());
+        mMemoryStatusPageAdapter = new MemoryStatusPageAdapter(
+                getSupportFragmentManager(), items);
+        mViewPager.setAdapter(mMemoryStatusPageAdapter);
+        //mViewPager.setOffscreenPageLimit(1);
+
+        for (int i = 0; i < mMemoryStatusPageAdapter.getCount(); i++) {
+            mTabLayout.addTab(mTabLayout.newTab());
+        }
+        mTabLayout.setupWithViewPager(mViewPager);
     }
 
 
@@ -126,9 +148,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
-            //goToContentFragment();
-            Toast.makeText(context, "2333", Toast.LENGTH_SHORT).show();
+
         }
         else if (id == R.id.nav_gallery) {
 
@@ -149,9 +169,4 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    //public void goToContentFragment() {
-    //    MemoryStatusFragment contentFragment = new MemoryStatusFragment();
-    //    getSupportFragmentManager().beginTransaction()
-    //                        .replace(R.id.content_frame, contentFragment).commit();
-    //}
 }
