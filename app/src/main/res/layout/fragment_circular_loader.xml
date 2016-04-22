@@ -8,7 +8,7 @@
         android:id="@+id/linearlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="30dp">
+        android:padding="50dp">
 
         <com.mikhaellopez.circularfillableloaders.CircularFillableLoaders
             android:id="@+id/circularFillableLoaders"
@@ -22,15 +22,33 @@
             app:cfl_wave_color="#3f51b5"
             android:layout_centerInParent="true"/>
 
-        <Button
-            android:id="@+id/clear_memory_button"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@null"
-            android:gravity="center"
-            android:text="12.73%\n一键清理"
             android:layout_centerInParent="true"
-            android:textColor="@color/white"
-            android:textAppearance="?android:attr/textAppearanceLargeInverse"/>
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/clear_memory_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:text="12.73%"
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                android:textSize="50sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="已用:448M/1870M"
+                android:textColor="@color/white"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+        <android.support.v7.widget.ButtonBarLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.ButtonBarLayout>
     </RelativeLayout>
 </RelativeLayout>

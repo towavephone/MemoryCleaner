@@ -25,12 +25,12 @@
     android:layout_height="wrap_content"
     app:elevation="3dp">
 
+    <include layout="@layout/view_toolbar"/>
+
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="5dp"
         app:tabIndicatorColor="@color/md_light_blue_A200"/>
-
-    <include layout="@layout/view_toolbar"/>
 
 </android.support.design.widget.AppBarLayout>
