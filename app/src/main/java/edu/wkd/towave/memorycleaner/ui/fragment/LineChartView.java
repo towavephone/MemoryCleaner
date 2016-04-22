@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.wkd.towave.memorycleaner.R;
 
@@ -16,6 +17,9 @@ import edu.wkd.towave.memorycleaner.R;
 public class LineChartView extends Fragment {
     View view;
     Context context;
+    int count;
+    long sum, available;
+    float percent;
     @Nullable @Override
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,

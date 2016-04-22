@@ -2,53 +2,77 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:id="@+id/linearlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="50dp">
+        android:padding="30dp">
 
-        <com.mikhaellopez.circularfillableloaders.CircularFillableLoaders
-            android:id="@+id/circularFillableLoaders"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/logo"
-            app:cfl_border="true"
-            app:cfl_border_width="5dp"
-            app:cfl_progress="80"
-            app:cfl_wave_amplitude="0.03"
-            app:cfl_wave_color="#3f51b5"
-            android:layout_centerInParent="true"/>
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:orientation="vertical">
+            android:layout_centerHorizontal="true"
+            android:id="@+id/relativeLayout">
 
-            <TextView
-                android:id="@+id/clear_memory_button"
+            <com.mikhaellopez.circularfillableloaders.CircularFillableLoaders
+                android:id="@+id/circularFillableLoaders"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:src="@drawable/logo"
+                app:cfl_border="true"
+                app:cfl_border_width="5dp"
+                app:cfl_progress="80"
+                app:cfl_wave_amplitude="0.03"
+                app:cfl_wave_color="@color/colorPrimary"
+                android:layout_centerHorizontal="true"/>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@null"
-                android:text="12.73%"
-                android:layout_gravity="center"
-                android:textColor="@color/white"
-                android:textSize="50sp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="已用:448M/1870M"
-                android:textColor="@color/white"
-                android:layout_marginTop="20dp"
-                android:layout_gravity="center"/>
-        </LinearLayout>
-        <android.support.v7.widget.ButtonBarLayout
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/percent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:text="12.73%"
+                    android:layout_gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="50sp"/>
+
+                <TextView
+                    android:id="@+id/number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="已用:448M/1870M"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <com.andexert.library.RippleView
+            android:id="@+id/clear_memory_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/relativeLayout"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentBottom="true"
+            rv_centered="true"
+            rv_framerate="70">
 
-        </android.support.v7.widget.ButtonBarLayout>
+            <Button
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:text="一键清理"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/white"/>
+        </com.andexert.library.RippleView>
+
     </RelativeLayout>
 </RelativeLayout>

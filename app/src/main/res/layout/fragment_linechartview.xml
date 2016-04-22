@@ -2,8 +2,31 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <lecho.lib.hellocharts.view.LineChartView
-        android:id="@+id/linechartview"
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+        <TextView
+            android:id="@+id/percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="74%"
+            android:textColor="@color/colorPrimary"
+            android:layout_centerInParent="true"
+            android:textSize="80sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="内存已用"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/percent"
+            android:textSize="20sp"/>
+    </RelativeLayout>
+    <com.db.chart.view.LineChartView
+        android:layout_below="@+id/relativeLayout"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/linechart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 </RelativeLayout>
