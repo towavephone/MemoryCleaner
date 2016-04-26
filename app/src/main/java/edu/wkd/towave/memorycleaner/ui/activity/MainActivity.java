@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
 import edu.wkd.towave.memorycleaner.R;
 import edu.wkd.towave.memorycleaner.ui.adapter.MemoryStatusPageAdapter;
 import edu.wkd.towave.memorycleaner.ui.fragment.CircularLoader;
-import edu.wkd.towave.memorycleaner.ui.fragment.LineChartView;
+import edu.wkd.towave.memorycleaner.ui.fragment.LineChart;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity
         //init viewpager
         items=new ArrayList<>();
         items.add(new CircularLoader());
-        items.add(new LineChartView());
+        items.add(new LineChart());
         mMemoryStatusPageAdapter = new MemoryStatusPageAdapter(
                 getSupportFragmentManager(), items);
         mViewPager.setAdapter(mMemoryStatusPageAdapter);

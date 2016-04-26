@@ -23,10 +23,10 @@
             android:layout_below="@+id/percent"
             android:textSize="20sp"/>
     </RelativeLayout>
-    <com.db.chart.view.LineChartView
-        android:layout_below="@+id/relativeLayout"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/linechart"
+    <lecho.lib.hellocharts.view.LineChartView
+        android:id="@+id/linechartview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_alignParentBottom="true" />
 </RelativeLayout>

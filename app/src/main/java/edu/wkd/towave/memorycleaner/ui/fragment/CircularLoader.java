@@ -39,7 +39,7 @@ public class CircularLoader extends Fragment {
     long sum, available;
     float percent;
 
-    private Handler mh = new Handler() {
+    private Handler mHandler = new Handler() {
         @SuppressLint("HandlerLeak") public void handleMessage(Message msg) {
             super.handleMessage(msg);
             int msgId = msg.what;
@@ -51,6 +51,7 @@ public class CircularLoader extends Fragment {
                 default:
                     Toast.makeText(context, msg.obj.toString(),
                             Toast.LENGTH_SHORT).show();
+                    break;
             }
         }
 
@@ -87,17 +88,17 @@ public class CircularLoader extends Fragment {
     private void setTimeTask() {
         new Timer().schedule(new TimerTask() {
             @Override public void run() {
-                Message message = new Message();
+                Message msg = Message.obtain();
                 try {
                     sum = MemoryUsedMessage.getTotalMemory();
                     available = MemoryUsedMessage.getAvailMemory(context);
                     percent = MemoryUsedMessage.getPercent(context);
-                    message.what = IS_NORMAL;
-                    mh.sendMessage(message);
+                    msg.what = IS_NORMAL;
+                    mHandler.sendMessage(msg);
                 } catch (Exception e) {
-                    message.what = 3;
-                    message.obj = e.toString();
-                    mh.sendMessage(message);
+                    msg.what = 3;
+                    msg.obj = e.toString();
+                    mHandler.sendMessage(msg);
                 }
             }
         }, 0, 1000);

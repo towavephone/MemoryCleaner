@@ -12,6 +12,7 @@
 //
 //import android.widget.Button;
 //import android.widget.TextView;
+//import android.widget.Toast;
 //import butterknife.Bind;
 //import butterknife.ButterKnife;
 //import edu.wkd.towave.memorycleaner.R;
@@ -49,24 +50,22 @@
 //    private ChartsTools chartsTools;
 //
 //    private Handler mh = new Handler() {
-//        @SuppressLint("HandlerLeak")
-//        public void handleMessage(Message msg) {
+//        @SuppressLint("HandlerLeak") public void handleMessage(Message msg) {
 //            super.handleMessage(msg);
 //            int msgId = msg.what;
 //            switch (msgId) {
 //                case IS_NORMAL:
-//                    updateTextViews();
-//                    chartsTools.updateChartsData(count++, percent);
-//                    break;
-//                case IS_CLEAN_FINISH:
-//                    button.setClickable(true);
-//                    status = IS_CLEAN_FINISH;
-//                    switchStatus();
+//                    updateViews();
+//                    //chartsTools.updateChartsData(count++, percent);
 //                    break;
 //                default:
-//                    break;
+//                    Toast.makeText(context, msg.obj.toString(),
+//                            Toast.LENGTH_SHORT).show();
 //            }
-//        };
+//        }
+//
+//
+//        ;
 //    };
 //
 //    @Override

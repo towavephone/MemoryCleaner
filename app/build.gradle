@@ -3,7 +3,6 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
-
     defaultConfig {
         applicationId "edu.wkd.towave.memorycleaner"
         minSdkVersion 15
@@ -25,9 +24,9 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:design:23.3.0'
-//    compile 'com.github.lecho:hellocharts-library:1.5.8@aar'
+    compile 'com.github.lecho:hellocharts-library:1.5.8@aar'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.mikhaellopez:circularfillableloaders:1.2.0'
-    compile 'com.diogobernardino:williamchart:2.2'
     compile 'com.github.traex.rippleeffect:library:1.3'
 }
+
