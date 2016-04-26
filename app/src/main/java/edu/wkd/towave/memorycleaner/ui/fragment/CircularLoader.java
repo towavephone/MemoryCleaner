@@ -28,7 +28,6 @@ import java.util.TimerTask;
 public class CircularLoader extends Fragment {
     View view;
     Context context;
-    @Bind(R.id.clear_memory_button) RippleView button;
     @Bind(R.id.circularFillableLoaders) CircularFillableLoaders
             mCircularFillableLoaders;
     @Bind(R.id.percent) TextView mTextView;
