@@ -62,9 +62,6 @@ public class LineChart extends Fragment {
                     break;
             }
         }
-
-
-        ;
     };
 
 

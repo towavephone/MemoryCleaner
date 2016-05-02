@@ -18,7 +18,7 @@ import android.view.View;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.wkd.towave.memorycleaner.R;
-import edu.wkd.towave.memorycleaner.ui.adapter.BaseFragmentPageAdapter;
+import edu.wkd.towave.memorycleaner.ui.adapter.base.BaseFragmentPageAdapter;
 import edu.wkd.towave.memorycleaner.ui.fragment.CircularLoader;
 import edu.wkd.towave.memorycleaner.ui.fragment.LineChart;
 import java.util.ArrayList;

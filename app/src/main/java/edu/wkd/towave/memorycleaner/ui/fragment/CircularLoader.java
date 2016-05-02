@@ -8,6 +8,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +21,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.mikhaellopez.circularfillableloaders.CircularFillableLoaders;
 import edu.wkd.towave.memorycleaner.R;
+import edu.wkd.towave.memorycleaner.model.Menu;
 import edu.wkd.towave.memorycleaner.tools.MemoryUsedMessage;
 import edu.wkd.towave.memorycleaner.ui.activity.MemoryClean;
+import edu.wkd.towave.memorycleaner.ui.adapter.MenuListAdapter;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -27,17 +33,19 @@ import java.util.TimerTask;
  * Created by Administrator on 2016/4/21.
  */
 public class CircularLoader extends Fragment {
-    View view;
-    Context context;
+    private View view;
+    private Context context;
     @Bind(R.id.circularFillableLoaders) CircularFillableLoaders
             mCircularFillableLoaders;
     @Bind(R.id.percent) TextView mTextView;
     @Bind(R.id.number) TextView mTextView2;
+    @Bind(R.id.recyclerView) RecyclerView recyclerView;
 
-    int status = IS_NORMAL;
-    public static final int IS_NORMAL = 101;
-    long sum, available;
-    float percent;
+    private MenuListAdapter recyclerAdapter;
+    private int status = IS_NORMAL;
+    private static final int IS_NORMAL = 101;
+    private long sum, available;
+    private float percent;
 
     private Handler mHandler = new Handler() {
         @SuppressLint("HandlerLeak") public void handleMessage(Message msg) {
@@ -54,9 +62,6 @@ public class CircularLoader extends Fragment {
                     break;
             }
         }
-
-
-        ;
     };
 
 
@@ -74,7 +79,7 @@ public class CircularLoader extends Fragment {
     }
 
 
-    public void updateViews() {
+    private void updateViews() {
         // TODO Auto-generated method stub
         //textView.setText("已用内存:\n" + (sum - available) + "MB");
         //textView2.setText("可用内存:\n" + available + "MB");
@@ -106,30 +111,63 @@ public class CircularLoader extends Fragment {
 
 
     private void initViews() {
-
+        ArrayList<Menu> menus = new ArrayList<>();
+        menus.add(new Menu.Builder(context).content("内存加速")
+                                           .icon(R.drawable.card_icon_speedup)
+                                           .build());
+        menus.add(new Menu.Builder(context).content("垃圾清理")
+                                           .icon(R.drawable.card_icon_trash)
+                                           .build());
+        menus.add(new Menu.Builder(context).content("自启管理")
+                                           .icon(R.drawable.card_icon_autorun)
+                                           .build());
+        menus.add(new Menu.Builder(context).content("软件管理")
+                                           .icon(R.drawable.card_icon_media)
+                                           .build());
+        recyclerAdapter = new MenuListAdapter(menus, context);
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
+        recyclerView.setHasFixedSize(true);
+        //recyclerAdapter.setOnInViewClickListener(R.id.notes_item_root,
+        //        new BaseRecyclerViewAdapter.onInternalClickListenerImpl<SNote>() {
+        //            @Override
+        //            public void OnClickListener(View parentV, View v, Integer position, SNote values) {
+        //                super.OnClickListener(parentV, v, position, values);
+        //                mainPresenter.onRecyclerViewItemClick(position, values);
+        //            }
+        //        });
+        //recyclerAdapter.setOnInViewClickListener(R.id.note_more,
+        //        new BaseRecyclerViewAdapter.onInternalClickListenerImpl<SNote>() {
+        //            @Override
+        //            public void OnClickListener(View parentV, View v, Integer position, SNote values) {
+        //                super.OnClickListener(parentV, v, position, values);
+        //                mainPresenter.showPopMenu(v, position, values);
+        //            }
+        //        });
+        recyclerAdapter.setFirstOnly(false);
+        recyclerAdapter.setDuration(300);
+        recyclerView.setAdapter(recyclerAdapter);
     }
 
-    @OnClick(R.id.card1)
-    void speedUp() {
-        startActivity(new Intent(context,MemoryClean.class));
-    }
 
+    //@OnClick(R.id.card1) void speedUp() {
+    //    startActivity(new Intent(context, MemoryClean.class));
+    //}
+    //
+    //
+    //@OnClick(R.id.card2) void rubbishClean() {
+    //    //startActivity(RubbishCleanActivity.class);
+    //}
+    //
+    //
+    //@OnClick(R.id.card3) void AutoStartManage() {
+    //    //startActivity(AutoStartManageActivity.class);
+    //}
+    //
+    //
+    //@OnClick(R.id.card4) void SoftwareManage() {
+    //    //startActivity(SoftwareManageActivity.class);
+    //}
 
-    @OnClick(R.id.card2)
-    void rubbishClean() {
-        //startActivity(RubbishCleanActivity.class);
-    }
-
-
-    @OnClick(R.id.card3)
-    void AutoStartManage() {
-        //startActivity(AutoStartManageActivity.class);
-    }
-
-    @OnClick(R.id.card4)
-    void SoftwareManage() {
-        //startActivity(SoftwareManageActivity.class);
-    }
 
     @Override public void onDestroyView() {
         super.onDestroyView();

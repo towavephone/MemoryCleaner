@@ -7,9 +7,9 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:padding="30dp"
-        android:layout_weight="4">
+        android:layout_weight="1"
+        android:padding="10dp"
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -57,29 +57,35 @@
             </LinearLayout>
         </RelativeLayout>
 
-        <com.andexert.library.RippleView
+        <com.balysv.materialripple.MaterialRippleLayout
             android:id="@+id/onekeyclean"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
             android:layout_alignParentBottom="true"
+            android:layout_marginTop="10dp"
             android:layout_centerHorizontal="true"
-            rv_centered="true"
-            rv_framerate="70">
+            app:mrl_rippleOverlay="true"
+            app:mrl_rippleColor="@color/md_white_1000">
+
             <Button
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:text="一键清理"
                 android:background="@color/colorPrimary"
                 android:textColor="@color/md_white_1000"/>
-        </com.andexert.library.RippleView>
+        </com.balysv.materialripple.MaterialRippleLayout>
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_weight="2"
+    <edu.wkd.towave.memorycleaner.ui.view.FixedRecyclerView
+        android:id="@+id/recyclerView"
+        android:padding="4dp"
         android:layout_width="match_parent"
-        android:layout_height="0dip">
+        android:layout_height="wrap_content"/>
+    <!--<RelativeLayout-->
+    <!--android:layout_weight="2"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="0dip">-->
 
-        <include layout="@layout/include_main_card"/>
-    </RelativeLayout>
+    <!--<include layout="@layout/include_main_card"/>-->
+    <!--</RelativeLayout>-->
 </LinearLayout>

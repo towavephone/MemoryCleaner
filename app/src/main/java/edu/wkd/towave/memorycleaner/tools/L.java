@@ -5,7 +5,7 @@ import android.util.Log;
 /**
  * Created by Administrator on 2016/4/27.
  */
-public class L {
+class L {
     public static boolean isDebug = true;// 是否需要打印bug，
     private static final String TAG = "sage";
 

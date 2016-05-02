@@ -16,7 +16,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import edu.wkd.towave.memorycleaner.R;
-import edu.wkd.towave.memorycleaner.ui.adapter.BaseFragmentPageAdapter;
+import edu.wkd.towave.memorycleaner.ui.adapter.base.BaseFragmentPageAdapter;
 import edu.wkd.towave.memorycleaner.ui.fragment.PowerBoot;
 import edu.wkd.towave.memorycleaner.ui.fragment.RunningApps;
 import java.util.ArrayList;

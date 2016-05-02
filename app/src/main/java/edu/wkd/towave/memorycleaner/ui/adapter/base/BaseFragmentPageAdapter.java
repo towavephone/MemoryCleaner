@@ -1,4 +1,4 @@
-package edu.wkd.towave.memorycleaner.ui.adapter;
+package edu.wkd.towave.memorycleaner.ui.adapter.base;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,9 +9,9 @@ import java.util.ArrayList;
  * Created by Administrator on 2016/4/21.
  */
 public class BaseFragmentPageAdapter extends FragmentPagerAdapter {
-    ArrayList<Fragment> items;
-    FragmentManager fm;
-    ArrayList<String> titleList;
+    private ArrayList<Fragment> items;
+    private FragmentManager fm;
+    private ArrayList<String> titleList;
 
 
     public BaseFragmentPageAdapter(FragmentManager fm, ArrayList<Fragment> items) {
@@ -23,10 +23,11 @@ public class BaseFragmentPageAdapter extends FragmentPagerAdapter {
 
 
     public BaseFragmentPageAdapter(FragmentManager fm, ArrayList<Fragment> items, ArrayList<String> titleList) {
-        super(fm);
-        // TODO Auto-generated constructor stub
-        this.items = items;
-        this.fm = fm;
+        //super(fm);
+        //// TODO Auto-generated constructor stub
+        //this.items = items;
+        //this.fm = fm;
+        this(fm,items);
         this.titleList = titleList;
     }
 
