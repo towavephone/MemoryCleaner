@@ -15,26 +15,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:layout_above="@+id/onekeyclean"
             android:id="@+id/relativeLayout">
 
-            <com.andexert.library.RippleView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                rv_centered="true"
-                rv_framerate="70">
-
-                <com.mikhaellopez.circularfillableloaders.CircularFillableLoaders
-                    android:id="@+id/circularFillableLoaders"
-                    android:layout_width="250dp"
-                    android:layout_height="250dp"
-                    android:src="@drawable/logo"
-                    app:cfl_border="true"
-                    app:cfl_border_width="5dp"
-                    app:cfl_progress="80"
-                    app:cfl_wave_amplitude="0.03"
-                    app:cfl_wave_color="@color/colorPrimary"/>
-            </com.andexert.library.RippleView>
+            <com.mikhaellopez.circularfillableloaders.CircularFillableLoaders
+                android:id="@+id/circularFillableLoaders"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:src="@drawable/logo"
+                android:layout_centerInParent="true"
+                app:cfl_border="true"
+                app:cfl_border_width="5dp"
+                app:cfl_progress="80"
+                app:cfl_wave_amplitude="0.03"
+                app:cfl_wave_color="@color/colorPrimary"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -62,18 +56,30 @@
                     android:layout_gravity="center"/>
             </LinearLayout>
         </RelativeLayout>
-        <!--<Button-->
-        <!--android:layout_width="130dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="一键清理"-->
-        <!--android:background="@color/colorPrimary"-->
-        <!--android:textColor="@color/md_white_1000"/>-->
+
+        <com.andexert.library.RippleView
+            android:id="@+id/onekeyclean"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            rv_centered="true"
+            rv_framerate="70">
+            <Button
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:text="一键清理"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/md_white_1000"/>
+        </com.andexert.library.RippleView>
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_weight="3"
+        android:layout_weight="2"
         android:layout_width="match_parent"
         android:layout_height="0dip">
+
         <include layout="@layout/include_main_card"/>
     </RelativeLayout>
 </LinearLayout>

@@ -2,7 +2,6 @@ package edu.wkd.towave.memorycleaner.ui.activity;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -13,29 +12,27 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.wkd.towave.memorycleaner.R;
-import edu.wkd.towave.memorycleaner.ui.adapter.MemoryStatusPageAdapter;
+import edu.wkd.towave.memorycleaner.ui.adapter.BaseFragmentPageAdapter;
 import edu.wkd.towave.memorycleaner.ui.fragment.CircularLoader;
 import edu.wkd.towave.memorycleaner.ui.fragment.LineChart;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     @Bind(R.id.viewpager) ViewPager mViewPager;
     @Bind(R.id.tabLayout) TabLayout mTabLayout;
-    @Bind(R.id.fab) FloatingActionButton fab;
     @Bind(R.id.nav_view) NavigationView navigationView;
     @Bind(R.id.drawer_layout) DrawerLayout drawer;
     @Bind(R.id.toolbar) Toolbar toolbar;
 
-    MemoryStatusPageAdapter mMemoryStatusPageAdapter;
+    BaseFragmentPageAdapter mCommonFragmentPageAdapter;
     Snackbar snackbar;
     Context context;
     ActionBarDrawerToggle toggle;
@@ -61,7 +58,6 @@ public class MainActivity extends AppCompatActivity
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);
-
     }
 
 
@@ -78,12 +74,6 @@ public class MainActivity extends AppCompatActivity
                 System.exit(0);
             }
         });
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action",
-                        Snackbar.LENGTH_LONG).setAction("Action", null).show();
-            }
-        });
 
         drawer.setDrawerListener(toggle);
         toggle.syncState();
@@ -91,15 +81,15 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         //init viewpager
-        items=new ArrayList<>();
+        items = new ArrayList<>();
         items.add(new CircularLoader());
         items.add(new LineChart());
-        mMemoryStatusPageAdapter = new MemoryStatusPageAdapter(
+        mCommonFragmentPageAdapter = new BaseFragmentPageAdapter(
                 getSupportFragmentManager(), items);
-        mViewPager.setAdapter(mMemoryStatusPageAdapter);
+        mViewPager.setAdapter(mCommonFragmentPageAdapter);
         //mViewPager.setOffscreenPageLimit(1);
 
-        for (int i = 0; i < mMemoryStatusPageAdapter.getCount(); i++) {
+        for (int i = 0; i < mCommonFragmentPageAdapter.getCount(); i++) {
             mTabLayout.addTab(mTabLayout.newTab());
         }
         mTabLayout.setupWithViewPager(mViewPager);
@@ -112,7 +102,6 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         }
         else {
-            Log.e("ssss", snackbar.isShown() + "");
             if (!snackbar.isShown()) {
                 snackbar.show();
             }
@@ -168,5 +157,4 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 }

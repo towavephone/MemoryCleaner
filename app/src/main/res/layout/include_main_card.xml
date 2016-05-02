@@ -12,12 +12,12 @@
         android:orientation="horizontal">
 
         <RelativeLayout
-            android:id="@+id/card1"
             android:layout_width="0.0dip"
             android:layout_height="fill_parent"
             android:layout_weight="1.0">
 
             <com.andexert.library.RippleView
+                android:id="@+id/card1"
                 android:layout_centerInParent="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

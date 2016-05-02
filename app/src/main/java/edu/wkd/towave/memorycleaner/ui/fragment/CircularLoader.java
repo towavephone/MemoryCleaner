@@ -2,6 +2,7 @@ package edu.wkd.towave.memorycleaner.ui.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,15 +11,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import com.andexert.library.RippleView;
+import butterknife.OnClick;
 import com.mikhaellopez.circularfillableloaders.CircularFillableLoaders;
 import edu.wkd.towave.memorycleaner.R;
 import edu.wkd.towave.memorycleaner.tools.MemoryUsedMessage;
+import edu.wkd.towave.memorycleaner.ui.activity.MemoryClean;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -108,6 +109,27 @@ public class CircularLoader extends Fragment {
 
     }
 
+    @OnClick(R.id.card1)
+    void speedUp() {
+        startActivity(new Intent(context,MemoryClean.class));
+    }
+
+
+    @OnClick(R.id.card2)
+    void rubbishClean() {
+        //startActivity(RubbishCleanActivity.class);
+    }
+
+
+    @OnClick(R.id.card3)
+    void AutoStartManage() {
+        //startActivity(AutoStartManageActivity.class);
+    }
+
+    @OnClick(R.id.card4)
+    void SoftwareManage() {
+        //startActivity(SoftwareManageActivity.class);
+    }
 
     @Override public void onDestroyView() {
         super.onDestroyView();

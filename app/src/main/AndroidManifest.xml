@@ -18,6 +18,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.activity.MemoryClean"
+            android:label="内存加速"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
