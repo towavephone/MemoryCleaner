@@ -1,4 +1,4 @@
-package edu.wkd.towave.memorycleaner.ui.adapter.base;
+package edu.wkd.towave.memorycleaner.adapter.base;
 
 import android.animation.Animator;
 import android.content.Context;

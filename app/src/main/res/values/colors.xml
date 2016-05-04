@@ -3,4 +3,51 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="red">#F44336</color>
+    <color name="dark_red">#F44336</color>
+    <color name="accent_red">#F44336</color>
+
+    <color name="brown">#795548</color>
+    <color name="dark_brown">#795548</color>
+    <color name="accent_brown">#795548</color>
+
+
+    <color name="blue">#2196F3</color>
+    <color name="dark_blue">#2196F3</color>
+    <color name="accent_blue">#448AFF</color>
+
+    <color name="blue_grey">#607D8B</color>
+    <color name="dark_blue_grey">#607D8B</color>
+    <color name="accent_blue_grey">#607D8B</color>
+
+    <color name="yellow">#FF9800</color>
+    <color name="dark_yellow">#FF9800</color>
+    <color name="accent_yellow">#FF9800</color>
+
+    <color name="deep_purple">#673AB7</color>
+    <color name="dark_deep_purple">#673AB7</color>
+    <color name="accent_deep_purple">#673AB7</color>
+
+    <color name="pink">#E91E63</color>
+    <color name="dark_pink">#E91E63</color>
+    <color name="accent_pink">#E91E63</color>
+
+    <color name="green">#4CAF50</color>
+    <color name="dark_green">#4CAF50</color>
+    <color name="accent_green">#4CAF50</color>
+
+    <color name="text_color_primary">#212121</color>
+    <color name="text_second_color_primary">#727272</color>
+
+    <color name="grey" >#ffbebebe</color>
+    <color name="grey_1">#9E9E9E</color>
+    <color name="dark_grey">#FF080808</color>
+    <color name="light_grey">#ffbebebe</color>
+    <color name="light_grey_1">#FFEEEEEE</color>
+
+    <color name="drawer_scrim_color">#88EEEEEE</color>
+    <color name="toolbar_title_color">@android:color/white</color>
+    <color name="toolbar_bg_color">@android:color/black</color>
+    <color name="window_background">@android:color/white</color>
 </resources>

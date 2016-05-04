@@ -16,12 +16,12 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import edu.wkd.towave.memorycleaner.R;
-import edu.wkd.towave.memorycleaner.ui.adapter.base.BaseFragmentPageAdapter;
-import edu.wkd.towave.memorycleaner.ui.fragment.PowerBoot;
-import edu.wkd.towave.memorycleaner.ui.fragment.RunningApps;
+import edu.wkd.towave.memorycleaner.adapter.base.BaseFragmentPageAdapter;
+import edu.wkd.towave.memorycleaner.ui.fragment.SystemApps;
+import edu.wkd.towave.memorycleaner.ui.fragment.UserApps;
 import java.util.ArrayList;
 
-public class MemoryClean extends AppCompatActivity {
+public class AppManage extends AppCompatActivity {
 
     @Bind(R.id.toolbar) Toolbar mToolbar;
     @Bind(R.id.tabs) TabLayout mTabs;
@@ -56,8 +56,8 @@ public class MemoryClean extends AppCompatActivity {
 
     public void addListener() {
         items = new ArrayList<>();
-        items.add(new RunningApps());
-        items.add(new PowerBoot());
+        items.add(new UserApps());
+        items.add(new SystemApps());
 
         titles = new ArrayList<>();
         titles.add("正在运行");

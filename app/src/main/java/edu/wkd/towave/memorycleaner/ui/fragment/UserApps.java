@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import butterknife.ButterKnife;
 import edu.wkd.towave.memorycleaner.R;
 
-public class RunningApps extends Fragment {
+public class UserApps extends Fragment {
 
     View view;
     Context context;
@@ -20,7 +20,7 @@ public class RunningApps extends Fragment {
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_running_apps, null);
+        view = inflater.inflate(R.layout.fragment_user_apps, null);
         context = getActivity();
         ButterKnife.bind(this, view);
         return view;

@@ -18,13 +18,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import com.mikhaellopez.circularfillableloaders.CircularFillableLoaders;
 import edu.wkd.towave.memorycleaner.R;
 import edu.wkd.towave.memorycleaner.model.Menu;
 import edu.wkd.towave.memorycleaner.tools.MemoryUsedMessage;
-import edu.wkd.towave.memorycleaner.ui.activity.MemoryClean;
-import edu.wkd.towave.memorycleaner.ui.adapter.MenuListAdapter;
+import edu.wkd.towave.memorycleaner.adapter.MenuListAdapter;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -147,26 +145,6 @@ public class CircularLoader extends Fragment {
         recyclerAdapter.setDuration(300);
         recyclerView.setAdapter(recyclerAdapter);
     }
-
-
-    //@OnClick(R.id.card1) void speedUp() {
-    //    startActivity(new Intent(context, MemoryClean.class));
-    //}
-    //
-    //
-    //@OnClick(R.id.card2) void rubbishClean() {
-    //    //startActivity(RubbishCleanActivity.class);
-    //}
-    //
-    //
-    //@OnClick(R.id.card3) void AutoStartManage() {
-    //    //startActivity(AutoStartManageActivity.class);
-    //}
-    //
-    //
-    //@OnClick(R.id.card4) void SoftwareManage() {
-    //    //startActivity(SoftwareManageActivity.class);
-    //}
 
 
     @Override public void onDestroyView() {

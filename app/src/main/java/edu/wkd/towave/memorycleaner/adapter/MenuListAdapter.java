@@ -1,4 +1,4 @@
-package edu.wkd.towave.memorycleaner.ui.adapter;
+package edu.wkd.towave.memorycleaner.adapter;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
@@ -8,8 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import edu.wkd.towave.memorycleaner.R;
+import edu.wkd.towave.memorycleaner.adapter.base.BaseRecyclerViewAdapter;
 import edu.wkd.towave.memorycleaner.model.Menu;
-import edu.wkd.towave.memorycleaner.ui.adapter.base.BaseRecyclerViewAdapter;
 import java.util.List;
 
 /**

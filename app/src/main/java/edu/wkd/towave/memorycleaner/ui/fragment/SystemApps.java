@@ -13,7 +13,7 @@ import edu.wkd.towave.memorycleaner.R;
 /**
  * Created by Administrator on 2016/4/28.
  */
-public class PowerBoot extends Fragment {
+public class SystemApps extends Fragment {
     View view;
     Context context;
 
@@ -22,7 +22,7 @@ public class PowerBoot extends Fragment {
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_running_apps, null);
+        view = inflater.inflate(R.layout.fragment_user_apps, null);
         context = getActivity();
         ButterKnife.bind(this, view);
         return view;

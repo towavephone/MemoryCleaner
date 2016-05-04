@@ -1,6 +1,7 @@
 package edu.wkd.towave.memorycleaner.ui.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -18,7 +19,7 @@ import android.view.View;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.wkd.towave.memorycleaner.R;
-import edu.wkd.towave.memorycleaner.ui.adapter.base.BaseFragmentPageAdapter;
+import edu.wkd.towave.memorycleaner.adapter.base.BaseFragmentPageAdapter;
 import edu.wkd.towave.memorycleaner.ui.fragment.CircularLoader;
 import edu.wkd.towave.memorycleaner.ui.fragment.LineChart;
 import java.util.ArrayList;
@@ -137,7 +138,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-
+            startActivity(new Intent(context,AppManage.class));
         }
         else if (id == R.id.nav_gallery) {
 

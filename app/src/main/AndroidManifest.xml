@@ -7,11 +7,10 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/BlueGreyTheme">
         <activity
             android:name=".ui.activity.MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -19,9 +18,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.MemoryClean"
-            android:label="内存加速"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:name=".ui.activity.AppManage"
+            android:label="内存加速"></activity>
     </application>
 
 </manifest>

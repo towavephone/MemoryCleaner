@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".ui.fragment.RunningApps">
+    tools:context=".ui.fragment.UserApps">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -40,7 +40,7 @@
         tools:showIn="@layout/activity_memory_clean"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.fragment.RunningApps">
+        tools:context=".ui.fragment.UserApps">
 
         <TextView
             android:layout_width="wrap_content"
