@@ -12,8 +12,11 @@ import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import butterknife.ButterKnife;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 import edu.wkd.towave.memorycleaner.R;
 import edu.wkd.towave.memorycleaner.injector.component.ActivityComponent;
+import edu.wkd.towave.memorycleaner.tools.ThemeUtils;
+import edu.wkd.towave.memorycleaner.tools.ToolbarUtils;
 
 /**
  * Created by Administrator on 2016/5/4.
@@ -29,7 +32,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override protected void onCreate(Bundle savedInstanceState) {
         parseIntent(getIntent());
         showActivityInAnim();
-        //initTheme();
+        initTheme();
         super.onCreate(savedInstanceState);
         initWindow();
         initializeDependencyInjector();
@@ -39,10 +42,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
 
-    //private void initTheme() {
-    //    ThemeUtils.Theme theme = ThemeUtils.getCurrentTheme(this);
-    //    ThemeUtils.changeTheme(this, theme);
-    //}
+    private void initTheme() {
+        ThemeUtils.Theme theme = ThemeUtils.getCurrentTheme(this);
+        ThemeUtils.changeTheme(this, theme);
+    }
 
 
     private void parseIntent(Intent intent) {
@@ -70,15 +73,15 @@ public abstract class BaseActivity extends AppCompatActivity {
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             getWindow().addFlags(
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            //SystemBarTintManager tintManager = new SystemBarTintManager(this);
-            //tintManager.setStatusBarTintColor(getStatusBarColor());
-            //tintManager.setStatusBarTintEnabled(true);
+            SystemBarTintManager tintManager = new SystemBarTintManager(this);
+            tintManager.setStatusBarTintColor(getStatusBarColor());
+            tintManager.setStatusBarTintEnabled(true);
         }
     }
 
 
     protected void initToolbar(Toolbar toolbar) {
-        //ToolbarUtils.initToolbar(toolbar, this);
+        ToolbarUtils.initToolbar(toolbar, this);
     }
 
 

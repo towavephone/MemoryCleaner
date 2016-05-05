@@ -16,6 +16,8 @@ public class MenuItemViewHolder extends RecyclerView.ViewHolder {
 
     @Bind(R.id.icon) ImageView mImageView;
     @Bind(R.id.content) TextView mTextView;
+    //ImageView mImageView;
+    //TextView mTextView;
 
 
     public MenuItemViewHolder(View parent) {

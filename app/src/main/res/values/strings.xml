@@ -10,6 +10,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_memory_clean">MemoryClean</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="change_theme_key">change_theme_key</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

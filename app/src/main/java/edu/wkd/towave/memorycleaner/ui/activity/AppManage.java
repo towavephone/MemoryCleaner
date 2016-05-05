@@ -37,7 +37,7 @@ public class AppManage extends AppCompatActivity {
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_memory_clean);
+        setContentView(R.layout.activity_app_manage);
         context = getApplicationContext();
         //初始化view
         initViews();
