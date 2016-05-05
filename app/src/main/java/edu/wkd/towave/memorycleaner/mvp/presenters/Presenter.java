@@ -1,7 +1,7 @@
 package edu.wkd.towave.memorycleaner.mvp.presenters;
 
 import android.os.Bundle;
-import android.view.View;
+import edu.wkd.towave.memorycleaner.mvp.views.View;
 
 /**
  * Created by Administrator on 2016/5/4.

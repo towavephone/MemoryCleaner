@@ -1,31 +1,34 @@
 package edu.wkd.towave.memorycleaner.ui.activity;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import butterknife.Bind;
-import butterknife.ButterKnife;
+import edu.wkd.towave.memorycleaner.App;
 import edu.wkd.towave.memorycleaner.R;
 import edu.wkd.towave.memorycleaner.adapter.base.BaseFragmentPageAdapter;
+import edu.wkd.towave.memorycleaner.injector.component.DaggerActivityComponent;
+import edu.wkd.towave.memorycleaner.injector.module.ActivityModule;
+import edu.wkd.towave.memorycleaner.mvp.presenters.impl.activity.MainPresenter;
+import edu.wkd.towave.memorycleaner.mvp.views.impl.activity.MainView;
+import edu.wkd.towave.memorycleaner.tools.SnackbarUtils;
+import edu.wkd.towave.memorycleaner.tools.ToolbarUtils;
+import edu.wkd.towave.memorycleaner.ui.activity.base.BaseActivity;
 import edu.wkd.towave.memorycleaner.ui.fragment.CircularLoader;
 import edu.wkd.towave.memorycleaner.ui.fragment.LineChart;
 import java.util.ArrayList;
+import javax.inject.Inject;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity
+        implements MainView, NavigationView.OnNavigationItemSelectedListener {
 
     @Bind(R.id.viewpager) ViewPager mViewPager;
     @Bind(R.id.tabLayout) TabLayout mTabLayout;
@@ -33,54 +36,95 @@ public class MainActivity extends AppCompatActivity
     @Bind(R.id.drawer_layout) DrawerLayout drawer;
     @Bind(R.id.toolbar) Toolbar toolbar;
 
-    BaseFragmentPageAdapter mCommonFragmentPageAdapter;
-    Snackbar snackbar;
-    Context context;
-    ActionBarDrawerToggle toggle;
+    @Inject MainPresenter mMainPresenter;
+
     ArrayList<Fragment> items;
+    BaseFragmentPageAdapter mCommonFragmentPageAdapter;
+    ActionBarDrawerToggle toggle;
 
 
     @Override protected void onCreate(Bundle savedInstanceState) {
+
+        launchWithNoAnim();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        context = getApplicationContext();
-        //初始化view
-        initViews();
-        loadData();
-        addListener();
+        initializePresenter();
+        mMainPresenter.onCreate(savedInstanceState);
     }
 
 
-    public void initViews() {
-        ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
-        snackbar = Snackbar.make(drawer, "你确定要退出吗？", Snackbar.LENGTH_LONG);
+    private void initializePresenter() {
+        mMainPresenter.attachView(this);
+    }
 
+
+    @Override protected void initializeDependencyInjector() {
+        App app = (App) getApplication();
+        mActivityComponent = DaggerActivityComponent.builder()
+                                                    .activityModule(
+                                                            new ActivityModule(
+                                                                    this))
+                                                    .appComponent(
+                                                            app.getAppComponent())
+                                                    .build();
+        mActivityComponent.inject(this);
+    }
+
+
+    @Override public void onStart() {
+        super.onStart();
+        mMainPresenter.onStart();
+    }
+
+
+    @Override protected void onResume() {
+        super.onResume();
+        mMainPresenter.onResume();
+    }
+
+
+    @Override protected void onPause() {
+        mMainPresenter.onPause();
+        super.onPause();
+    }
+
+
+    @Override public void onStop() {
+        mMainPresenter.onStop();
+        super.onStop();
+    }
+
+
+    @Override public void showSnackbar() {
+        SnackbarUtils.showAction(this, "你确定要退出吗", "退出", v -> {
+            //finish();
+            System.exit(0);
+        });
+    }
+
+
+    @Override public void onDestroy() {
+        mMainPresenter.onDestroy();
+        super.onDestroy();
+    }
+
+
+    @Override public void initToolbar() {
+        ToolbarUtils.initToolbar(toolbar, this);
+    }
+
+
+    @Override public void initDrawerView() {
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);
-    }
-
-
-    public void loadData() {
-
-    }
-
-
-    public void addListener() {
-        snackbar.setAction("退出", new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                //snackbar.dismiss();
-                finish();
-                System.exit(0);
-            }
-        });
-
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
+    }
 
+
+    @Override public void initViewPager() {
         //init viewpager
         items = new ArrayList<>();
         items.add(new CircularLoader());
@@ -97,15 +141,17 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    @Override protected int getLayoutView() {
+        return R.layout.activity_main;
+    }
+
+
     @Override public void onBackPressed() {
-        //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }
         else {
-            if (!snackbar.isShown()) {
-                snackbar.show();
-            }
+            showSnackbar();
         }
     }
 
@@ -135,26 +181,7 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody") @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            startActivity(new Intent(context,AppManage.class));
-        }
-        else if (id == R.id.nav_gallery) {
-
-        }
-        else if (id == R.id.nav_slideshow) {
-
-        }
-        else if (id == R.id.nav_manage) {
-
-        }
-        else if (id == R.id.nav_share) {
-
-        }
-        else if (id == R.id.nav_send) {
-
-        }
+        mMainPresenter.onNavigationItemSelected(item.getItemId());
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

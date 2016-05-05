@@ -3,21 +3,25 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/main_content"
             android:icon="@drawable/ic_menu_camera"
             android:title="首页"/>
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="内存清理"/>
+            android:id="@+id/speedup"
+            android:icon="@drawable/card_icon_speedup"
+            android:title="内存加速"/>
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="日志清理"/>
+            android:id="@+id/trash"
+            android:icon="@drawable/card_icon_trash"
+            android:title="垃圾清理"/>
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="设置"/>
+            android:id="@+id/autorun"
+            android:icon="@drawable/card_icon_autorun"
+            android:title="自启管理"/>
+        <item
+            android:id="@+id/media"
+            android:icon="@drawable/card_icon_media"
+            android:title="软件管理"/>
     </group>
 
     <item android:title="Communicate">

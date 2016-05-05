@@ -49,12 +49,12 @@ public class ThemeUtils {
 
 
     public enum Theme {
-        RED(0x00),
+        DEEP_PURPLE(0x00),
         BROWN(0x01),
         BLUE(0x02),
         BLUE_GREY(0x03),
         YELLOW(0x04),
-        DEEP_PURPLE(0x05),
+        RED(0x05),
         PINK(0x06),
         GREEN(0x07);
 
@@ -73,12 +73,12 @@ public class ThemeUtils {
                 }
             }
             // If run here, return default
-            return RED;
+            return DEEP_PURPLE;
         }
 
 
         static Theme getDefault() {
-            return RED;
+            return DEEP_PURPLE;
         }
 
 

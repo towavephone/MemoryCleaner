@@ -1,7 +1,6 @@
 package edu.wkd.towave.memorycleaner;
 
 import android.app.Application;
-import android.content.Context;
 import edu.wkd.towave.memorycleaner.injector.component.AppComponent;
 import edu.wkd.towave.memorycleaner.injector.component.DaggerAppComponent;
 import edu.wkd.towave.memorycleaner.injector.module.AppModule;
@@ -34,10 +33,6 @@ public class App extends Application{
         mAppComponent = DaggerAppComponent.builder()
                                           .appModule(new AppModule(this))
                                           .build();
-    }
-
-    public static App get(Context context){
-        return (App)context.getApplicationContext();
     }
 
     public AppComponent getAppComponent() {
