@@ -4,23 +4,23 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/main_content"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_home_black_24dp"
             android:title="首页"/>
         <item
             android:id="@+id/speedup"
-            android:icon="@drawable/card_icon_speedup"
+            android:icon="@drawable/ic_memory_black_24dp"
             android:title="内存加速"/>
         <item
             android:id="@+id/trash"
-            android:icon="@drawable/card_icon_trash"
+            android:icon="@drawable/ic_delete_sweep_black_24dp"
             android:title="垃圾清理"/>
         <item
             android:id="@+id/autorun"
-            android:icon="@drawable/card_icon_autorun"
+            android:icon="@drawable/ic_power_black_24dp"
             android:title="自启管理"/>
         <item
             android:id="@+id/media"
-            android:icon="@drawable/card_icon_media"
+            android:icon="@drawable/ic_storage_black_24dp"
             android:title="软件管理"/>
     </group>
 

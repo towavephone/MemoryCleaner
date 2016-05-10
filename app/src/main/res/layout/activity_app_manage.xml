@@ -17,7 +17,7 @@
 
         <android.support.v7.widget.Toolbar
             xmlns:toolbar="http://schemas.android.com/apk/res-auto"
-            toolbar:navigationIcon="@drawable/navigation_back"
+            toolbar:navigationIcon="@drawable/ic_arrow_back_white_24dp"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"

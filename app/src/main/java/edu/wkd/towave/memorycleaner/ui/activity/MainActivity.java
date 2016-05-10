@@ -44,7 +44,6 @@ public class MainActivity extends BaseActivity
 
 
     @Override protected void onCreate(Bundle savedInstanceState) {
-
         launchWithNoAnim();
         super.onCreate(savedInstanceState);
         initializePresenter();

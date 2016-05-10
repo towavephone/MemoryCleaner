@@ -19,15 +19,10 @@ import org.greenrobot.eventbus.EventBus;
  * Created by Administrator on 2016/5/4.
  */
 public class MainPresenter
-        implements Presenter, PopupMenu.OnMenuItemClickListener {
+        implements Presenter{
     MainView mMainView;
     final Context mContext;
     private PreferenceUtils mPreferenceUtils;
-
-
-    @Override public boolean onMenuItemClick(MenuItem menuItem) {
-        return false;
-    }
 
 
     @Inject
