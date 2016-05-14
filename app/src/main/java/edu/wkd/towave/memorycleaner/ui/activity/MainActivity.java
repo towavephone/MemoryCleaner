@@ -38,11 +38,8 @@ public class MainActivity extends BaseActivity
 
     @Inject MainPresenter mMainPresenter;
 
-    ArrayList<Fragment> items;
-    BaseFragmentPageAdapter mCommonFragmentPageAdapter;
     ActionBarDrawerToggle toggle;
-
-
+    BaseFragmentPageAdapter mCommonFragmentPageAdapter;
     @Override protected void onCreate(Bundle savedInstanceState) {
         launchWithNoAnim();
         super.onCreate(savedInstanceState);
@@ -123,11 +120,8 @@ public class MainActivity extends BaseActivity
     }
 
 
-    @Override public void initViewPager() {
+    @Override public void initViewPager(ArrayList<Fragment> items) {
         //init viewpager
-        items = new ArrayList<>();
-        items.add(new CircularLoader());
-        items.add(new LineChart());
         mCommonFragmentPageAdapter = new BaseFragmentPageAdapter(
                 getSupportFragmentManager(), items);
         mViewPager.setAdapter(mCommonFragmentPageAdapter);

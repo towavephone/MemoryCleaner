@@ -60,8 +60,8 @@ public class AppManage extends AppCompatActivity {
         items.add(new SystemApps());
 
         titles = new ArrayList<>();
-        titles.add("正在运行");
-        titles.add("开机自启");
+        titles.add("用户软件");
+        titles.add("系统软件");
         mCommonFragmentPageAdapter = new BaseFragmentPageAdapter(
                 getSupportFragmentManager(), items, titles);
 

@@ -1,10 +1,8 @@
 package edu.wkd.towave.memorycleaner.ui.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -13,18 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import com.mikhaellopez.circularfillableloaders.CircularFillableLoaders;
 import edu.wkd.towave.memorycleaner.R;
-import edu.wkd.towave.memorycleaner.injector.component.DaggerFragmentComponent;
-import edu.wkd.towave.memorycleaner.injector.module.FragmentModule;
+import edu.wkd.towave.memorycleaner.adapter.base.BaseRecyclerViewAdapter;
 import edu.wkd.towave.memorycleaner.model.Menu;
 import edu.wkd.towave.memorycleaner.mvp.presenters.Presenter;
 import edu.wkd.towave.memorycleaner.mvp.presenters.impl.fragment.CircularLoaderPresenter;
 import edu.wkd.towave.memorycleaner.adapter.MenuListAdapter;
 import edu.wkd.towave.memorycleaner.mvp.views.impl.fragment.CircularLoaderView;
-import edu.wkd.towave.memorycleaner.ui.activity.MainActivity;
-import edu.wkd.towave.memorycleaner.ui.activity.base.BaseActivity;
 import edu.wkd.towave.memorycleaner.ui.fragment.base.BaseFragment;
 import java.util.ArrayList;
 import javax.inject.Inject;
@@ -74,14 +68,15 @@ public class CircularLoader extends BaseFragment implements CircularLoaderView {
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,
                 LinearLayoutManager.VERTICAL));
         recyclerView.setHasFixedSize(true);
-        //recyclerAdapter.setOnInViewClickListener(R.id.notes_item_root,
-        //        new BaseRecyclerViewAdapter.onInternalClickListenerImpl<SNote>() {
-        //            @Override
-        //            public void OnClickListener(View parentV, View v, Integer position, SNote values) {
-        //                super.OnClickListener(parentV, v, position, values);
-        //                mainPresenter.onRecyclerViewItemClick(position, values);
-        //            }
-        //        });
+        recyclerAdapter.setOnInViewClickListener(R.id.card_item_root,
+                new BaseRecyclerViewAdapter.onInternalClickListenerImpl<Menu>() {
+                    @Override
+                    public void OnClickListener(View parentV, View v, Integer
+                            position, Menu values) {
+                        super.OnClickListener(parentV, v, position, values);
+                        mCircularLoaderPresenter.onRecyclerViewItemClick(position, values);
+                    }
+                });
         //recyclerAdapter.setOnInViewClickListener(R.id.note_more,
         //        new BaseRecyclerViewAdapter.onInternalClickListenerImpl<SNote>() {
         //            @Override

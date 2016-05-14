@@ -25,8 +25,8 @@
     <color name="dark_yellow">#FF9800</color>
     <color name="accent_yellow">#FF9800</color>
 
-    <color name="deep_purple">#673AB7</color>
-    <color name="dark_deep_purple">#673AB7</color>
+    <color name="deep_purple">#3F51B5</color>
+    <color name="dark_deep_purple">#303F9F</color>
     <color name="accent_deep_purple">#673AB7</color>
 
     <color name="pink">#E91E63</color>

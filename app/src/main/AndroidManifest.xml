@@ -3,11 +3,11 @@
     package="edu.wkd.towave.memorycleaner">
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:name=".App"
         android:theme="@style/DeepPurpleTheme">
         <activity
             android:name=".ui.activity.MainActivity"
@@ -20,6 +20,9 @@
         </activity>
         <activity
             android:name=".ui.activity.AppManage"
+            android:label="软件管理"/>
+        <activity
+            android:name=".ui.activity.MemoryClean"
             android:label="内存加速"></activity>
     </application>
 

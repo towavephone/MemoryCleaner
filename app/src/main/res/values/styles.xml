@@ -10,7 +10,7 @@
     </style>
 
     <!--<style name="AppTheme.NoActionBar">-->
-        <!---->
+    <!---->
     <!--</style>-->
 
     <style name="AppTheme.AppBarOverlay"
@@ -19,108 +19,134 @@
     <style name="AppTheme.PopupOverlay"
         parent="ThemeOverlay.AppCompat.Light"/>
 
-    <style name="BaseDialogTheme" parent="Theme.AppCompat.Light.Dialog">
+    <style name="BaseDialogTheme"
+        parent="Theme.AppCompat.Light.Dialog">
         <item name="android:textColorPrimary">@color/text_color_primary</item>
-        <item name="android:textColorSecondary">@color/text_second_color_primary</item>
+        <item name="android:textColorSecondary">
+            @color/text_second_color_primary
+        </item>
         <item name="android:windowEnterAnimation">@anim/abc_fade_in</item>
         <item name="android:windowExitAnimation">@anim/abc_fade_out</item>
     </style>
 
-    <style name="RedTheme" parent="AppTheme">
+    <style name="RedTheme"
+        parent="AppTheme">
         <item name="colorPrimary">@color/red</item>
         <item name="colorPrimaryDark">@color/dark_red</item>
         <item name="colorAccent">@color/blue</item>
     </style>
 
-    <style name="RedDialogTheme" parent="BaseDialogTheme">
+    <style name="RedDialogTheme"
+        parent="BaseDialogTheme">
         <item name="colorPrimary">@color/red</item>
         <item name="colorPrimaryDark">@color/dark_red</item>
         <item name="colorAccent">@color/accent_red</item>
     </style>
 
-    <style name="BrownTheme" parent="AppTheme">
+    <style name="BrownTheme"
+        parent="AppTheme">
         <item name="colorPrimary">@color/brown</item>
         <item name="colorPrimaryDark">@color/dark_brown</item>
     </style>
 
-    <style name="BrownDialogTheme" parent="BaseDialogTheme">
+    <style name="BrownDialogTheme"
+        parent="BaseDialogTheme">
         <item name="colorPrimary">@color/brown</item>
         <item name="colorPrimaryDark">@color/dark_brown</item>
         <item name="colorAccent">@color/accent_brown</item>
     </style>
 
-    <style name="BlueTheme" parent="AppTheme">
+    <style name="BlueTheme"
+        parent="AppTheme">
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/dark_blue</item>
     </style>
 
-    <style name="BlueDialogTheme" parent="BaseDialogTheme">
+    <style name="BlueDialogTheme"
+        parent="BaseDialogTheme">
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/dark_blue</item>
         <item name="colorAccent">@color/accent_blue</item>
     </style>
 
-    <style name="BlueGreyTheme" parent="AppTheme">
+    <style name="BlueGreyTheme"
+        parent="AppTheme">
         <item name="colorPrimary">@color/blue_grey</item>
         <item name="colorPrimaryDark">@color/dark_blue_grey</item>
     </style>
 
-    <style name="BlueGreyDialogTheme" parent="AppTheme">
+    <style name="BlueGreyDialogTheme"
+        parent="AppTheme">
         <item name="colorPrimary">@color/blue_grey</item>
         <item name="colorPrimaryDark">@color/dark_blue_grey</item>
         <item name="colorAccent">@color/accent_blue_grey</item>
     </style>
 
-    <style name="YellowTheme" parent="AppTheme">
+    <style name="YellowTheme"
+        parent="AppTheme">
         <item name="colorPrimary">@color/yellow</item>
         <item name="colorPrimaryDark">@color/dark_yellow</item>
     </style>
 
-    <style name="YellowDialogTheme" parent="BaseDialogTheme">
+    <style name="YellowDialogTheme"
+        parent="BaseDialogTheme">
         <item name="colorPrimary">@color/yellow</item>
         <item name="colorPrimaryDark">@color/dark_yellow</item>
         <item name="colorAccent">@color/accent_yellow</item>
     </style>
 
-    <style name="DeepPurpleTheme" parent="AppTheme">
+    <style name="DeepPurpleTheme"
+        parent="AppTheme">
         <item name="colorPrimary">@color/deep_purple</item>
         <item name="colorPrimaryDark">@color/dark_deep_purple</item>
     </style>
 
-    <style name="DeepPurpleDialogTheme" parent="BaseDialogTheme">
+    <style name="DeepPurpleDialogTheme"
+        parent="BaseDialogTheme">
         <item name="colorPrimary">@color/deep_purple</item>
         <item name="colorPrimaryDark">@color/dark_deep_purple</item>
         <item name="colorAccent">@color/accent_deep_purple</item>
     </style>
 
-    <style name="PinkTheme" parent="AppTheme">
+    <style name="PinkTheme"
+        parent="AppTheme">
         <item name="colorPrimary">@color/pink</item>
         <item name="colorPrimaryDark">@color/dark_pink</item>
         <item name="colorAccent">@color/blue</item>
     </style>
 
-    <style name="PinkDialogTheme" parent="BaseDialogTheme">
+    <style name="PinkDialogTheme"
+        parent="BaseDialogTheme">
         <item name="colorPrimary">@color/pink</item>
         <item name="colorPrimaryDark">@color/dark_pink</item>
         <item name="colorAccent">@color/accent_pink</item>
     </style>
 
-    <style name="GreenTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="GreenTheme"
+        parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/dark_green</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="GreenDialogTheme" parent="BaseDialogTheme">
+    <style name="GreenDialogTheme"
+        parent="BaseDialogTheme">
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/dark_green</item>
         <item name="colorAccent">@color/accent_green</item>
     </style>
 
-    <style name="ShareDialog" parent="BaseDialogTheme">
+    <style name="ShareDialog"
+        parent="BaseDialogTheme">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsFloating">true</item>
     </style>
+
+    <style name="DeepPurpleTheme.AppBarOverlay"
+        parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="DeepPurpleTheme.PopupOverlay"
+        parent="ThemeOverlay.AppCompat.Light"/>
 </resources>

@@ -2,6 +2,7 @@ package edu.wkd.towave.memorycleaner.mvp.presenters.impl.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,6 +13,8 @@ import edu.wkd.towave.memorycleaner.mvp.presenters.Presenter;
 import edu.wkd.towave.memorycleaner.mvp.views.View;
 import edu.wkd.towave.memorycleaner.tools.MemoryUsedMessage;
 import edu.wkd.towave.memorycleaner.tools.T;
+import edu.wkd.towave.memorycleaner.ui.activity.AppManage;
+import edu.wkd.towave.memorycleaner.ui.activity.MemoryClean;
 import edu.wkd.towave.memorycleaner.ui.fragment.CircularLoader;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -65,6 +68,26 @@ public class CircularLoaderPresenter implements Presenter {
                                             .icon(R.drawable.card_icon_media)
                                             .build());
         mCircularLoader.initViews(menus, mContext);
+    }
+
+
+    public void onRecyclerViewItemClick(int position, Menu value) {
+        switch (position) {
+            case 0:
+                mContext.startActivity(new Intent(mContext, MemoryClean.class));
+                break;
+            case 1:
+
+                break;
+            case 2:
+
+                break;
+            case 3:
+                mContext.startActivity(new Intent(mContext, AppManage.class));
+                break;
+            default:
+                break;
+        }
     }
 
 
