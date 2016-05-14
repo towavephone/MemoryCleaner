@@ -5,15 +5,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.widget.Toast;
 import edu.wkd.towave.memorycleaner.R;
 import edu.wkd.towave.memorycleaner.injector.ContextLifeCycle;
 import edu.wkd.towave.memorycleaner.model.Menu;
 import edu.wkd.towave.memorycleaner.mvp.presenters.Presenter;
 import edu.wkd.towave.memorycleaner.mvp.views.View;
-import edu.wkd.towave.memorycleaner.mvp.views.impl.fragment.CircularLoaderView;
 import edu.wkd.towave.memorycleaner.tools.MemoryUsedMessage;
 import edu.wkd.towave.memorycleaner.tools.T;
+import edu.wkd.towave.memorycleaner.ui.fragment.CircularLoader;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -24,12 +23,11 @@ import javax.inject.Inject;
  */
 public class CircularLoaderPresenter implements Presenter {
 
-    private CircularLoaderView mCircularLoaderView;
+    private CircularLoader mCircularLoader;
     private final Context mContext;
     private boolean isCardLayout = false;
     private long sum, available;
     private float percent;
-    private int status = IS_NORMAL;
     private static final int IS_NORMAL = 101;
 
 
@@ -42,7 +40,7 @@ public class CircularLoaderPresenter implements Presenter {
 
 
     @Override public void attachView(View v) {
-        this.mCircularLoaderView = (CircularLoaderView) v;
+        this.mCircularLoader = (CircularLoader) v;
     }
 
 
@@ -66,7 +64,7 @@ public class CircularLoaderPresenter implements Presenter {
         menus.add(new Menu.Builder(mContext).content("软件管理")
                                             .icon(R.drawable.card_icon_media)
                                             .build());
-        mCircularLoaderView.initViews(menus, mContext);
+        mCircularLoader.initViews(menus, mContext);
     }
 
 
@@ -75,7 +73,7 @@ public class CircularLoaderPresenter implements Presenter {
             super.handleMessage(msg);
             switch (msg.what) {
                 case IS_NORMAL:
-                    mCircularLoaderView.updateViews(sum, available, percent);
+                    mCircularLoader.updateViews(sum, available, percent);
                     break;
                 default:
                     T.showShort(mContext, msg.obj.toString());

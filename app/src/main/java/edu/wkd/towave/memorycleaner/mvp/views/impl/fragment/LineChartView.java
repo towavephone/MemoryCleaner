@@ -4,13 +4,13 @@ import android.content.Context;
 import edu.wkd.towave.memorycleaner.model.Menu;
 import edu.wkd.towave.memorycleaner.mvp.views.View;
 import java.util.ArrayList;
+import lecho.lib.hellocharts.model.LineChartData;
 
 /**
- * Created by towave on 2016/5/10.
+ * Created by towave on 2016/5/14.
  */
-public interface CircularLoaderView extends View {
+public interface LineChartView extends View {
+    void initViews();
 
-    void initViews(ArrayList<Menu> menus, Context context);
-
-    void updateViews(long sum, long available, float percent);
+    void updateViews(float percent, LineChartData updatedData);
 }
