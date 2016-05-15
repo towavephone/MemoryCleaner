@@ -28,9 +28,9 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.3.0'
-    compile 'com.android.support:design:23.3.0'
-    compile 'com.android.support:cardview-v7:23.1.1'
 
+    //id注入框架
+    compile 'com.jakewharton:butterknife:7.0.1'
     //dragger2
     apt 'com.google.dagger:dagger-compiler:2.2'
     compile 'com.google.dagger:dagger:2.2'
@@ -42,8 +42,11 @@ dependencies {
     //Activity通信
     compile 'org.greenrobot:eventbus:3.0.0'
 
+    //md UI相关类
+    compile 'com.android.support:design:23.3.0'
+    compile 'com.android.support:cardview-v7:23.1.1'
+    compile 'com.github.john990:WaveView:16a10c1f9b'
     compile 'com.github.lecho:hellocharts-library:1.5.8@aar'
-    compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.balysv:material-ripple:1.0.2'
     compile 'com.mikhaellopez:circularfillableloaders:1.2.0'
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'

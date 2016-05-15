@@ -28,6 +28,7 @@ public class ObservableUtils {
                 try {
                     T t = fun.call();
                     subscriber.onNext(t);
+                    subscriber.onCompleted();
                 } catch (Exception e) {
                     subscriber.onError(e);
                 }

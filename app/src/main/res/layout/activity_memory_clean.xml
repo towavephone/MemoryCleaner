@@ -26,7 +26,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/fixed_recycler_view"/>
+    <include layout="@layout/include_memory_clean"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
