@@ -24,6 +24,14 @@
         <activity
             android:name=".ui.activity.MemoryClean"
             android:label="内存加速"></activity>
+
+        <service
+            android:name=".service.CleanerService"
+            android:exported="false" />
+        <service
+            android:name=".service.CoreService"
+            android:exported="false" />
+
     </application>
 
 </manifest>

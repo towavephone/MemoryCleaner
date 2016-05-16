@@ -1,6 +1,7 @@
 package edu.wkd.towave.memorycleaner.mvp.views.impl.fragment;
 
 import android.content.Context;
+import edu.wkd.towave.memorycleaner.adapter.MenuListAdapter;
 import edu.wkd.towave.memorycleaner.model.Menu;
 import edu.wkd.towave.memorycleaner.mvp.views.View;
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
  */
 public interface CircularLoaderView extends View {
 
-    void initViews(ArrayList<Menu> menus, Context context);
+    void initViews(MenuListAdapter recyclerAdapter);
 
     void updateViews(long sum, long available, float percent);
 }

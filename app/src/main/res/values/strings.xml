@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">MemoryCleaner</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -10,6 +10,7 @@
     <string name="title_activity_memory_clean">MemoryClean</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="change_theme_key">change_theme_key</string>
+    <string name="cleaned">清理垃圾 (<xliff:g id="memory">%1$s</xliff:g>)</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

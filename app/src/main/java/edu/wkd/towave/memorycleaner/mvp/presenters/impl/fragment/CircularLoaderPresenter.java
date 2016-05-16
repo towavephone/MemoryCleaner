@@ -7,11 +7,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import edu.wkd.towave.memorycleaner.R;
+import edu.wkd.towave.memorycleaner.adapter.MenuListAdapter;
+import edu.wkd.towave.memorycleaner.adapter.base.BaseRecyclerViewAdapter;
 import edu.wkd.towave.memorycleaner.injector.ContextLifeCycle;
 import edu.wkd.towave.memorycleaner.model.Menu;
 import edu.wkd.towave.memorycleaner.mvp.presenters.Presenter;
 import edu.wkd.towave.memorycleaner.mvp.views.View;
-import edu.wkd.towave.memorycleaner.tools.MemoryUsedMessage;
+import edu.wkd.towave.memorycleaner.tools.AppUtils;
 import edu.wkd.towave.memorycleaner.tools.T;
 import edu.wkd.towave.memorycleaner.ui.activity.AppManage;
 import edu.wkd.towave.memorycleaner.ui.activity.MemoryClean;
@@ -32,6 +34,7 @@ public class CircularLoaderPresenter implements Presenter {
     private long sum, available;
     private float percent;
     private static final int IS_NORMAL = 101;
+    private MenuListAdapter recyclerAdapter;
 
 
     @Inject
@@ -67,7 +70,26 @@ public class CircularLoaderPresenter implements Presenter {
         menus.add(new Menu.Builder(mContext).content("软件管理")
                                             .icon(R.drawable.card_icon_media)
                                             .build());
-        mCircularLoader.initViews(menus, mContext);
+        recyclerAdapter = new MenuListAdapter(menus, mContext);
+        recyclerAdapter.setOnInViewClickListener(R.id.card_item_root,
+                new BaseRecyclerViewAdapter.onInternalClickListenerImpl<Menu>() {
+                    @Override
+                    public void OnClickListener(android.view.View parentV, android.view.View v, Integer position, Menu values) {
+                        super.OnClickListener(parentV, v, position, values);
+                        onRecyclerViewItemClick(position, values);
+                    }
+                });
+        //recyclerAdapter.setOnInViewClickListener(R.id.note_more,
+        //        new BaseRecyclerViewAdapter.onInternalClickListenerImpl<SNote>() {
+        //            @Override
+        //            public void OnClickListener(View parentV, View v, Integer position, SNote values) {
+        //                super.OnClickListener(parentV, v, position, values);
+        //                mainPresenter.showPopMenu(v, position, values);
+        //            }
+        //        });
+        recyclerAdapter.setFirstOnly(false);
+        recyclerAdapter.setDuration(300);
+        mCircularLoader.initViews(recyclerAdapter);
     }
 
 
@@ -111,9 +133,9 @@ public class CircularLoaderPresenter implements Presenter {
             @Override public void run() {
                 Message msg = Message.obtain();
                 try {
-                    sum = MemoryUsedMessage.getTotalMemory();
-                    available = MemoryUsedMessage.getAvailMemory(mContext);
-                    percent = MemoryUsedMessage.getPercent(mContext);
+                    sum = AppUtils.getTotalMemory();
+                    available = AppUtils.getAvailMemory(mContext);
+                    percent = AppUtils.getPercent(mContext);
                     msg.what = IS_NORMAL;
                     mHandler.sendMessage(msg);
                 } catch (Exception e) {

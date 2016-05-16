@@ -19,6 +19,8 @@ import edu.wkd.towave.memorycleaner.mvp.presenters.Presenter;
 import edu.wkd.towave.memorycleaner.mvp.presenters.impl.fragment.CircularLoaderPresenter;
 import edu.wkd.towave.memorycleaner.adapter.MenuListAdapter;
 import edu.wkd.towave.memorycleaner.mvp.views.impl.fragment.CircularLoaderView;
+import edu.wkd.towave.memorycleaner.tools.L;
+import edu.wkd.towave.memorycleaner.tools.TextFormater;
 import edu.wkd.towave.memorycleaner.ui.fragment.base.BaseFragment;
 import java.util.ArrayList;
 import javax.inject.Inject;
@@ -35,8 +37,6 @@ public class CircularLoader extends BaseFragment implements CircularLoaderView {
     @Bind(R.id.recyclerView) RecyclerView recyclerView;
 
     @Inject CircularLoaderPresenter mCircularLoaderPresenter;
-
-    private MenuListAdapter recyclerAdapter;
 
 
     @Nullable @Override
@@ -63,37 +63,22 @@ public class CircularLoader extends BaseFragment implements CircularLoaderView {
     }
 
 
-    @Override public void initViews(ArrayList<Menu> menus, Context context) {
-        recyclerAdapter = new MenuListAdapter(menus, context);
+    @Override public void initViews(MenuListAdapter recyclerAdapter) {
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,
                 LinearLayoutManager.VERTICAL));
         recyclerView.setHasFixedSize(true);
-        recyclerAdapter.setOnInViewClickListener(R.id.card_item_root,
-                new BaseRecyclerViewAdapter.onInternalClickListenerImpl<Menu>() {
-                    @Override
-                    public void OnClickListener(View parentV, View v, Integer
-                            position, Menu values) {
-                        super.OnClickListener(parentV, v, position, values);
-                        mCircularLoaderPresenter.onRecyclerViewItemClick(position, values);
-                    }
-                });
-        //recyclerAdapter.setOnInViewClickListener(R.id.note_more,
-        //        new BaseRecyclerViewAdapter.onInternalClickListenerImpl<SNote>() {
-        //            @Override
-        //            public void OnClickListener(View parentV, View v, Integer position, SNote values) {
-        //                super.OnClickListener(parentV, v, position, values);
-        //                mainPresenter.showPopMenu(v, position, values);
-        //            }
-        //        });
-        recyclerAdapter.setFirstOnly(false);
-        recyclerAdapter.setDuration(300);
         recyclerView.setAdapter(recyclerAdapter);
     }
 
 
-    @Override public void updateViews(long sum, long available, float percent) {
+    @Override
+    public void updateViews(long sum, long available, float percent) {
         mTextView.setText(percent + "%");
-        mTextView2.setText("已用:" + (sum - available) + "M/" + sum + "M");
+        L.d(""+(sum - available));
+        L.d(""+sum);
+        mTextView2.setText(
+                "已用:" + TextFormater.dataSizeFormat(sum - available) + "/" +
+                        TextFormater.dataSizeFormat(sum));
         mCircularFillableLoaders.setProgress((int) (100 - percent));
     }
 }

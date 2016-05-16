@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:padding="16dp">
             <ImageView
-                android:id="@+id/image"
+                android:id="@+id/icon"
                 android:layout_width="@android:dimen/app_icon_size"
                 android:layout_height="@android:dimen/app_icon_size"
                 android:contentDescription="@null"
@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="marquee"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:layout_toRightOf="@+id/image"
+                android:layout_toRightOf="@+id/icon"
                 android:layout_toLeftOf="@+id/memory"
                 android:scaleType="centerCrop"
                 android:text="内存清理"/>

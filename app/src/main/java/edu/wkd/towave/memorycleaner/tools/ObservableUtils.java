@@ -3,7 +3,6 @@ package edu.wkd.towave.memorycleaner.tools;
 import android.content.Context;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import rx.Observable;
 import rx.Subscriber;
@@ -49,9 +48,9 @@ public class ObservableUtils {
 
         @Override public Map<String, Object> call() throws Exception {
             HashMap map = new HashMap();
-            map.put("percent", MemoryUsedMessage.getPercent(mContext));
-            map.put("available", MemoryUsedMessage.getAvailMemory(mContext));
-            map.put("sum", MemoryUsedMessage.getTotalMemory());
+            map.put("percent", AppUtils.getPercent(mContext));
+            map.put("available", AppUtils.getAvailMemory(mContext));
+            map.put("sum", AppUtils.getTotalMemory());
             return map;
         }
     }

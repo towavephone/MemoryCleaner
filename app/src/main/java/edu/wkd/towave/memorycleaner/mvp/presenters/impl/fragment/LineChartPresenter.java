@@ -8,12 +8,10 @@ import android.os.Message;
 import android.widget.Toast;
 import edu.wkd.towave.memorycleaner.R;
 import edu.wkd.towave.memorycleaner.injector.ContextLifeCycle;
-import edu.wkd.towave.memorycleaner.model.Menu;
 import edu.wkd.towave.memorycleaner.mvp.presenters.Presenter;
 import edu.wkd.towave.memorycleaner.mvp.views.View;
-import edu.wkd.towave.memorycleaner.tools.MemoryUsedMessage;
+import edu.wkd.towave.memorycleaner.tools.AppUtils;
 import edu.wkd.towave.memorycleaner.tools.TimeUtils;
-import edu.wkd.towave.memorycleaner.ui.fragment.CircularLoader;
 import edu.wkd.towave.memorycleaner.ui.fragment.LineChart;
 import java.util.ArrayList;
 import java.util.List;
@@ -134,7 +132,7 @@ public class LineChartPresenter implements Presenter {
             @Override public void run() {
                 Message msg = Message.obtain();
                 try {
-                    msg.obj = MemoryUsedMessage.getPercent(mContext);
+                    msg.obj = AppUtils.getPercent(mContext);
                     msg.what = IS_NORMAL;
                     mHandler.sendMessage(msg);
                 } catch (Exception e) {
