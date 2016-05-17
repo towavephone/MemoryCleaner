@@ -2,12 +2,13 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:wave="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
+    android:paddingTop="?attr/actionBarSize"
     android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
-        android:layout_height="@dimen/app_bar_height"
+        android:layout_height="@dimen/nav_header_height"
         android:layout_width="match_parent"
         android:theme="@style/AppTheme.AppBarOverlay">
 
@@ -15,16 +16,10 @@
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:title="172.2MB 包括10个应用"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:contentScrim="?attr/colorPrimary">
-
-            <android.support.v7.widget.Toolbar
-                android:layout_height="30dp"
-                android:layout_width="match_parent"
-                app:layout_collapseMode="pin"
-                android:gravity="center"
-                app:popupTheme="@style/AppTheme.PopupOverlay"/>
+            app:title="172.2MB 18.2%-->41.8%"
+            app:expandedTitleGravity="center_vertical"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <com.john.waveview.WaveView
                 android:id="@+id/wave_view"
@@ -34,6 +29,34 @@
                 android:layout_height="match_parent"
                 wave:progress="50"/>
 
+            <android.support.v7.widget.Toolbar
+                android:layout_height="?actionBarSize"
+                android:layout_width="match_parent"
+                app:layout_collapseMode="pin"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_gravity="bottom"
+                app:layout_collapseMode="pin"
+                android:layout_height="wrap_content">
+
+                <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+                    android:id="@+id/scanProgress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:mpb_progressStyle="horizontal"
+                    android:visibility="gone"
+                    style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"/>
+
+                <TextView
+                    android:id="@+id/processName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:visibility="gone"/>
+            </LinearLayout>
+
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
@@ -41,6 +64,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <include layout="@layout/fixed_recycler_view"/>
     </LinearLayout>
 

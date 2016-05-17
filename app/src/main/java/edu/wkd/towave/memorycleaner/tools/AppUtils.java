@@ -54,11 +54,16 @@ public class AppUtils {
     }
 
 
+    public static float getPercent(long memory) {
+        long y = getTotalMemory();
+        final double x = ((memory / (double) y) * 100);
+        return new BigDecimal(x).setScale(2, BigDecimal.ROUND_HALF_UP)
+                                .floatValue();
+    }
+
     public static float getPercent(Context context) {
         long l = getAvailMemory(context);
         long y = getTotalMemory();
-        final double x = (((y - l) / (double) y) * 100);
-        return new BigDecimal(x).setScale(2, BigDecimal.ROUND_HALF_UP)
-                                .floatValue();
+        return getPercent(y - l);
     }
 }

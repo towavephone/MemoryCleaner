@@ -33,6 +33,7 @@ public class MemoryCleanPresenter
     ProcessListAdapter recyclerAdapter;
     public long Allmemory;
 
+
     @Inject
     public MemoryCleanPresenter(@ContextLifeCycle("Activity") Context context) {
         this.mContext = context;
@@ -87,7 +88,7 @@ public class MemoryCleanPresenter
         recyclerAdapter.setDuration(300);
         mContext.bindService(new Intent(mContext, CoreService.class),
                 mServiceConnection, Context.BIND_AUTO_CREATE);
-        mMemoryClean.initViews(recyclerAdapter,mContext);
+        mMemoryClean.initViews(recyclerAdapter, mContext);
     }
 
 
@@ -122,13 +123,16 @@ public class MemoryCleanPresenter
 
 
     @Override public void onScanStarted(Context context) {
-
+        mMemoryClean.onScanStarted(context);
+        //mProgressBarText.setText(R.string.scanning);
+        //showProgressBar(true);
     }
 
 
     @Override
-    public void onScanProgressUpdated(Context context, int current, int max) {
-
+    public void onScanProgressUpdated(Context context, int current, int max, long memory, String processName) {
+        mMemoryClean.onScanProgressUpdated(context, current, max, memory,
+                processName);
     }
 
 
@@ -136,16 +140,16 @@ public class MemoryCleanPresenter
     public void onScanCompleted(Context context, List<AppProcessInfo> apps) {
         mAppProcessInfos.clear();
 
-        Allmemory = 0;
+        //Allmemory = 0;
         for (AppProcessInfo appInfo : apps) {
-            if (!appInfo.isSystem) {
-                mAppProcessInfos.add(appInfo);
-                Allmemory += appInfo.memory;
-            }
+            //if (!appInfo.isSystem) {
+            mAppProcessInfos.add(appInfo);
+            //Allmemory += appInfo.memory;
+            //}
         }
 
         recyclerAdapter.notifyDataSetChanged();
-
+        mMemoryClean.onScanCompleted();
     }
 
 

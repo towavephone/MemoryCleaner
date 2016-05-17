@@ -39,7 +39,7 @@ public class CoreService extends Service {
     public interface OnProcessActionListener {
         void onScanStarted(Context context);
 
-        void onScanProgressUpdated(Context context, int current, int max);
+        void onScanProgressUpdated(Context context, int current, int max, long memory, String processName);
 
         void onScanCompleted(Context context, List<AppProcessInfo> apps);
 
@@ -88,7 +88,7 @@ public class CoreService extends Service {
 
 
                     @Override
-                    public void onScanProgressUpdated(Context context, int current, int max) {
+                    public void onScanProgressUpdated(Context context, int current, int max, long memory, String processName) {
 
                     }
 
@@ -134,9 +134,11 @@ public class CoreService extends Service {
 
 
     private class TaskScan
-            extends AsyncTask<Void, Integer, List<AppProcessInfo>> {
+            extends AsyncTask<Void, Object, List<AppProcessInfo>> {
 
         private int mAppCount = 0;
+
+        private long mAppMemory = 0;
 
 
         @Override protected void onPreExecute() {
@@ -154,10 +156,9 @@ public class CoreService extends Service {
             //得到所有正在运行的进程
             List<ActivityManager.RunningAppProcessInfo> appProcessList
                     = activityManager.getRunningAppProcesses();
-            publishProgress(0, appProcessList.size());
+            publishProgress(0, appProcessList.size(), 0, "开始扫描");
 
             for (ActivityManager.RunningAppProcessInfo appProcessInfo : appProcessList) {
-                publishProgress(++mAppCount, appProcessList.size());
                 abAppProcessInfo = new AppProcessInfo(
                         appProcessInfo.processName, appProcessInfo.pid,
                         appProcessInfo.uid);
@@ -196,6 +197,9 @@ public class CoreService extends Service {
                 long memory = activityManager.getProcessMemoryInfo(new int[] {
                         appProcessInfo.pid })[0].getTotalPrivateDirty() * 1024;
                 abAppProcessInfo.memory = memory;
+                mAppMemory += memory;
+                publishProgress(++mAppCount, appProcessList.size(), mAppMemory,
+                        abAppProcessInfo.processName);
 
                 list.add(abAppProcessInfo);
             }
@@ -204,10 +208,12 @@ public class CoreService extends Service {
         }
 
 
-        @Override protected void onProgressUpdate(Integer... values) {
+        @Override protected void onProgressUpdate(Object... values) {
             if (mOnActionListener != null) {
                 mOnActionListener.onScanProgressUpdated(CoreService.this,
-                        values[0], values[1]);
+                        Integer.parseInt(values[0] + ""),
+                        Integer.parseInt(values[1] + ""),
+                        Long.parseLong(values[2] + ""), values[3] + "");
             }
         }
 

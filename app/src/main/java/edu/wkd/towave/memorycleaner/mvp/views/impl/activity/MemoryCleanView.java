@@ -11,4 +11,10 @@ public interface MemoryCleanView extends View {
     void initViews(ProcessListAdapter recyclerAdapter, Context context);
 
     void updateViews(long sum, long available, float percent);
+
+    void onScanStarted(Context context);
+
+    void onScanProgressUpdated(Context context,  int current, int max, long memory, String processName);
+
+    void onScanCompleted();
 }

@@ -43,6 +43,7 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
 
     //md UI相关类
+    compile 'me.zhanghai.android.materialprogressbar:library:1.1.6'
     compile 'com.android.support:design:23.3.0'
     compile 'com.android.support:cardview-v7:23.1.1'
     compile 'com.github.john990:WaveView:16a10c1f9b'
