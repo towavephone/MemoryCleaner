@@ -69,7 +69,7 @@ public abstract class BaseRecyclerViewAdapter<E>
 
     public void update(E e) {
         int fromPosition = this.list.indexOf(e);
-        update(e, fromPosition);
+        update(e, fromPosition, fromPosition);
     }
 
 

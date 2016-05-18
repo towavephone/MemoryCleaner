@@ -4,8 +4,12 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import edu.wkd.towave.memorycleaner.R;
 import edu.wkd.towave.memorycleaner.adapter.ProcessListAdapter;
 import edu.wkd.towave.memorycleaner.adapter.base.BaseRecyclerViewAdapter;
@@ -15,7 +19,11 @@ import edu.wkd.towave.memorycleaner.mvp.presenters.Presenter;
 import edu.wkd.towave.memorycleaner.mvp.views.View;
 import edu.wkd.towave.memorycleaner.mvp.views.impl.activity.MainView;
 import edu.wkd.towave.memorycleaner.service.CoreService;
+import edu.wkd.towave.memorycleaner.tools.AppUtils;
+import edu.wkd.towave.memorycleaner.tools.L;
 import edu.wkd.towave.memorycleaner.tools.PreferenceUtils;
+import edu.wkd.towave.memorycleaner.tools.T;
+import edu.wkd.towave.memorycleaner.tools.TextFormater;
 import edu.wkd.towave.memorycleaner.ui.activity.MemoryClean;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +32,9 @@ import javax.inject.Inject;
 /**
  * Created by Administrator on 2016/5/4.
  */
-public class MemoryCleanPresenter
-        implements Presenter, CoreService.OnProcessActionListener {
+public class MemoryCleanPresenter implements Presenter,
+        CoreService.OnProcessActionListener,
+        SwipeRefreshLayout.OnRefreshListener {
 
     MemoryClean mMemoryClean;
     final Context mContext;
@@ -74,21 +83,65 @@ public class MemoryCleanPresenter
                     public void OnClickListener(android.view.View parentV, android.view.View v, Integer position, AppProcessInfo values) {
                         super.OnClickListener(parentV, v, position, values);
                         //onRecyclerViewItemClick(position, values);
+                        T.showShort(mContext, position + "");
                     }
                 });
-        //recyclerAdapter.setOnInViewClickListener(R.id.note_more,
-        //        new BaseRecyclerViewAdapter.onInternalClickListenerImpl<SNote>() {
-        //            @Override
-        //            public void OnClickListener(View parentV, View v, Integer position, SNote values) {
-        //                super.OnClickListener(parentV, v, position, values);
-        //                mainPresenter.showPopMenu(v, position, values);
-        //            }
-        //        });
+        recyclerAdapter.setOnInViewClickListener(R.id.is_clean,
+                new BaseRecyclerViewAdapter.onInternalClickListenerImpl<AppProcessInfo>() {
+                    @Override
+                    public void OnClickListener(android.view.View parentV, android.view.View v, Integer position, AppProcessInfo values) {
+                        super.OnClickListener(parentV, v, position, values);
+                        if (values.checked) {
+                            values.checked = false;
+                        }
+                        else {
+                            values.checked = true;
+                            recyclerAdapter.update(values);
+                        }
+                    }
+                });
         recyclerAdapter.setFirstOnly(false);
         recyclerAdapter.setDuration(300);
+        //0则不执行拖动或者滑动
+        ItemTouchHelper.Callback mCallback = new ItemTouchHelper.SimpleCallback(
+                0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                //recyclerAdapter.remove(position);
+                T.showShort(mContext, "清理" + TextFormater.dataSizeFormat(
+                        mAppProcessInfos.get(position).memory) + "内存");
+                mCoreService.killBackgroundProcesses(
+                        mAppProcessInfos.get(position).processName);
+                //mAppProcessInfos.remove(mAppProcessInfos.get(i));
+                //mClearMemoryAdapter.notifyDataSetChanged();
+                recyclerAdapter.remove(position);
+            }
+
+
+            @Override
+            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY,
+                        actionState, isCurrentlyActive);
+                if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+                    //滑动时改变Item的透明度
+                    final float alpha = 1 - Math.abs(dX) /
+                            (float) viewHolder.itemView.getWidth();
+                    viewHolder.itemView.setAlpha(alpha);
+                    viewHolder.itemView.setTranslationX(dX);
+                }
+            }
+        };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(mCallback);
         mContext.bindService(new Intent(mContext, CoreService.class),
                 mServiceConnection, Context.BIND_AUTO_CREATE);
-        mMemoryClean.initViews(recyclerAdapter, mContext);
+        mMemoryClean.initViews(recyclerAdapter, mContext, itemTouchHelper);
     }
 
 
@@ -112,8 +165,28 @@ public class MemoryCleanPresenter
     }
 
 
-    @Override public void onDestroy() {
+    public boolean onOptionsItemSelected(int id) {
+        switch (id) {
+            //case R.id.setting:
+            //    startSettingActivity();
+            //    return true;
+            case R.id.refresh:
+                if (mMemoryClean.isRefreshing()) {
+                    return true;
+                }
+                mMemoryClean.startRefresh();
+                onRefresh();
+                return true;
+            //case R.id.about:
+            //    startAboutActivity();
+            //    return true;
+        }
+        return false;
+    }
 
+
+    @Override public void onDestroy() {
+        //mContext.unbindService(mServiceConnection);
     }
 
 
@@ -149,7 +222,9 @@ public class MemoryCleanPresenter
         }
 
         recyclerAdapter.notifyDataSetChanged();
+        mMemoryClean.stopRefresh();
         mMemoryClean.onScanCompleted();
+        mContext.unbindService(mServiceConnection);
     }
 
 
@@ -158,7 +233,31 @@ public class MemoryCleanPresenter
     }
 
 
+    public void cleanMemory() {
+        long killAppmemory = 0;
+        for (int i = mAppProcessInfos.size() - 1; i >= 0; i--) {
+            if (mAppProcessInfos.get(i).checked) {
+                killAppmemory += mAppProcessInfos.get(i).memory;
+                mCoreService.killBackgroundProcesses(
+                        mAppProcessInfos.get(i).processName);
+                //mAppProcessInfos.remove(mAppProcessInfos.get(i));
+                //mClearMemoryAdapter.notifyDataSetChanged();
+                recyclerAdapter.remove(mAppProcessInfos.get(i));
+            }
+        }
+        T.showLong(mContext,
+                "共清理" + TextFormater.dataSizeFormat(killAppmemory) + "内存");
+    }
+
+
     @Override public void onCleanCompleted(Context context, long cacheSize) {
 
+    }
+
+
+    @Override public void onRefresh() {
+        mContext.bindService(new Intent(mContext, CoreService.class),
+                mServiceConnection, Context.BIND_AUTO_CREATE);
+        mMemoryClean.startRefresh();
     }
 }

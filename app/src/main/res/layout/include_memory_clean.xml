@@ -2,6 +2,7 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:wave="http://schemas.android.com/apk/res-auto"
+    xmlns:wheel="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:paddingTop="?attr/actionBarSize"
     android:layout_height="match_parent">
@@ -49,23 +50,36 @@
                     android:visibility="gone"
                     style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"/>
 
-                <TextView
+                <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/processName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
+                    android:ellipsize="end"
                     android:visibility="gone"/>
             </LinearLayout>
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
+    <FrameLayout
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include layout="@layout/fixed_recycler_view"/>
-    </LinearLayout>
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/refresher"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include layout="@layout/fixed_recycler_view"/>
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <com.pluscubed.recyclerfastscroll.RecyclerFastScroller
+            android:id="@+id/recyclerfastscroll"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"/>
+    </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>

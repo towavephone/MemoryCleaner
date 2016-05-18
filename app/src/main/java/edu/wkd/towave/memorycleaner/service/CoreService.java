@@ -249,7 +249,7 @@ public class CoreService extends Service {
 
             activityManager.killBackgroundProcesses(packageName);
 
-            //
+            //app使用FORCE_STOP_PACKAGES权限，app必须和这个权限的声明者的签名保持一致！
             Method forceStopPackage = activityManager.getClass()
                                                      .getDeclaredMethod(
                                                              "forceStopPackage",

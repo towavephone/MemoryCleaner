@@ -25,7 +25,7 @@
                 android:layout_centerInParent="true"
                 android:orientation="vertical">
 
-                <ImageView
+                <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
                     android:layout_centerHorizontal="true"
                     android:padding="2dp"/>
 
-                <TextView
+                <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/content"
                     android:layout_centerHorizontal="true"
                     android:layout_below="@+id/icon"

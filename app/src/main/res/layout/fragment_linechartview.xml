@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp">
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/percent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -15,7 +15,7 @@
             android:textColor="@color/colorPrimary"
             android:layout_centerInParent="true"
             android:textSize="80sp"/>
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="内存已用"

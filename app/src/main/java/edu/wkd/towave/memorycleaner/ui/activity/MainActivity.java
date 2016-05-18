@@ -40,6 +40,8 @@ public class MainActivity extends BaseActivity
 
     ActionBarDrawerToggle toggle;
     BaseFragmentPageAdapter mCommonFragmentPageAdapter;
+
+
     @Override protected void onCreate(Bundle savedInstanceState) {
         launchWithNoAnim();
         super.onCreate(savedInstanceState);
@@ -92,8 +94,9 @@ public class MainActivity extends BaseActivity
 
     @Override public void showSnackbar() {
         SnackbarUtils.showAction(this, "你确定要退出吗", "退出", v -> {
-            //finish();
-            System.exit(0);
+            finish();
+            //可能不能正常执行正常生命周期，即进程退出时不会去执行Activity的onPause、onStop和onDestroy方法，
+            //System.exit(0);
         });
     }
 

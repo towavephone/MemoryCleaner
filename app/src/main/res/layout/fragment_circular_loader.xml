@@ -36,7 +36,7 @@
                 android:layout_centerInParent="true"
                 android:orientation="vertical">
 
-                <TextView
+                <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/percent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
                     android:textColor="@color/md_white_1000"
                     android:textSize="50sp"/>
 
-                <TextView
+                <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
             app:mrl_rippleOverlay="true"
             app:mrl_rippleColor="@color/md_white_1000">
 
-            <Button
+            <android.support.v7.widget.AppCompatButton
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:text="一键清理"

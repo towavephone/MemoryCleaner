@@ -17,7 +17,8 @@ import java.util.List;
 /**
  * Created by towave on 2016/5/16.
  */
-public class ProcessListAdapter extends BaseRecyclerViewAdapter<AppProcessInfo> {
+public class ProcessListAdapter
+        extends BaseRecyclerViewAdapter<AppProcessInfo> {
     private Context mContext;
 
 
@@ -50,6 +51,7 @@ public class ProcessListAdapter extends BaseRecyclerViewAdapter<AppProcessInfo> 
         holder.setIcon(appProcessInfo.icon);
         holder.setName(appProcessInfo.appName);
         holder.setMemory(TextFormater.dataSizeFormat(appProcessInfo.memory));
+        holder.setChecked(appProcessInfo.checked);
         animate(viewHolder, position);
     }
 

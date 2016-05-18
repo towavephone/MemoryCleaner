@@ -1,19 +1,26 @@
 package edu.wkd.towave.memorycleaner.ui.activity;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import butterknife.Bind;
+import butterknife.OnClick;
 import com.john.waveview.WaveView;
+import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
 import edu.wkd.towave.memorycleaner.App;
 import edu.wkd.towave.memorycleaner.R;
 import edu.wkd.towave.memorycleaner.adapter.ProcessListAdapter;
@@ -22,7 +29,6 @@ import edu.wkd.towave.memorycleaner.injector.module.ActivityModule;
 import edu.wkd.towave.memorycleaner.mvp.presenters.impl.activity.MemoryCleanPresenter;
 import edu.wkd.towave.memorycleaner.mvp.views.impl.activity.MemoryCleanView;
 import edu.wkd.towave.memorycleaner.tools.AppUtils;
-import edu.wkd.towave.memorycleaner.tools.L;
 import edu.wkd.towave.memorycleaner.tools.TextFormater;
 import edu.wkd.towave.memorycleaner.ui.activity.base.BaseActivity;
 import java.math.BigDecimal;
@@ -35,7 +41,10 @@ public class MemoryClean extends BaseActivity implements MemoryCleanView {
     @Bind(R.id.scanProgress) MaterialProgressBar mProgressBar;
     @Bind(R.id.processName) TextView mTextView;
     @Bind(R.id.wave_view) WaveView mWaveView;
+    @Bind(R.id.recyclerfastscroll) RecyclerFastScroller mRecyclerFastScroller;
     @Bind(R.id.toolbar_layout) CollapsingToolbarLayout mCollapsingToolbarLayout;
+    @Bind(R.id.clean_memory) FloatingActionButton mFloatingActionButton;
+    @Bind(R.id.refresher) SwipeRefreshLayout mSwipeRefreshLayout;
     @Inject MemoryCleanPresenter mMemoryCleanPresenter;
 
 
@@ -43,6 +52,12 @@ public class MemoryClean extends BaseActivity implements MemoryCleanView {
         super.onCreate(savedInstanceState);
         initializePresenter();
         mMemoryCleanPresenter.onCreate(savedInstanceState);
+    }
+
+
+    @Override public void onDestroy() {
+        super.onDestroy();
+        mMemoryCleanPresenter.onDestroy();
     }
 
 
@@ -82,12 +97,16 @@ public class MemoryClean extends BaseActivity implements MemoryCleanView {
 
 
     @Override
-    public void initViews(ProcessListAdapter recyclerAdapter, Context context) {
+    public void initViews(ProcessListAdapter recyclerAdapter, Context context, ItemTouchHelper itemTouchHelper) {
         recyclerView.setLayoutManager(
                 new LinearLayoutManager(context, LinearLayoutManager.VERTICAL,
                         false));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(recyclerAdapter);
+        mSwipeRefreshLayout.setOnRefreshListener(mMemoryCleanPresenter);
+        mSwipeRefreshLayout.setColorSchemeColors(getColorPrimary());
+        mRecyclerFastScroller.attachRecyclerView(recyclerView);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
 
@@ -129,5 +148,38 @@ public class MemoryClean extends BaseActivity implements MemoryCleanView {
     @Override public void onScanCompleted() {
         mProgressBar.setVisibility(View.GONE);
         mTextView.setVisibility(View.GONE);
+    }
+
+
+    @OnClick(R.id.clean_memory) public void cleanMemory() {
+        mMemoryCleanPresenter.cleanMemory();
+    }
+
+
+    @Override public void stopRefresh() {
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
+
+
+    @Override public void startRefresh() {
+        mSwipeRefreshLayout.setRefreshing(true);
+    }
+
+
+    @Override public boolean isRefreshing() {
+        return mSwipeRefreshLayout.isRefreshing();
+    }
+
+
+    @Override public void enableSwipeRefreshLayout(boolean enable) {
+        mSwipeRefreshLayout.setEnabled(enable);
+    }
+
+
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
+        if (mMemoryCleanPresenter.onOptionsItemSelected(item.getItemId())) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

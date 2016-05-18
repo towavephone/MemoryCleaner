@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.wkd.towave.memorycleaner">
 
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -27,10 +28,10 @@
 
         <service
             android:name=".service.CleanerService"
-            android:exported="false" />
+            android:exported="false"/>
         <service
             android:name=".service.CoreService"
-            android:exported="false" />
+            android:exported="false"/>
 
     </application>
 
