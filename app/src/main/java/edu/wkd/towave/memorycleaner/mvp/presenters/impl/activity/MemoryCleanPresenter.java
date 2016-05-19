@@ -2,14 +2,20 @@ package edu.wkd.towave.memorycleaner.mvp.presenters.impl.activity;
 
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Canvas;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.preference.DialogPreference;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import edu.wkd.towave.memorycleaner.App;
 import edu.wkd.towave.memorycleaner.R;
 import edu.wkd.towave.memorycleaner.adapter.ProcessListAdapter;
@@ -82,8 +88,39 @@ public class MemoryCleanPresenter implements Presenter,
                     @Override
                     public void OnClickListener(android.view.View parentV, android.view.View v, Integer position, AppProcessInfo values) {
                         super.OnClickListener(parentV, v, position, values);
-                        //onRecyclerViewItemClick(position, values);
-                        T.showShort(mContext, position + "");
+                        String[] memory = TextFormater.dataSizeFormat(
+                                values.memory).split(" ");
+                        RelativeLayout relativeLayout
+                                = mMemoryClean.setDialogValues(memory);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(
+                                mContext).setTitle(values.appName)
+                                         .setIcon(values.icon)
+                                         .setNegativeButton("取消",
+                                                 (dialogInterface, i) -> {
+                                                     dialogInterface.dismiss();
+                                                 })
+                                         .setPositiveButton("添加至忽略列表",
+                                                 (dialogInterface, i) -> {
+
+                                                 })
+                                         .setNeutralButton("详情",
+                                                 (dialogInterface, i) -> {
+                                                     Intent intent
+                                                             = new Intent();
+                                                     intent.setFlags(
+                                                             Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                     intent.setAction(
+                                                             android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                                     intent.setData(Uri.parse(
+                                                             "package:" +
+                                                                     mCoreService
+                                                                             .getApplicationInfo(
+                                                                                     values.processName).packageName));
+                                                     mContext.startActivity(
+                                                             intent);
+                                                 })
+                                         .setView(relativeLayout);
+                        builder.create().show();
                     }
                 });
         recyclerAdapter.setOnInViewClickListener(R.id.is_clean,

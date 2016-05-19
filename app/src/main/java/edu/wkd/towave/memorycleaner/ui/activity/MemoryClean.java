@@ -15,9 +15,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.john.waveview.WaveView;
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
@@ -110,11 +113,6 @@ public class MemoryClean extends BaseActivity implements MemoryCleanView {
     }
 
 
-    @Override public void updateViews(long sum, long available, float percent) {
-
-    }
-
-
     @Override public void onScanStarted(Context context) {
         mCollapsingToolbarLayout.setTitle(
                 "0M 0%-->" + AppUtils.getPercent(context) + "%");
@@ -148,6 +146,21 @@ public class MemoryClean extends BaseActivity implements MemoryCleanView {
     @Override public void onScanCompleted() {
         mProgressBar.setVisibility(View.GONE);
         mTextView.setVisibility(View.GONE);
+    }
+
+
+    @Override public RelativeLayout setDialogValues(String[] memory) {
+        RelativeLayout dialog_process_detail
+                = (RelativeLayout) getLayoutInflater().inflate(
+                R.layout.dialog_process_detail, null);
+        if (memory == null || memory.length == 0) return dialog_process_detail;
+        TextView mTextView2 = (TextView) dialog_process_detail.findViewById(
+                R.id.memory);
+        TextView mTextView3 = (TextView) dialog_process_detail.findViewById(
+                R.id.unit);
+        mTextView2.setText(memory[0]);
+        mTextView3.setText(memory[1]);
+        return dialog_process_detail;
     }
 
 

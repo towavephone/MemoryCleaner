@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -135,7 +136,13 @@ public class RubbishCleanPresenter implements Presenter,
                     public void OnClickListener(android.view.View parentV, android.view.View v, Integer position, CacheListItem values) {
                         super.OnClickListener(parentV, v, position, values);
                         //onRecyclerViewItemClick(position, values);
-                        T.showShort(mContext, position + "");
+                        Intent intent = new Intent();
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.setAction(
+                                android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        intent.setData(Uri.parse(
+                                "package:" + values.getPackageName()));
+                        mContext.startActivity(intent);
                     }
                 });
         recyclerAdapter.setFirstOnly(false);

@@ -1,7 +1,9 @@
 package edu.wkd.towave.memorycleaner.mvp.views.impl.activity;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.widget.RelativeLayout;
 import edu.wkd.towave.memorycleaner.adapter.ProcessListAdapter;
 import edu.wkd.towave.memorycleaner.mvp.views.View;
 
@@ -10,8 +12,6 @@ import edu.wkd.towave.memorycleaner.mvp.views.View;
  */
 public interface MemoryCleanView extends View {
     void initViews(ProcessListAdapter recyclerAdapter, Context context, ItemTouchHelper itemTouchHelper);
-
-    void updateViews(long sum, long available, float percent);
 
     void onScanStarted(Context context);
 
@@ -25,6 +25,7 @@ public interface MemoryCleanView extends View {
 
     boolean isRefreshing();
 
-    void enableSwipeRefreshLayout(boolean enable);
+    RelativeLayout setDialogValues(String[] memory);
 
+    void enableSwipeRefreshLayout(boolean enable);
 }
