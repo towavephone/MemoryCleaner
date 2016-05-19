@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.wkd.towave.memorycleaner">
 
+    <uses-permission android:name="android.permission.CLEAR_APP_CACHE"/>
+    <uses-permission android:name="android.permission.GET_PACKAGE_SIZE"/>
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -25,6 +28,9 @@
         <activity
             android:name=".ui.activity.MemoryClean"
             android:label="内存加速"></activity>
+        <activity
+            android:name=".ui.activity.RubbishClean"
+            android:label="垃圾清理"></activity>
 
         <service
             android:name=".service.CleanerService"

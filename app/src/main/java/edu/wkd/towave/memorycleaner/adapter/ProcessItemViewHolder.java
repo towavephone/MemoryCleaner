@@ -48,4 +48,9 @@ public class ProcessItemViewHolder extends RecyclerView.ViewHolder {
     public void setChecked(boolean checked) {
         mCheckBox.setChecked(checked);
     }
+
+
+    public void setVisible(boolean visible) {
+        mCheckBox.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
+    }
 }

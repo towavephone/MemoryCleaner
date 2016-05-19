@@ -15,9 +15,9 @@
 ** limitations under the License.
 */
 
-package edu.wkd.towave.memorycleaner;
+package android.content.pm;
 
-import edu.wkd.towave.memorycleaner.PackageStats;
+import android.content.pm.PackageStats;
 /**
  * API for package data change related callbacks from the Package Manager.
  * Some usage scenarios include deletion of cache directory, generate

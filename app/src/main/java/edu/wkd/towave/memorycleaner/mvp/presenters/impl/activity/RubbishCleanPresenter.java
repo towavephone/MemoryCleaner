@@ -4,28 +4,26 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import edu.wkd.towave.memorycleaner.App;
+import android.text.format.Formatter;
 import edu.wkd.towave.memorycleaner.R;
-import edu.wkd.towave.memorycleaner.adapter.ProcessListAdapter;
+import edu.wkd.towave.memorycleaner.adapter.CacheListAdapter;
 import edu.wkd.towave.memorycleaner.adapter.base.BaseRecyclerViewAdapter;
 import edu.wkd.towave.memorycleaner.injector.ContextLifeCycle;
 import edu.wkd.towave.memorycleaner.model.AppProcessInfo;
+import edu.wkd.towave.memorycleaner.model.CacheListItem;
 import edu.wkd.towave.memorycleaner.mvp.presenters.Presenter;
 import edu.wkd.towave.memorycleaner.mvp.views.View;
-import edu.wkd.towave.memorycleaner.mvp.views.impl.activity.MainView;
-import edu.wkd.towave.memorycleaner.service.CoreService;
-import edu.wkd.towave.memorycleaner.tools.AppUtils;
-import edu.wkd.towave.memorycleaner.tools.L;
-import edu.wkd.towave.memorycleaner.tools.PreferenceUtils;
+import edu.wkd.towave.memorycleaner.service.CleanerService;
 import edu.wkd.towave.memorycleaner.tools.T;
 import edu.wkd.towave.memorycleaner.tools.TextFormater;
-import edu.wkd.towave.memorycleaner.ui.activity.MemoryClean;
+import edu.wkd.towave.memorycleaner.ui.activity.RubbishClean;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
@@ -33,39 +31,55 @@ import javax.inject.Inject;
 /**
  * Created by Administrator on 2016/5/4.
  */
-public class MemoryCleanPresenter implements Presenter,
-        CoreService.OnProcessActionListener,
+public class RubbishCleanPresenter implements Presenter,
+        CleanerService.OnActionListener,
         SwipeRefreshLayout.OnRefreshListener {
 
-    MemoryClean mMemoryClean;
+    RubbishClean mRubbishClean;
+    protected static final int SCANING = 5;
+
+    protected static final int SCAN_FINIFSH = 6;
+    protected static final int PROCESS_MAX = 8;
+    protected static final int PROCESS_PROCESS = 9;
+
+    private static final int INITIAL_DELAY_MILLIS = 300;
+    int ptotal = 0;
+    int pprocess = 0;
+
+    private CleanerService mCleanerService;
+
+    private boolean mAlreadyScanned = false;
+    private boolean mAlreadyCleaned = false;
     final Context mContext;
-    List<AppProcessInfo> mAppProcessInfos = new ArrayList<>();
-    ProcessListAdapter recyclerAdapter;
+    List<CacheListItem> mCacheListItems = new ArrayList<>();
+    CacheListAdapter recyclerAdapter;
 
 
     @Inject
-    public MemoryCleanPresenter(@ContextLifeCycle("Activity") Context context) {
+    public RubbishCleanPresenter(
+            @ContextLifeCycle("Activity") Context context) {
         this.mContext = context;
     }
 
 
-    private CoreService mCoreService;
-
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            mCoreService
-                    = ((CoreService.ProcessServiceBinder) service).getService();
-            mCoreService.setOnActionListener(MemoryCleanPresenter.this);
-            mCoreService.scanRunProcess();
+            mCleanerService
+                    = ((CleanerService.CleanerServiceBinder) service).getService();
+            mCleanerService.setOnActionListener(RubbishCleanPresenter.this);
+
             //  updateStorageUsage();
 
+            if (!mCleanerService.isScanning() && !mAlreadyScanned) {
+                mCleanerService.scanCache();
+            }
         }
 
 
         @Override public void onServiceDisconnected(ComponentName name) {
-            mCoreService.setOnActionListener(null);
-            mCoreService = null;
+            mCleanerService.setOnActionListener(null);
+            mCleanerService = null;
         }
     };
 
@@ -76,32 +90,7 @@ public class MemoryCleanPresenter implements Presenter,
 
 
     public void initViews() {
-        recyclerAdapter = new ProcessListAdapter(mAppProcessInfos, mContext);
-        recyclerAdapter.setOnInViewClickListener(R.id.card_item_root,
-                new BaseRecyclerViewAdapter.onInternalClickListenerImpl<AppProcessInfo>() {
-                    @Override
-                    public void OnClickListener(android.view.View parentV, android.view.View v, Integer position, AppProcessInfo values) {
-                        super.OnClickListener(parentV, v, position, values);
-                        //onRecyclerViewItemClick(position, values);
-                        T.showShort(mContext, position + "");
-                    }
-                });
-        recyclerAdapter.setOnInViewClickListener(R.id.is_clean,
-                new BaseRecyclerViewAdapter.onInternalClickListenerImpl<AppProcessInfo>() {
-                    @Override
-                    public void OnClickListener(android.view.View parentV, android.view.View v, Integer position, AppProcessInfo values) {
-                        super.OnClickListener(parentV, v, position, values);
-                        if (values.checked) {
-                            values.checked = false;
-                        }
-                        else {
-                            values.checked = true;
-                            recyclerAdapter.update(values);
-                        }
-                    }
-                });
-        recyclerAdapter.setFirstOnly(false);
-        recyclerAdapter.setDuration(300);
+
         //0则不执行拖动或者滑动
         ItemTouchHelper.Callback mCallback = new ItemTouchHelper.SimpleCallback(
                 0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
@@ -116,9 +105,9 @@ public class MemoryCleanPresenter implements Presenter,
                 int position = viewHolder.getAdapterPosition();
                 //recyclerAdapter.remove(position);
                 T.showShort(mContext, "清理" + TextFormater.dataSizeFormat(
-                        mAppProcessInfos.get(position).memory) + "内存");
-                mCoreService.killBackgroundProcesses(
-                        mAppProcessInfos.get(position).processName);
+                        mCacheListItems.get(position).getCacheSize()) + "缓存");
+                mCleanerService.cleanCache(
+                        mCacheListItems.get(position).getPackageName());
                 //mAppProcessInfos.remove(mAppProcessInfos.get(i));
                 //mClearMemoryAdapter.notifyDataSetChanged();
                 recyclerAdapter.remove(position);
@@ -138,10 +127,23 @@ public class MemoryCleanPresenter implements Presenter,
                 }
             }
         };
+
+        recyclerAdapter = new CacheListAdapter(mCacheListItems, mContext);
+        recyclerAdapter.setOnInViewClickListener(R.id.card_item_root,
+                new BaseRecyclerViewAdapter.onInternalClickListenerImpl<CacheListItem>() {
+                    @Override
+                    public void OnClickListener(android.view.View parentV, android.view.View v, Integer position, CacheListItem values) {
+                        super.OnClickListener(parentV, v, position, values);
+                        //onRecyclerViewItemClick(position, values);
+                        T.showShort(mContext, position + "");
+                    }
+                });
+        recyclerAdapter.setFirstOnly(false);
+        recyclerAdapter.setDuration(300);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(mCallback);
-        mContext.bindService(new Intent(mContext, CoreService.class),
+        mContext.bindService(new Intent(mContext, CleanerService.class),
                 mServiceConnection, Context.BIND_AUTO_CREATE);
-        mMemoryClean.initViews(recyclerAdapter, mContext, itemTouchHelper);
+        mRubbishClean.initViews(recyclerAdapter, mContext, itemTouchHelper);
     }
 
 
@@ -171,10 +173,9 @@ public class MemoryCleanPresenter implements Presenter,
             //    startSettingActivity();
             //    return true;
             case R.id.refresh:
-                if (mMemoryClean.isRefreshing()) {
+                if (mRubbishClean.isRefreshing()) {
                     return true;
                 }
-                mMemoryClean.startRefresh();
                 onRefresh();
                 return true;
             //case R.id.about:
@@ -191,75 +192,71 @@ public class MemoryCleanPresenter implements Presenter,
 
 
     @Override public void attachView(View v) {
-        mMemoryClean = (MemoryClean) v;
+        mRubbishClean = (RubbishClean) v;
     }
 
 
     @Override public void onScanStarted(Context context) {
-        mMemoryClean.enableSwipeRefreshLayout(false);
-        mMemoryClean.onScanStarted(context);
-        mMemoryClean.startRefresh();
+        mRubbishClean.onScanStarted(context);
+        mRubbishClean.startRefresh();
+        mRubbishClean.enableSwipeRefreshLayout(false);
         //mProgressBarText.setText(R.string.scanning);
         //showProgressBar(true);
     }
 
 
     @Override
-    public void onScanProgressUpdated(Context context, int current, int max, long memory, String processName) {
-        mMemoryClean.onScanProgressUpdated(context, current, max, memory,
-                processName);
+    public void onScanProgressUpdated(Context context, int current, int max, long cacheSize, String packageName) {
+        mRubbishClean.onScanProgressUpdated(context, current, max, cacheSize,
+                packageName);
     }
 
 
     @Override
-    public void onScanCompleted(Context context, List<AppProcessInfo> apps) {
-        mAppProcessInfos.clear();
-
-        //Allmemory = 0;
-        for (AppProcessInfo appInfo : apps) {
-            //if (!appInfo.isSystem) {
-            mAppProcessInfos.add(appInfo);
-            //Allmemory += appInfo.memory;
-            //}
-        }
-
+    public void onScanCompleted(Context context, List<CacheListItem> apps) {
+        mCacheListItems.clear();
+        mCacheListItems.addAll(apps);
         recyclerAdapter.notifyDataSetChanged();
-        mMemoryClean.stopRefresh();
-        mMemoryClean.onScanCompleted();
-        mMemoryClean.enableSwipeRefreshLayout(true);
+        mRubbishClean.onScanCompleted();
         mContext.unbindService(mServiceConnection);
+        mRubbishClean.stopRefresh();
+        mRubbishClean.enableSwipeRefreshLayout(true);
     }
 
 
     @Override public void onCleanStarted(Context context) {
-
-    }
-
-
-    public void cleanMemory() {
-        long killAppmemory = 0;
-        for (int i = mAppProcessInfos.size() - 1; i >= 0; i--) {
-            if (mAppProcessInfos.get(i).checked) {
-                killAppmemory += mAppProcessInfos.get(i).memory;
-                mCoreService.killBackgroundProcesses(
-                        mAppProcessInfos.get(i).processName);
-                //mAppProcessInfos.remove(mAppProcessInfos.get(i));
-                //mClearMemoryAdapter.notifyDataSetChanged();
-                recyclerAdapter.remove(mAppProcessInfos.get(i));
-            }
-        }
-        T.showLong(mContext,
-                "共清理" + TextFormater.dataSizeFormat(killAppmemory) + "内存");
+        //if (isProgressBarVisible()) {
+        //    showProgressBar(false);
+        //}
+        //
+        //if (!RubbishCleanActivity.this.isFinishing()) {
+        //    showDialogLoading();
+        //}
     }
 
 
     @Override public void onCleanCompleted(Context context, long cacheSize) {
-
+        //dismissDialogLoading();
+        T.showLong(mContext, context.getString(R.string.cleaned,
+                Formatter.formatShortFileSize(mContext, cacheSize)));
+        mCacheListItems.clear();
+        recyclerAdapter.notifyDataSetChanged();
     }
 
 
     @Override public void onRefresh() {
-        mContext.bindService(new Intent(mContext, CoreService.class),
+        mContext.bindService(new Intent(mContext, CleanerService.class),
                 mServiceConnection, Context.BIND_AUTO_CREATE);
+    }
+
+
+    public void cleanCache() {
+        if (mCleanerService != null && !mCleanerService.isScanning() &&
+                !mCleanerService.isCleaning() &&
+                mCleanerService.getCacheSize() > 0) {
+            mAlreadyCleaned = false;
+
+            mCleanerService.cleanCache();
+        }
     }
 }

@@ -17,6 +17,7 @@ import edu.wkd.towave.memorycleaner.tools.AppUtils;
 import edu.wkd.towave.memorycleaner.tools.T;
 import edu.wkd.towave.memorycleaner.ui.activity.AppManage;
 import edu.wkd.towave.memorycleaner.ui.activity.MemoryClean;
+import edu.wkd.towave.memorycleaner.ui.activity.RubbishClean;
 import edu.wkd.towave.memorycleaner.ui.fragment.CircularLoader;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -99,7 +100,7 @@ public class CircularLoaderPresenter implements Presenter {
                 mContext.startActivity(new Intent(mContext, MemoryClean.class));
                 break;
             case 1:
-
+                mContext.startActivity(new Intent(mContext, RubbishClean.class));
                 break;
             case 2:
 

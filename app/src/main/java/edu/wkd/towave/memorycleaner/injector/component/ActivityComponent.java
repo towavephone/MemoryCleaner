@@ -8,6 +8,7 @@ import edu.wkd.towave.memorycleaner.injector.module.ActivityModule;
 import edu.wkd.towave.memorycleaner.ui.activity.MainActivity;
 import edu.wkd.towave.memorycleaner.ui.activity.AppManage;
 import edu.wkd.towave.memorycleaner.ui.activity.MemoryClean;
+import edu.wkd.towave.memorycleaner.ui.activity.RubbishClean;
 
 @Activity @Component(dependencies = AppComponent.class,
                      modules = { ActivityModule.class })
@@ -17,6 +18,8 @@ public interface ActivityComponent {
     void inject(AppManage activity);
 
     void inject(MemoryClean memoryClean);
+
+    void inject(RubbishClean rubbishClean);
 
     android.app.Activity activity();
 

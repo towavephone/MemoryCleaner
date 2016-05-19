@@ -15,6 +15,6 @@
 ** limitations under the License.
 */
 
-package edu.wkd.towave.memorycleaner;
+package android.content.pm;
 
 parcelable PackageStats;
