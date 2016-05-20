@@ -15,75 +15,71 @@ import android.view.View;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import edu.wkd.towave.memorycleaner.App;
 import edu.wkd.towave.memorycleaner.R;
 import edu.wkd.towave.memorycleaner.adapter.base.BaseFragmentPageAdapter;
+import edu.wkd.towave.memorycleaner.injector.component.DaggerActivityComponent;
+import edu.wkd.towave.memorycleaner.injector.module.ActivityModule;
+import edu.wkd.towave.memorycleaner.mvp.presenters.impl.activity.AppManagePresenter;
+import edu.wkd.towave.memorycleaner.mvp.views.impl.activity.AppManageView;
+import edu.wkd.towave.memorycleaner.tools.ToolbarUtils;
+import edu.wkd.towave.memorycleaner.ui.activity.base.BaseActivity;
 import edu.wkd.towave.memorycleaner.ui.fragment.SystemApps;
 import edu.wkd.towave.memorycleaner.ui.fragment.UserApps;
 import java.util.ArrayList;
+import javax.inject.Inject;
 
-public class AppManage extends AppCompatActivity {
+public class AppManage extends BaseActivity implements AppManageView {
 
     @Bind(R.id.toolbar) Toolbar mToolbar;
     @Bind(R.id.tabs) TabLayout mTabs;
     @Bind(R.id.container) ViewPager mContainer;
-    @Bind(R.id.fab) FloatingActionButton mFab;
 
-    BaseFragmentPageAdapter mCommonFragmentPageAdapter;
-    Snackbar snackbar;
-    ArrayList<Fragment> items;
-    Context context;
-    ArrayList<String> titles;
+    @Inject AppManagePresenter mAppManagePresenter;
+
+    BaseFragmentPageAdapter mBaseFragmentPageAdapter;
 
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_app_manage);
-        context = getApplicationContext();
-        //初始化view
-        initViews();
-        //loadData();
-        addListener();
+        initializePresenter();
+        mAppManagePresenter.onCreate(savedInstanceState);
     }
 
 
-    public void initViews() {
-        ButterKnife.bind(this);
-        setSupportActionBar(mToolbar);
-        snackbar = Snackbar.make(mFab, "Replace with your own action",
-                Snackbar.LENGTH_LONG).setAction("Action", null);
+    private void initializePresenter() {
+        mAppManagePresenter.attachView(this);
     }
 
 
-    public void addListener() {
-        items = new ArrayList<>();
-        items.add(new UserApps());
-        items.add(new SystemApps());
+    @Override protected void initializeDependencyInjector() {
+        App app = (App) getApplication();
+        mActivityComponent = DaggerActivityComponent.builder()
+                                                    .activityModule(
+                                                            new ActivityModule(
+                                                                    this))
+                                                    .appComponent(
+                                                            app.getAppComponent())
+                                                    .build();
+        mActivityComponent.inject(this);
+    }
 
-        titles = new ArrayList<>();
-        titles.add("用户软件");
-        titles.add("系统软件");
-        mCommonFragmentPageAdapter = new BaseFragmentPageAdapter(
+
+    @Override public void initToolbar() {
+        ToolbarUtils.initToolbar(mToolbar, this);
+    }
+
+
+    @Override
+    public void initViews(ArrayList<Fragment> items, ArrayList<String> titles) {
+        mBaseFragmentPageAdapter = new BaseFragmentPageAdapter(
                 getSupportFragmentManager(), items, titles);
+        mContainer.setAdapter(mBaseFragmentPageAdapter);
 
-        mContainer.setAdapter(mCommonFragmentPageAdapter);
-
-        for (int i = 0; i < mCommonFragmentPageAdapter.getCount(); i++) {
+        for (int i = 0; i < mBaseFragmentPageAdapter.getCount(); i++) {
             mTabs.addTab(mTabs.newTab().setText(titles.get(i)));
         }
         mTabs.setupWithViewPager(mContainer);
-
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
-                finish();
-            }
-        });
-
-        mToolbar.setOnMenuItemClickListener(
-                new Toolbar.OnMenuItemClickListener() {
-                    @Override public boolean onMenuItemClick(MenuItem item) {
-                        return false;
-                    }
-                });
     }
 
 
@@ -94,22 +90,7 @@ public class AppManage extends AppCompatActivity {
     }
 
 
-    @Override public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    @OnClick(R.id.fab) public void show() {
-        snackbar.show();
+    @Override protected int getLayoutView() {
+        return R.layout.activity_app_manage;
     }
 }

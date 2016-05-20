@@ -13,6 +13,7 @@ import edu.wkd.towave.memorycleaner.injector.ContextLifeCycle;
 import edu.wkd.towave.memorycleaner.model.Menu;
 import edu.wkd.towave.memorycleaner.mvp.presenters.Presenter;
 import edu.wkd.towave.memorycleaner.mvp.views.View;
+import edu.wkd.towave.memorycleaner.mvp.views.impl.fragment.CircularLoaderView;
 import edu.wkd.towave.memorycleaner.tools.AppUtils;
 import edu.wkd.towave.memorycleaner.tools.T;
 import edu.wkd.towave.memorycleaner.ui.activity.AppManage;
@@ -29,7 +30,7 @@ import javax.inject.Inject;
  */
 public class CircularLoaderPresenter implements Presenter {
 
-    private CircularLoader mCircularLoader;
+    private CircularLoaderView mCircularLoader;
     private final Context mContext;
     private boolean isCardLayout = false;
     private long sum, available;

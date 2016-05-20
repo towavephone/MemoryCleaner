@@ -25,6 +25,7 @@ import edu.wkd.towave.memorycleaner.model.AppProcessInfo;
 import edu.wkd.towave.memorycleaner.mvp.presenters.Presenter;
 import edu.wkd.towave.memorycleaner.mvp.views.View;
 import edu.wkd.towave.memorycleaner.mvp.views.impl.activity.MainView;
+import edu.wkd.towave.memorycleaner.mvp.views.impl.activity.MemoryCleanView;
 import edu.wkd.towave.memorycleaner.service.CoreService;
 import edu.wkd.towave.memorycleaner.tools.AppUtils;
 import edu.wkd.towave.memorycleaner.tools.L;
@@ -43,7 +44,7 @@ public class MemoryCleanPresenter implements Presenter,
         CoreService.OnProcessActionListener,
         SwipeRefreshLayout.OnRefreshListener {
 
-    MemoryClean mMemoryClean;
+    MemoryCleanView mMemoryClean;
     final Context mContext;
     List<AppProcessInfo> mAppProcessInfos = new ArrayList<>();
     ProcessListAdapter recyclerAdapter;
@@ -223,7 +224,7 @@ public class MemoryCleanPresenter implements Presenter,
 
 
     @Override public void onDestroy() {
-        //mContext.unbindService(mServiceConnection);
+        mContext.unbindService(mServiceConnection);
     }
 
 
@@ -264,7 +265,6 @@ public class MemoryCleanPresenter implements Presenter,
         mMemoryClean.stopRefresh();
         mMemoryClean.onScanCompleted();
         mMemoryClean.enableSwipeRefreshLayout(true);
-        mContext.unbindService(mServiceConnection);
     }
 
 
@@ -296,6 +296,7 @@ public class MemoryCleanPresenter implements Presenter,
 
 
     @Override public void onRefresh() {
+        mContext.unbindService(mServiceConnection);
         mContext.bindService(new Intent(mContext, CoreService.class),
                 mServiceConnection, Context.BIND_AUTO_CREATE);
     }

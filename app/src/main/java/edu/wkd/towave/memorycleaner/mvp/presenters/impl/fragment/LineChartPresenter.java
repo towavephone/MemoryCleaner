@@ -10,6 +10,7 @@ import edu.wkd.towave.memorycleaner.R;
 import edu.wkd.towave.memorycleaner.injector.ContextLifeCycle;
 import edu.wkd.towave.memorycleaner.mvp.presenters.Presenter;
 import edu.wkd.towave.memorycleaner.mvp.views.View;
+import edu.wkd.towave.memorycleaner.mvp.views.impl.fragment.LineChartView;
 import edu.wkd.towave.memorycleaner.tools.AppUtils;
 import edu.wkd.towave.memorycleaner.tools.TimeUtils;
 import edu.wkd.towave.memorycleaner.ui.fragment.LineChart;
@@ -29,7 +30,7 @@ import lecho.lib.hellocharts.model.PointValue;
  */
 public class LineChartPresenter implements Presenter {
 
-    private LineChart mLineChart;
+    private LineChartView mLineChart;
     private final Context mContext;
     private static final int IS_NORMAL = 101;
     private List<PointValue> mPointValues;

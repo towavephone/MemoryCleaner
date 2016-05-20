@@ -21,6 +21,7 @@ import edu.wkd.towave.memorycleaner.model.AppProcessInfo;
 import edu.wkd.towave.memorycleaner.model.CacheListItem;
 import edu.wkd.towave.memorycleaner.mvp.presenters.Presenter;
 import edu.wkd.towave.memorycleaner.mvp.views.View;
+import edu.wkd.towave.memorycleaner.mvp.views.impl.activity.RubbishCleanView;
 import edu.wkd.towave.memorycleaner.service.CleanerService;
 import edu.wkd.towave.memorycleaner.tools.T;
 import edu.wkd.towave.memorycleaner.tools.TextFormater;
@@ -36,7 +37,7 @@ public class RubbishCleanPresenter implements Presenter,
         CleanerService.OnActionListener,
         SwipeRefreshLayout.OnRefreshListener {
 
-    RubbishClean mRubbishClean;
+    RubbishCleanView mRubbishClean;
     protected static final int SCANING = 5;
 
     protected static final int SCAN_FINIFSH = 6;
@@ -194,7 +195,7 @@ public class RubbishCleanPresenter implements Presenter,
 
 
     @Override public void onDestroy() {
-        //mContext.unbindService(mServiceConnection);
+        mContext.unbindService(mServiceConnection);
     }
 
 
@@ -225,7 +226,6 @@ public class RubbishCleanPresenter implements Presenter,
         mCacheListItems.addAll(apps);
         recyclerAdapter.notifyDataSetChanged();
         mRubbishClean.onScanCompleted();
-        mContext.unbindService(mServiceConnection);
         mRubbishClean.stopRefresh();
         mRubbishClean.enableSwipeRefreshLayout(true);
     }
@@ -252,6 +252,7 @@ public class RubbishCleanPresenter implements Presenter,
 
 
     @Override public void onRefresh() {
+        mContext.unbindService(mServiceConnection);
         mContext.bindService(new Intent(mContext, CleanerService.class),
                 mServiceConnection, Context.BIND_AUTO_CREATE);
     }
