@@ -28,4 +28,6 @@ public interface MemoryCleanView extends View {
     RelativeLayout setDialogValues(String[] memory);
 
     void enableSwipeRefreshLayout(boolean enable);
+
+    void showSnackBar(String message);
 }

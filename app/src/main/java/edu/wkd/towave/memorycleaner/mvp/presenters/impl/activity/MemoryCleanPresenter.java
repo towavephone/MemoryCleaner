@@ -2,19 +2,16 @@ package edu.wkd.towave.memorycleaner.mvp.presenters.impl.activity;
 
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.preference.DialogPreference;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import com.squareup.leakcanary.RefWatcher;
 import edu.wkd.towave.memorycleaner.App;
@@ -25,13 +22,8 @@ import edu.wkd.towave.memorycleaner.injector.ContextLifeCycle;
 import edu.wkd.towave.memorycleaner.model.AppProcessInfo;
 import edu.wkd.towave.memorycleaner.mvp.presenters.Presenter;
 import edu.wkd.towave.memorycleaner.mvp.views.View;
-import edu.wkd.towave.memorycleaner.mvp.views.impl.activity.MainView;
 import edu.wkd.towave.memorycleaner.mvp.views.impl.activity.MemoryCleanView;
 import edu.wkd.towave.memorycleaner.service.CoreService;
-import edu.wkd.towave.memorycleaner.tools.AppUtils;
-import edu.wkd.towave.memorycleaner.tools.L;
-import edu.wkd.towave.memorycleaner.tools.PreferenceUtils;
-import edu.wkd.towave.memorycleaner.tools.T;
 import edu.wkd.towave.memorycleaner.tools.TextFormater;
 import edu.wkd.towave.memorycleaner.ui.activity.MemoryClean;
 import java.util.ArrayList;
@@ -135,8 +127,8 @@ public class MemoryCleanPresenter implements Presenter,
                         }
                         else {
                             values.checked = true;
-                            recyclerAdapter.update(values);
                         }
+                        recyclerAdapter.update(values);
                     }
                 });
         recyclerAdapter.setFirstOnly(false);
@@ -154,7 +146,8 @@ public class MemoryCleanPresenter implements Presenter,
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
                 //recyclerAdapter.remove(position);
-                T.showShort(mContext, "清理" + TextFormater.dataSizeFormat(
+                //T.showShort(mContext, );
+                mMemoryClean.showSnackBar("清理" + TextFormater.dataSizeFormat(
                         mAppProcessInfos.get(position).memory) + "内存");
                 mCoreService.killBackgroundProcesses(
                         mAppProcessInfos.get(position).processName);
@@ -288,7 +281,7 @@ public class MemoryCleanPresenter implements Presenter,
                 recyclerAdapter.remove(mAppProcessInfos.get(i));
             }
         }
-        T.showLong(mContext,
+        mMemoryClean.showSnackBar(
                 "共清理" + TextFormater.dataSizeFormat(killAppmemory) + "内存");
     }
 

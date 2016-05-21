@@ -4,7 +4,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,13 +18,11 @@ import edu.wkd.towave.memorycleaner.R;
 import edu.wkd.towave.memorycleaner.adapter.CacheListAdapter;
 import edu.wkd.towave.memorycleaner.adapter.base.BaseRecyclerViewAdapter;
 import edu.wkd.towave.memorycleaner.injector.ContextLifeCycle;
-import edu.wkd.towave.memorycleaner.model.AppProcessInfo;
 import edu.wkd.towave.memorycleaner.model.CacheListItem;
 import edu.wkd.towave.memorycleaner.mvp.presenters.Presenter;
 import edu.wkd.towave.memorycleaner.mvp.views.View;
 import edu.wkd.towave.memorycleaner.mvp.views.impl.activity.RubbishCleanView;
 import edu.wkd.towave.memorycleaner.service.CleanerService;
-import edu.wkd.towave.memorycleaner.tools.T;
 import edu.wkd.towave.memorycleaner.tools.TextFormater;
 import edu.wkd.towave.memorycleaner.ui.activity.RubbishClean;
 import java.util.ArrayList;
@@ -108,7 +105,7 @@ public class RubbishCleanPresenter implements Presenter,
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
                 //recyclerAdapter.remove(position);
-                T.showShort(mContext, "清理" + TextFormater.dataSizeFormat(
+                mRubbishClean.showSnackbar("清理" + TextFormater.dataSizeFormat(
                         mCacheListItems.get(position).getCacheSize()) + "缓存");
                 mCleanerService.cleanCache(
                         mCacheListItems.get(position).getPackageName());
@@ -248,7 +245,7 @@ public class RubbishCleanPresenter implements Presenter,
 
     @Override public void onCleanCompleted(Context context, long cacheSize) {
         //dismissDialogLoading();
-        T.showLong(mContext, context.getString(R.string.cleaned,
+        mRubbishClean.showSnackbar(context.getString(R.string.cleaned,
                 Formatter.formatShortFileSize(mContext, cacheSize)));
         mCacheListItems.clear();
         recyclerAdapter.notifyDataSetChanged();

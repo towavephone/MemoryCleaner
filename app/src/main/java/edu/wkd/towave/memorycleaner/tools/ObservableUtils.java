@@ -9,6 +9,7 @@ import android.content.pm.PackageStats;
 import android.graphics.drawable.Drawable;
 import android.os.RemoteException;
 import edu.wkd.towave.memorycleaner.model.AppInfo;
+import edu.wkd.towave.memorycleaner.model.AutoStartInfo;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,8 +27,13 @@ public class ObservableUtils {
     @Inject public ObservableUtils() {}
 
 
-    public Observable<Map<String, Object>> getAllApps(Context context) {
-        return create(new getAllAppsFun(context));
+    public Observable<Boolean> disableApps(Context context, ArrayList<AutoStartInfo> autoStartInfos) {
+        return create(new disableAppsFun(context, autoStartInfos));
+    }
+
+
+    public Observable<Boolean> enableApp(Context context, AutoStartInfo autoStartInfo) {
+        return create(new enableAppFun(context, autoStartInfo));
     }
 
 
@@ -46,20 +52,74 @@ public class ObservableUtils {
     }
 
 
-    private class getAllAppsFun implements Fun<Map<String, Object>> {
+    private class disableAppsFun implements Fun<Boolean> {
 
         Context mContext;
+        ArrayList<AutoStartInfo> mAutoStartInfos;
 
-        public getAllAppsFun(Context context) {
+
+        public disableAppsFun(Context context, ArrayList<AutoStartInfo> autoStartInfos) {
             this.mContext = context;
+            this.mAutoStartInfos = autoStartInfos;
         }
 
 
-        @Override public Map<String, Object> call() throws Exception {
-            return null;
+        @Override public Boolean call() throws Exception {
+            RootUtil.preparezlsu(mContext);
+            List<String> mSring = new ArrayList<>();
+            for (AutoStartInfo auto : mAutoStartInfos) {
+                if (auto.isEnable()) {
+                    String packageReceiverList[] = auto.getPackageReceiver()
+                                                       .toString()
+                                                       .split(";");
+                    for (int j = 0; j < packageReceiverList.length; j++) {
+                        String cmd = "pm disable " + packageReceiverList[j];
+                        //部分receiver包含$符号，需要做进一步处理，用"$"替换掉$
+                        cmd = cmd.replace("$", "\"" + "$" + "\"");
+                        //执行命令
+                        mSring.add(cmd);
+                    }
+                }
+            }
+            ShellUtils.CommandResult mCommandResult = ShellUtils.execCommand(
+                    mSring, true, true);
+            return mCommandResult.result == 0;
         }
     }
 
+    private class enableAppFun implements Fun<Boolean> {
+
+        Context mContext;
+        AutoStartInfo mAutoStartInfo;
+
+
+        public enableAppFun(Context context, AutoStartInfo autoStartInfo) {
+            this.mContext = context;
+            this.mAutoStartInfo = autoStartInfo;
+        }
+
+
+        @Override public Boolean call() throws Exception {
+            RootUtil.preparezlsu(mContext);
+            List<String> mSring = new ArrayList<>();
+
+            String enable = !mAutoStartInfo.isEnable() ? "enable" : "disable";
+            String packageReceiverList[] = mAutoStartInfo.getPackageReceiver()
+                                               .toString()
+                                               .split(";");
+            for (int j = 0; j < packageReceiverList.length; j++) {
+                String cmd = "pm " + enable + " " + packageReceiverList[j];
+                //部分receiver包含$符号，需要做进一步处理，用"$"替换掉$
+                cmd = cmd.replace("$", "\"" + "$" + "\"");
+                //执行命令
+                mSring.add(cmd);
+            }
+
+            ShellUtils.CommandResult mCommandResult = ShellUtils.execCommand(
+                    mSring, true, true);
+            return mCommandResult.result == 0;
+        }
+    }
 
     public interface Fun<T> {
         T call() throws Exception;

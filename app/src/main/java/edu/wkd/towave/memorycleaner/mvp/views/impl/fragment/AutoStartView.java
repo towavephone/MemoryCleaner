@@ -27,4 +27,7 @@ public interface AutoStartView extends View {
     void initViews(AutoStartAdapter recyclerAdapter, Context context);
 
     //RelativeLayout setDialogValues(String[] memory);
+    void showSnackbar(String message);
+
+    void setFabVisible(boolean visible);
 }

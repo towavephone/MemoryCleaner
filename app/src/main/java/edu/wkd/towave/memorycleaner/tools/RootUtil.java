@@ -19,13 +19,6 @@ public class RootUtil {
     public static void preparezlsu(Context ctx) {
         try {
             File zlsu = new File("/system/bin/" + Constants.ROOT_SU);
-            // if (!zlsu.exists())
-            // {
-            // Toast toast = Toast.makeText(ctx,
-            // "Unable to find /system/bin/zlsu.", Toast.LENGTH_LONG);
-            // toast.show();
-            // return;
-            // }
 
             InputStream suStream = ctx.getResources()
                                       .openRawResource(R.raw.zlsu);
@@ -38,24 +31,6 @@ public class RootUtil {
                     return;
                 }
             }
-
-            // File superuser = new File("/system/bin/superuser");
-            //
-            // if (superuser.exists())
-            // {
-            // // return device to original state
-            // Process process = Runtime.getRuntime().exec("superuser");
-            // DataOutputStream os = new
-            // DataOutputStream(process.getOutputStream());
-            //
-            // os.writeBytes("mount -oremount,rw /dev/block/mtdblock3 /system\n");
-            // os.writeBytes("busybox cp /system/bin/superuser /system/bin/su\n");
-            // os.writeBytes("busybox chown 0:0 /system/bin/su\n");
-            // os.writeBytes("chmod 4755 /system/bin/su\n");
-            // os.writeBytes("rm /system/bin/superuser\n");
-            // os.writeBytes("exit\n");
-            // os.flush();
-            // }
 
             /**
              * 先把zlsu 写到/data/data/com.zl.movepkgdemo中 然后再调用 su 权限 写到

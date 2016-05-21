@@ -26,6 +26,7 @@ import edu.wkd.towave.memorycleaner.injector.module.ActivityModule;
 import edu.wkd.towave.memorycleaner.mvp.presenters.impl.activity.RubbishCleanPresenter;
 import edu.wkd.towave.memorycleaner.mvp.views.impl.activity.RubbishCleanView;
 import edu.wkd.towave.memorycleaner.tools.AppUtils;
+import edu.wkd.towave.memorycleaner.tools.SnackbarUtils;
 import edu.wkd.towave.memorycleaner.tools.TextFormater;
 import edu.wkd.towave.memorycleaner.ui.activity.base.BaseActivity;
 import java.math.BigDecimal;
@@ -94,8 +95,7 @@ public class RubbishClean extends BaseActivity implements RubbishCleanView {
 
 
     @Override
-    public void initViews(CacheListAdapter recyclerAdapter, Context context,
-                          ItemTouchHelper itemTouchHelper) {
+    public void initViews(CacheListAdapter recyclerAdapter, Context context, ItemTouchHelper itemTouchHelper) {
         recyclerView.setLayoutManager(
                 new LinearLayoutManager(context, LinearLayoutManager.VERTICAL,
                         false));
@@ -109,6 +109,7 @@ public class RubbishClean extends BaseActivity implements RubbishCleanView {
 
 
     @Override public void onScanStarted(Context context) {
+        mFloatingActionButton.setVisibility(View.GONE);
         mCollapsingToolbarLayout.setTitle("0KB 可清理");
         mWaveView.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.VISIBLE);
@@ -130,6 +131,7 @@ public class RubbishClean extends BaseActivity implements RubbishCleanView {
 
 
     @Override public void onScanCompleted() {
+        mFloatingActionButton.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.GONE);
         mTextView.setVisibility(View.GONE);
     }
@@ -157,6 +159,11 @@ public class RubbishClean extends BaseActivity implements RubbishCleanView {
 
     @Override public void enableSwipeRefreshLayout(boolean enable) {
         mSwipeRefreshLayout.setEnabled(enable);
+    }
+
+
+    @Override public void showSnackbar(String message) {
+        SnackbarUtils.show(mFloatingActionButton, message);
     }
 
 

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import butterknife.Bind;
+import butterknife.OnClick;
 import com.john.waveview.WaveView;
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
 import edu.wkd.towave.memorycleaner.R;
@@ -25,6 +27,7 @@ import edu.wkd.towave.memorycleaner.mvp.presenters.impl.fragment.AppsPresenter;
 import edu.wkd.towave.memorycleaner.mvp.presenters.impl.fragment.AutoStartPresenter;
 import edu.wkd.towave.memorycleaner.mvp.views.impl.fragment.AppsView;
 import edu.wkd.towave.memorycleaner.mvp.views.impl.fragment.AutoStartView;
+import edu.wkd.towave.memorycleaner.tools.SnackbarUtils;
 import edu.wkd.towave.memorycleaner.tools.StorageUtil;
 import edu.wkd.towave.memorycleaner.ui.fragment.base.BaseFragment;
 import javax.inject.Inject;
@@ -43,7 +46,7 @@ public class AutoStartFragment extends BaseFragment implements AutoStartView {
     @Bind(R.id.toolbar_layout) CollapsingToolbarLayout mCollapsingToolbarLayout;
     @Bind(R.id.refresher) SwipeRefreshLayout mSwipeRefreshLayout;
     @Bind(R.id.coordinatorLayout) CoordinatorLayout mCoordinatorLayout;
-
+    @Bind(R.id.disableApps) FloatingActionButton mFloatingActionButton;
     @Inject AutoStartPresenter mAutoStartPresenter;
 
     public static final String ARG_POSITION = "position";
@@ -130,6 +133,16 @@ public class AutoStartFragment extends BaseFragment implements AutoStartView {
     }
 
 
+    @Override public void showSnackbar(String message) {
+        SnackbarUtils.show(mFloatingActionButton, message);
+    }
+
+
+    @Override public void setFabVisible(boolean visible) {
+        mFloatingActionButton.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
+    }
+
+
     @Override
     public void onProgressUpdate(int current, int max, String appName) {
         mCollapsingToolbarLayout.setTitle(current + "个应用");
@@ -167,5 +180,10 @@ public class AutoStartFragment extends BaseFragment implements AutoStartView {
     @Override public void onDestroyView() {
         mAutoStartPresenter.onDestroy();
         super.onDestroyView();
+    }
+
+
+    @OnClick(R.id.disableApps) public void disableApps() {
+        mAutoStartPresenter.disableApps();
     }
 }

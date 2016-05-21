@@ -23,17 +23,22 @@ import edu.wkd.towave.memorycleaner.adapter.AutoStartAdapter;
 import edu.wkd.towave.memorycleaner.adapter.base.BaseRecyclerViewAdapter;
 import edu.wkd.towave.memorycleaner.injector.ContextLifeCycle;
 import edu.wkd.towave.memorycleaner.model.AppInfo;
+import edu.wkd.towave.memorycleaner.model.AppProcessInfo;
 import edu.wkd.towave.memorycleaner.model.AutoStartInfo;
 import edu.wkd.towave.memorycleaner.mvp.presenters.Presenter;
 import edu.wkd.towave.memorycleaner.mvp.views.View;
 import edu.wkd.towave.memorycleaner.mvp.views.impl.fragment.AppsView;
 import edu.wkd.towave.memorycleaner.mvp.views.impl.fragment.AutoStartView;
+import edu.wkd.towave.memorycleaner.tools.ObservableUtils;
+import edu.wkd.towave.memorycleaner.tools.RootUtil;
 import edu.wkd.towave.memorycleaner.tools.TextFormater;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import javax.inject.Inject;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2016/5/5.
@@ -46,16 +51,17 @@ public class AutoStartPresenter
     private int position = 0; // 0:应用软件，2 系统软件
     AutoStartAdapter recyclerAdapter;
 
-    List<AutoStartInfo> isSystemAuto = new ArrayList<>();
-    List<AutoStartInfo> noSystemAuto = new ArrayList<>();
-    private int canDisableCom;
+    ArrayList<AutoStartInfo> isSystemAuto = new ArrayList<>();
+    ArrayList<AutoStartInfo> noSystemAuto = new ArrayList<>();
 
-    //TaskScanApps mTaskScanApps;
+    ObservableUtils mObservableUtils;
 
 
     @Inject
-    public AutoStartPresenter(@ContextLifeCycle("Activity") Context context) {
+    public AutoStartPresenter(@ContextLifeCycle("Activity")
+                              Context context, ObservableUtils observableUtils) {
         this.mContext = context;
+        this.mObservableUtils = observableUtils;
     }
 
 
@@ -72,24 +78,42 @@ public class AutoStartPresenter
         initView();
         loadData();
     }
-    //public boolean onOptionsItemSelected(int id) {
-    //    switch (id) {
-    //        //case R.id.setting:
-    //        //    startSettingActivity();
-    //        //    return true;
-    //        case R.id.refresh:
-    //            if (mAppsView.isRefreshing()) {
-    //                return true;
-    //            }
-    //            mAppsView.startRefresh();
-    //            onRefresh();
-    //            return true;
-    //        //case R.id.about:
-    //        //    startAboutActivity();
-    //        //    return true;
-    //    }
-    //    return false;
-    //}
+
+
+    public void disableApps() {
+        boolean flag = true;
+        for (AutoStartInfo auto : noSystemAuto) {
+            if (auto.isEnable()) {
+                flag = false;
+                break;
+            }
+        }
+        if (flag) {
+            mAutoStartView.showSnackbar("没有自启应用需要优化");
+            return;
+        }
+        mObservableUtils.disableApps(mContext, noSystemAuto)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe((v) -> {
+                            if (!v) {
+                                mAutoStartView.showSnackbar(
+                                        "该功能需要获取系统root权限，请允许获取root权限");
+                                return;
+                            }
+                            int count = 0;
+                            for (AutoStartInfo auto : noSystemAuto) {
+                                if (auto.isEnable()) {
+                                    auto.setEnable(false);
+                                    count++;
+                                }
+                            }
+                            recyclerAdapter.notifyDataSetChanged();
+                            mAutoStartView.showSnackbar(count + "款应用已全部禁止");
+                        }, (e) -> {
+                            e.printStackTrace();
+                        });
+    }
 
 
     public void initView() {
@@ -135,10 +159,47 @@ public class AutoStartPresenter
                         builder.create().show();
                     }
                 });
+
+        recyclerAdapter.setOnInViewClickListener(R.id.is_clean,
+                new BaseRecyclerViewAdapter.onInternalClickListenerImpl<AutoStartInfo>() {
+                    @Override
+                    public void OnClickListener(android.view.View parentV, android.view.View v, Integer position, AutoStartInfo values) {
+                        super.OnClickListener(parentV, v, position, values);
+                        enableApp(values);
+                    }
+                });
         recyclerAdapter.setFirstOnly(false);
         recyclerAdapter.setDuration(300);
 
         mAutoStartView.initViews(recyclerAdapter, mContext);
+    }
+
+
+    public void enableApp(AutoStartInfo autoStartInfo) {
+        mObservableUtils.enableApp(mContext, autoStartInfo)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe((v) -> {
+                            if (!v) {
+                                String msg = !autoStartInfo.isEnable()
+                                             ? "开启失败"
+                                             : "禁止失败";
+                                mAutoStartView.showSnackbar(
+                                        autoStartInfo.getLabel() + msg);
+                                return;
+                            }
+
+                            autoStartInfo.setEnable(
+                                    autoStartInfo.isEnable() ? false : true);
+                            recyclerAdapter.update(autoStartInfo);
+                            String msg = autoStartInfo.isEnable()
+                                         ? "已开启"
+                                         : "已禁止";
+                            mAutoStartView.showSnackbar(
+                                    autoStartInfo.getLabel() + msg);
+                        }, (e) -> {
+                            e.printStackTrace();
+                        });
     }
 
 
@@ -277,6 +338,9 @@ public class AutoStartPresenter
                 mAutoStartView.enableSwipeRefreshLayout(false);
                 mAutoStartView.startRefresh();
                 mAutoStartView.onPreExecute();
+                if (position == 0) {
+                    mAutoStartView.setFabVisible(false);
+                }
             } catch (Exception e) {
 
             }
@@ -299,6 +363,9 @@ public class AutoStartPresenter
                     else {
                         noSystemAuto.add(a);
                     }
+                }
+                if (position == 0) {
+                    mAutoStartView.setFabVisible(true);
                 }
                 recyclerAdapter.notifyDataSetChanged();
                 mAutoStartView.onPostExecute(recyclerAdapter);
@@ -324,7 +391,7 @@ public class AutoStartPresenter
 
     @Override public void onDestroy() {
         //if(mAutoStartView.isRefreshing()){
-            //mTaskScanApps.cancel(true);
+        //mTaskScanApps.cancel(true);
         //}
     }
 
@@ -336,6 +403,6 @@ public class AutoStartPresenter
 
     public void loadData() {
         //mTaskScanApps.cancel(true);
-       new TaskScanApps().execute();
+        new TaskScanApps().execute();
     }
 }

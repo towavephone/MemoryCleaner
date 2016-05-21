@@ -32,6 +32,7 @@ import edu.wkd.towave.memorycleaner.injector.module.ActivityModule;
 import edu.wkd.towave.memorycleaner.mvp.presenters.impl.activity.MemoryCleanPresenter;
 import edu.wkd.towave.memorycleaner.mvp.views.impl.activity.MemoryCleanView;
 import edu.wkd.towave.memorycleaner.tools.AppUtils;
+import edu.wkd.towave.memorycleaner.tools.SnackbarUtils;
 import edu.wkd.towave.memorycleaner.tools.TextFormater;
 import edu.wkd.towave.memorycleaner.ui.activity.base.BaseActivity;
 import java.math.BigDecimal;
@@ -114,6 +115,7 @@ public class MemoryClean extends BaseActivity implements MemoryCleanView {
 
 
     @Override public void onScanStarted(Context context) {
+        mFloatingActionButton.setVisibility(View.GONE);
         mCollapsingToolbarLayout.setTitle(
                 "0M 0%-->" + AppUtils.getPercent(context) + "%");
         mWaveView.setProgress(0);
@@ -144,6 +146,7 @@ public class MemoryClean extends BaseActivity implements MemoryCleanView {
 
 
     @Override public void onScanCompleted() {
+        mFloatingActionButton.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.GONE);
         mTextView.setVisibility(View.GONE);
     }
@@ -186,6 +189,11 @@ public class MemoryClean extends BaseActivity implements MemoryCleanView {
 
     @Override public void enableSwipeRefreshLayout(boolean enable) {
         mSwipeRefreshLayout.setEnabled(enable);
+    }
+
+
+    @Override public void showSnackBar(String message) {
+        SnackbarUtils.show(mFloatingActionButton, message);
     }
 
 
