@@ -50,7 +50,12 @@ public class ProcessItemViewHolder extends RecyclerView.ViewHolder {
     }
 
 
-    public void setVisible(boolean visible) {
+    public void setCheckBoxVisible(boolean visible) {
         mCheckBox.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
+    }
+
+
+    public void setMemoryVisible(boolean visible) {
+        mTextView2.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
     }
 }

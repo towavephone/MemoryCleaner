@@ -5,6 +5,7 @@ import dagger.Component;
 import edu.wkd.towave.memorycleaner.injector.Activity;
 import edu.wkd.towave.memorycleaner.injector.ContextLifeCycle;
 import edu.wkd.towave.memorycleaner.injector.module.ActivityModule;
+import edu.wkd.towave.memorycleaner.ui.activity.AutoStartManage;
 import edu.wkd.towave.memorycleaner.ui.activity.MainActivity;
 import edu.wkd.towave.memorycleaner.ui.activity.AppManage;
 import edu.wkd.towave.memorycleaner.ui.activity.MemoryClean;
@@ -20,6 +21,8 @@ public interface ActivityComponent {
     void inject(MemoryClean memoryClean);
 
     void inject(RubbishClean rubbishClean);
+
+    void inject(AutoStartManage autoStartManage);
 
     android.app.Activity activity();
 

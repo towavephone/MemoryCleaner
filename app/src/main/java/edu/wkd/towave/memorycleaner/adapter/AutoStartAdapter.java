@@ -10,24 +10,23 @@ import android.view.ViewGroup;
 import edu.wkd.towave.memorycleaner.R;
 import edu.wkd.towave.memorycleaner.adapter.base.BaseRecyclerViewAdapter;
 import edu.wkd.towave.memorycleaner.model.AppInfo;
-import edu.wkd.towave.memorycleaner.model.CacheListItem;
+import edu.wkd.towave.memorycleaner.model.AutoStartInfo;
 import edu.wkd.towave.memorycleaner.tools.StorageUtil;
-import edu.wkd.towave.memorycleaner.tools.TextFormater;
 import java.util.List;
 
 /**
  * Created by towave on 2016/5/21.
  */
-public class AppsListAdapter extends BaseRecyclerViewAdapter<AppInfo> {
+public class AutoStartAdapter extends BaseRecyclerViewAdapter<AutoStartInfo> {
     private Context mContext;
 
 
-    public AppsListAdapter(List<AppInfo> list) {
+    public AutoStartAdapter(List<AutoStartInfo> list) {
         super(list);
     }
 
 
-    public AppsListAdapter(List<AppInfo> list, Context context) {
+    public AutoStartAdapter(List<AutoStartInfo> list, Context context) {
         super(list, context);
     }
 
@@ -46,13 +45,12 @@ public class AppsListAdapter extends BaseRecyclerViewAdapter<AppInfo> {
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         super.onBindViewHolder(viewHolder, position);
         ProcessItemViewHolder holder = (ProcessItemViewHolder) viewHolder;
-        AppInfo appInfo = list.get(position);
-        if (appInfo == null) return;
-        holder.setIcon(appInfo.getAppIcon());
-        holder.setName(appInfo.getAppName());
-        holder.setMemory(
-                StorageUtil.convertStorage(appInfo.getPkgSize()));
-        holder.setCheckBoxVisible(false);
+        AutoStartInfo autoStartInfo = list.get(position);
+        if (autoStartInfo == null) return;
+        holder.setIcon(autoStartInfo.getIcon());
+        holder.setName(autoStartInfo.getLabel());
+        holder.setChecked(autoStartInfo.isEnable());
+        holder.setMemoryVisible(false);
         animate(viewHolder, position);
     }
 

@@ -17,25 +17,18 @@ import android.support.v7.app.AlertDialog;
 import android.widget.RelativeLayout;
 import edu.wkd.towave.memorycleaner.R;
 import edu.wkd.towave.memorycleaner.adapter.AppsListAdapter;
-import edu.wkd.towave.memorycleaner.adapter.CacheListAdapter;
 import edu.wkd.towave.memorycleaner.adapter.base.BaseRecyclerViewAdapter;
 import edu.wkd.towave.memorycleaner.injector.ContextLifeCycle;
 import edu.wkd.towave.memorycleaner.model.AppInfo;
 import edu.wkd.towave.memorycleaner.mvp.presenters.Presenter;
 import edu.wkd.towave.memorycleaner.mvp.views.View;
 import edu.wkd.towave.memorycleaner.mvp.views.impl.fragment.AppsView;
-import edu.wkd.towave.memorycleaner.tools.L;
 import edu.wkd.towave.memorycleaner.tools.TextFormater;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import javax.inject.Inject;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-import rx.subjects.PublishSubject;
 
 /**
  * Created by Administrator on 2016/5/5.
@@ -53,7 +46,7 @@ public class AppsPresenter
 
     private Method mGetPackageSizeInfoMethod;
 
-    private TaskScanApps mTaskScanApps;
+    //private TaskScanApps mTaskScanApps;
 
 
     @Inject
@@ -78,7 +71,7 @@ public class AppsPresenter
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
-        mTaskScanApps = new TaskScanApps();
+        //mTaskScanApps = new TaskScanApps();
         //mAppsView.initViews(mAppsListAdapter,mContext,);
     }
 
@@ -321,6 +314,7 @@ public class AppsPresenter
                 }
                 mAppsView.stopRefresh();
                 mAppsView.enableSwipeRefreshLayout(true);
+                //mTaskScanApps.cancel(true);
             } catch (Exception e) {
 
             }
@@ -339,7 +333,9 @@ public class AppsPresenter
 
 
     @Override public void onDestroy() {
-        mTaskScanApps.cancel(true);
+        //if(mAppsView.isRefreshing()){
+        //    mTaskScanApps.cancel(true);
+        //}
     }
 
 
@@ -349,6 +345,7 @@ public class AppsPresenter
 
 
     public void loadData() {
-        mTaskScanApps.execute();
+        //mTaskScanApps.cancel(true);
+        new TaskScanApps().execute();
     }
 }

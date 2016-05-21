@@ -51,7 +51,7 @@ public class CacheListAdapter extends BaseRecyclerViewAdapter<CacheListItem> {
         holder.setName(cacheListItem.getApplicationName());
         holder.setMemory(
                 TextFormater.dataSizeFormat(cacheListItem.getCacheSize()));
-        holder.setVisible(false);
+        holder.setCheckBoxVisible(false);
         animate(viewHolder, position);
     }
 

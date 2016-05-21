@@ -17,6 +17,7 @@ import edu.wkd.towave.memorycleaner.mvp.views.impl.fragment.CircularLoaderView;
 import edu.wkd.towave.memorycleaner.tools.AppUtils;
 import edu.wkd.towave.memorycleaner.tools.T;
 import edu.wkd.towave.memorycleaner.ui.activity.AppManage;
+import edu.wkd.towave.memorycleaner.ui.activity.AutoStartManage;
 import edu.wkd.towave.memorycleaner.ui.activity.MemoryClean;
 import edu.wkd.towave.memorycleaner.ui.activity.RubbishClean;
 import edu.wkd.towave.memorycleaner.ui.fragment.CircularLoader;
@@ -106,7 +107,8 @@ public class CircularLoaderPresenter implements Presenter {
                         new Intent(mContext, RubbishClean.class));
                 break;
             case 2:
-
+                mContext.startActivity(
+                        new Intent(mContext, AutoStartManage.class));
                 break;
             case 3:
                 mContext.startActivity(new Intent(mContext, AppManage.class));

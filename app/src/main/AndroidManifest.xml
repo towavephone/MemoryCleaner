@@ -31,6 +31,9 @@
         <activity
             android:name=".ui.activity.RubbishClean"
             android:label="垃圾清理"></activity>
+        <activity
+            android:name=".ui.activity.AutoStartManage"
+            android:label="自启管理"></activity>
 
         <service
             android:name=".service.CleanerService"
