@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 import android.widget.PopupMenu;
+import com.squareup.leakcanary.RefWatcher;
+import edu.wkd.towave.memorycleaner.App;
 import edu.wkd.towave.memorycleaner.R;
 import edu.wkd.towave.memorycleaner.adapter.base.BaseFragmentPageAdapter;
 import edu.wkd.towave.memorycleaner.injector.ContextLifeCycle;
@@ -81,6 +83,8 @@ public class MainPresenter implements Presenter {
 
     @Override public void onDestroy() {
         //EventBus.getDefault().unregister(this);
+        RefWatcher refWatcher = App.getRefWatcher(mContext);
+        refWatcher.watch(this);
     }
 
 

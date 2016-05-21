@@ -61,4 +61,10 @@ public class LineChart extends BaseFragment implements LineChartView {
         mTextView.setText(percent + "%");
         mLineChartView.setLineChartData(updatedData);
     }
+
+
+    @Override public void onDestroy() {
+        mLineChartPresenter.onDestroy();
+        super.onDestroy();
+    }
 }

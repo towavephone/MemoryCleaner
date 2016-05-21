@@ -39,6 +39,7 @@ public abstract class BaseFragment extends Fragment
         return view;
     }
 
+
     protected void initializeDependencyInjector() {
         mBuilder = DaggerFragmentComponent.builder()
                                           .fragmentModule(new FragmentModule())
@@ -51,7 +52,7 @@ public abstract class BaseFragment extends Fragment
     //在Fragment绑定中，对Fragment中的Activity成员变量进行初始化，防止每次调用getActivity造成性能损失。
     @Override public void onAttach(Activity activity) {
         super.onAttach(activity);
-        if (getActivity() != null && getActivity() instanceof MainActivity) {
+        if (getActivity() != null) {
             this.activity = (BaseActivity) getActivity();
         }
     }

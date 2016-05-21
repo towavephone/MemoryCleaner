@@ -37,6 +37,7 @@ public class CircularLoaderPresenter implements Presenter {
     private float percent;
     private static final int IS_NORMAL = 101;
     private MenuListAdapter recyclerAdapter;
+    private Timer mTimer;
 
 
     @Inject
@@ -101,7 +102,8 @@ public class CircularLoaderPresenter implements Presenter {
                 mContext.startActivity(new Intent(mContext, MemoryClean.class));
                 break;
             case 1:
-                mContext.startActivity(new Intent(mContext, RubbishClean.class));
+                mContext.startActivity(
+                        new Intent(mContext, RubbishClean.class));
                 break;
             case 2:
 
@@ -131,7 +133,8 @@ public class CircularLoaderPresenter implements Presenter {
 
 
     public void setTimeTask() {
-        new Timer().schedule(new TimerTask() {
+        mTimer = new Timer();
+        mTimer.schedule(new TimerTask() {
             @Override public void run() {
                 Message msg = Message.obtain();
                 try {
@@ -171,6 +174,6 @@ public class CircularLoaderPresenter implements Presenter {
 
 
     @Override public void onDestroy() {
-
+        mTimer.cancel();
     }
 }

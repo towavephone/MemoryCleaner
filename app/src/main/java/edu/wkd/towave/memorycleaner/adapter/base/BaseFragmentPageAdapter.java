@@ -1,8 +1,11 @@
 package edu.wkd.towave.memorycleaner.adapter.base;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import edu.wkd.towave.memorycleaner.ui.fragment.AppsFragment;
+import edu.wkd.towave.memorycleaner.ui.fragment.base.BaseFragment;
 import java.util.ArrayList;
 
 /**
@@ -27,7 +30,7 @@ public class BaseFragmentPageAdapter extends FragmentPagerAdapter {
         //// TODO Auto-generated constructor stub
         //this.items = items;
         //this.fm = fm;
-        this(fm,items);
+        this(fm, items);
         this.titleList = titleList;
     }
 

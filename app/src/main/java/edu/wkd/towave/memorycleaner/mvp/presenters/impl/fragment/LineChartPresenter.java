@@ -37,7 +37,7 @@ public class LineChartPresenter implements Presenter {
     private List<AxisValue> mAxisValues;
 
     public final static int MAX_COUNT = 60;
-
+    Timer mTimer;
     int count;
 
 
@@ -104,7 +104,7 @@ public class LineChartPresenter implements Presenter {
 
         // 默认是3，只能看最后三个数字
         updatedData.setAxisYLeft(axisY);
-        mLineChart.updateViews(percent,updatedData);
+        mLineChart.updateViews(percent, updatedData);
         // 设置行为属性，支持缩放、滑动以及平移
         //final Viewport v = new Viewport(mLineChartView.getMaximumViewport());
         ////v.top =v.top+10; //example max value
@@ -129,7 +129,8 @@ public class LineChartPresenter implements Presenter {
 
 
     private void setTimeTask() {
-        new Timer().schedule(new TimerTask() {
+        mTimer = new Timer();
+        mTimer.schedule(new TimerTask() {
             @Override public void run() {
                 Message msg = Message.obtain();
                 try {
@@ -167,7 +168,7 @@ public class LineChartPresenter implements Presenter {
 
 
     @Override public void onDestroy() {
-
+        mTimer.cancel();
     }
 
 

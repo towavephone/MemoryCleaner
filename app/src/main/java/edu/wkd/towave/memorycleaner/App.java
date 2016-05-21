@@ -1,7 +1,10 @@
 package edu.wkd.towave.memorycleaner;
 
 import android.app.Application;
+import android.content.Context;
 import com.facebook.stetho.Stetho;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 import edu.wkd.towave.memorycleaner.injector.component.AppComponent;
 import edu.wkd.towave.memorycleaner.injector.component.DaggerAppComponent;
 import edu.wkd.towave.memorycleaner.injector.module.AppModule;
@@ -18,6 +21,16 @@ public class App extends Application {
         super.onCreate();
         initializeInjector();
         initializeStetho();
+        initializeLeakCanary();
+    }
+
+
+    private RefWatcher refWatcher;
+
+
+    public static RefWatcher getRefWatcher(Context context) {
+        App application = (App) context.getApplicationContext();
+        return application.refWatcher;
     }
 
 
@@ -28,6 +41,11 @@ public class App extends Application {
 
     @Override public void onLowMemory() {
         super.onLowMemory();
+    }
+
+
+    public void initializeLeakCanary() {
+        refWatcher = LeakCanary.install(this);
     }
 
 

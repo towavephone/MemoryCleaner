@@ -81,4 +81,10 @@ public class CircularLoader extends BaseFragment implements CircularLoaderView {
                         TextFormater.dataSizeFormat(sum));
         mCircularFillableLoaders.setProgress((int) (100 - percent));
     }
+
+
+    @Override public void onDestroy() {
+        mCircularLoaderPresenter.onDestroy();
+        super.onDestroy();
+    }
 }

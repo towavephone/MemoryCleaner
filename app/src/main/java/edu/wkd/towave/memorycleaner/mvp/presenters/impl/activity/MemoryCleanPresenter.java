@@ -16,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import com.squareup.leakcanary.RefWatcher;
 import edu.wkd.towave.memorycleaner.App;
 import edu.wkd.towave.memorycleaner.R;
 import edu.wkd.towave.memorycleaner.adapter.ProcessListAdapter;
@@ -225,6 +226,8 @@ public class MemoryCleanPresenter implements Presenter,
 
     @Override public void onDestroy() {
         mContext.unbindService(mServiceConnection);
+        RefWatcher refWatcher = App.getRefWatcher(mContext);
+        refWatcher.watch(this);
     }
 
 

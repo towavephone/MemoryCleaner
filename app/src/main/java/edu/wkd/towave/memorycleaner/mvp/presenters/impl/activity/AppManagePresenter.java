@@ -3,14 +3,13 @@ package edu.wkd.towave.memorycleaner.mvp.presenters.impl.activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import edu.wkd.towave.memorycleaner.adapter.base.BaseFragmentPageAdapter;
+import com.squareup.leakcanary.RefWatcher;
+import edu.wkd.towave.memorycleaner.App;
 import edu.wkd.towave.memorycleaner.injector.ContextLifeCycle;
 import edu.wkd.towave.memorycleaner.mvp.presenters.Presenter;
 import edu.wkd.towave.memorycleaner.mvp.views.View;
 import edu.wkd.towave.memorycleaner.mvp.views.impl.activity.AppManageView;
-import edu.wkd.towave.memorycleaner.ui.activity.AppManage;
-import edu.wkd.towave.memorycleaner.ui.fragment.SystemApps;
-import edu.wkd.towave.memorycleaner.ui.fragment.UserApps;
+import edu.wkd.towave.memorycleaner.ui.fragment.AppsFragment;
 import java.util.ArrayList;
 import javax.inject.Inject;
 
@@ -37,9 +36,14 @@ public class AppManagePresenter implements Presenter {
 
     public void initViews() {
         items = new ArrayList<>();
-        items.add(new UserApps());
-        items.add(new SystemApps());
 
+        for (int i = 0; i < 2; i++) {
+            AppsFragment appsFragment = new AppsFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt(AppsFragment.ARG_POSITION, i);
+            appsFragment.setArguments(bundle);
+            items.add(appsFragment);
+        }
         titles = new ArrayList<>();
         titles.add("用户软件");
         titles.add("系统软件");
@@ -68,7 +72,8 @@ public class AppManagePresenter implements Presenter {
 
 
     @Override public void onDestroy() {
-
+        RefWatcher refWatcher = App.getRefWatcher(mContext);
+        refWatcher.watch(this);
     }
 
 
