@@ -3,26 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="edu.wkd.towave.memorycleaner.ui.activity.MemoryClean">
     <item
-        android:id="@+id/sort"
-        android:title="排序"
-        android:icon="@drawable/ic_sort_white_24dp"
-        app:showAsAction="always"/>
-
-    <item
-        android:id="@+id/allcheck"
-        android:title="全选"
-        android:icon="@drawable/ic_done_white_18dp"
-        app:showAsAction="always"/>
-
-    <item
         android:id="@+id/refresh"
         android:icon="@drawable/ic_refresh_white_24dp"
         android:title="刷新"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"
+        android:orderInCategory="1"/>
+    <item
+        android:id="@+id/allcheck"
+        android:title="全选"
+        app:showAsAction="always"
+        app:actionLayout="@layout/menu_action_item_badge"
+        android:orderInCategory="2"/>
     <item
         android:id="@+id/action_settings"
         android:title="更多"
-        android:orderInCategory="100"
-        app:showAsAction="never"/>
+        app:showAsAction="never"
+        android:orderInCategory="3"/>
 
 </menu>

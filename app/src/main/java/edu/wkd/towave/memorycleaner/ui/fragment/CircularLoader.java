@@ -74,8 +74,8 @@ public class CircularLoader extends BaseFragment implements CircularLoaderView {
     @Override
     public void updateViews(long sum, long available, float percent) {
         mTextView.setText(percent + "%");
-        L.d(""+(sum - available));
-        L.d(""+sum);
+        //L.d(""+(sum - available));
+        //L.d(""+sum);
         mTextView2.setText(
                 "已用:" + TextFormater.dataSizeFormat(sum - available) + "/" +
                         TextFormater.dataSizeFormat(sum));

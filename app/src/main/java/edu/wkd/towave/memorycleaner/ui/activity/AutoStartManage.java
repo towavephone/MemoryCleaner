@@ -74,14 +74,6 @@ public class AutoStartManage extends BaseActivity implements AutoStartManageView
         mTabs.setupWithViewPager(mContainer);
     }
 
-
-    //@Override public boolean onCreateOptionsMenu(Menu menu) {
-    //    // Inflate the menu; this adds items to the action bar if it is present.
-    //    getMenuInflater().inflate(R.menu.menu_memory_clean, menu);
-    //    return true;
-    //}
-
-
     @Override protected int getLayoutView() {
         return R.layout.activity_app_manage;
     }

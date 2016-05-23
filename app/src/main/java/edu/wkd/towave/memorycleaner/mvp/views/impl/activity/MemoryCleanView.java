@@ -30,4 +30,6 @@ public interface MemoryCleanView extends View {
     void enableSwipeRefreshLayout(boolean enable);
 
     void showSnackBar(String message);
+
+    void updateBadge(int count);
 }

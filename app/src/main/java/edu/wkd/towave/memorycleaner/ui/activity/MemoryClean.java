@@ -14,6 +14,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -23,6 +24,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.john.waveview.WaveView;
+import com.mikepenz.actionitembadge.library.ActionItemBadge;
+import com.mikepenz.actionitembadge.library.ActionItemBadgeAdder;
+import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
 import edu.wkd.towave.memorycleaner.App;
 import edu.wkd.towave.memorycleaner.R;
@@ -36,6 +40,7 @@ import edu.wkd.towave.memorycleaner.tools.SnackbarUtils;
 import edu.wkd.towave.memorycleaner.tools.TextFormater;
 import edu.wkd.towave.memorycleaner.ui.activity.base.BaseActivity;
 import java.math.BigDecimal;
+import java.security.acl.Group;
 import javax.inject.Inject;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
@@ -50,6 +55,9 @@ public class MemoryClean extends BaseActivity implements MemoryCleanView {
     @Bind(R.id.clean_memory) FloatingActionButton mFloatingActionButton;
     @Bind(R.id.refresher) SwipeRefreshLayout mSwipeRefreshLayout;
     @Inject MemoryCleanPresenter mMemoryCleanPresenter;
+    public static final int BASE_ID = 0;
+    public static final int GROUP_ID = 100;
+    MenuItem mMenuItem;
 
 
     @Override protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +104,18 @@ public class MemoryClean extends BaseActivity implements MemoryCleanView {
     @Override public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_memory_clean, menu);
+        SubMenu subMenu = menu.addSubMenu(GROUP_ID, BASE_ID, 0, "排序");
+        subMenu.setIcon(R.drawable.ic_sort_white_24dp);
+        subMenu.add(GROUP_ID + 1, BASE_ID + 1, 0, "应用名");
+        subMenu.add(GROUP_ID + 1, BASE_ID + 2, 1, "大小");
+        subMenu.add(GROUP_ID + 1, BASE_ID + 3, 2, "选中");
+        subMenu.add(GROUP_ID + 2, BASE_ID + 4, 3, "降序")
+               .setCheckable(true)
+               .setChecked(true);
+        subMenu.setGroupCheckable(GROUP_ID + 1, true, true);
+        mMenuItem = menu.findItem(R.id.allcheck);
+        ActionItemBadge.update(this, mMenuItem, FontAwesome.Icon.faw_check,
+                ActionItemBadge.BadgeStyles.DARK_GREY, 8);
         return true;
     }
 
@@ -140,6 +160,7 @@ public class MemoryClean extends BaseActivity implements MemoryCleanView {
         mWaveView.setProgress((int) scanMemoryPercent);
         mTextView.setText("正在扫描:" + current + "/" + max + " 进程名:" +
                 processName);
+        updateBadge(current);
         float percent = (int) (1.0 * current / max * 100);
         mProgressBar.setProgress((int) percent);
     }
@@ -197,8 +218,13 @@ public class MemoryClean extends BaseActivity implements MemoryCleanView {
     }
 
 
+    @Override public void updateBadge(int count) {
+        ActionItemBadge.update(mMenuItem, count);
+    }
+
+
     @Override public boolean onOptionsItemSelected(MenuItem item) {
-        if (mMemoryCleanPresenter.onOptionsItemSelected(item.getItemId())) {
+        if (mMemoryCleanPresenter.onOptionsItemSelected(item)) {
             return true;
         }
         return super.onOptionsItemSelected(item);

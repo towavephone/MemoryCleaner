@@ -12,7 +12,10 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.RelativeLayout;
+import com.mikepenz.actionitembadge.library.ActionItemBadge;
 import com.squareup.leakcanary.RefWatcher;
 import edu.wkd.towave.memorycleaner.App;
 import edu.wkd.towave.memorycleaner.R;
@@ -27,6 +30,7 @@ import edu.wkd.towave.memorycleaner.service.CoreService;
 import edu.wkd.towave.memorycleaner.tools.TextFormater;
 import edu.wkd.towave.memorycleaner.ui.activity.MemoryClean;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
 
@@ -41,6 +45,7 @@ public class MemoryCleanPresenter implements Presenter,
     final Context mContext;
     List<AppProcessInfo> mAppProcessInfos = new ArrayList<>();
     ProcessListAdapter recyclerAdapter;
+    boolean isdesc = true;
 
 
     @Inject
@@ -128,6 +133,13 @@ public class MemoryCleanPresenter implements Presenter,
                         else {
                             values.checked = true;
                         }
+                        int check_count=0;
+                        for(AppProcessInfo appProcessInfo:mAppProcessInfos){
+                            if(appProcessInfo.checked){
+                                check_count++;
+                            }
+                        }
+                        mMemoryClean.updateBadge(check_count);
                         recyclerAdapter.update(values);
                     }
                 });
@@ -197,21 +209,101 @@ public class MemoryCleanPresenter implements Presenter,
     }
 
 
-    public boolean onOptionsItemSelected(int id) {
-        switch (id) {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (mMemoryClean.isRefreshing()) {
+            return true;
+        }
+        switch (item.getItemId()) {
             //case R.id.setting:
             //    startSettingActivity();
             //    return true;
             case R.id.refresh:
-                if (mMemoryClean.isRefreshing()) {
-                    return true;
-                }
                 mMemoryClean.startRefresh();
                 onRefresh();
                 return true;
-            //case R.id.about:
-            //    startAboutActivity();
-            //    return true;
+            case R.id.allcheck:
+                boolean flag = true;
+                for (AppProcessInfo appProcessInfo : mAppProcessInfos) {
+                    if (appProcessInfo.checked) {
+                        flag = false;
+                        break;
+                    }
+                }
+                if (flag) {
+                    for (AppProcessInfo appProcessInfo : mAppProcessInfos) {
+                        appProcessInfo.checked = true;
+                    }
+                    ActionItemBadge.update(item, mAppProcessInfos.size());
+                }
+                else {
+                    for (AppProcessInfo appProcessInfo : mAppProcessInfos) {
+                        appProcessInfo.checked = false;
+                    }
+                    ActionItemBadge.update(item, 0);
+                }
+                //mMemoryClean.invalidateOptions();
+                recyclerAdapter.notifyDataSetChanged();
+                break;
+            case MemoryClean.BASE_ID + 1:
+                if (item.isChecked()) return true;
+                if (isdesc) {
+                    Collections.sort(mAppProcessInfos,
+                            (v2, v1) -> v1.appName.compareTo(v2.appName));
+                }
+                else {
+                    Collections.sort(mAppProcessInfos,
+                            (v1, v2) -> v1.appName.compareTo(v2.appName));
+                }
+                recyclerAdapter.notifyDataSetChanged();
+                item.setChecked(true);
+                break;
+            case MemoryClean.BASE_ID + 2:
+                if (item.isChecked()) return true;
+                if (isdesc) {
+                    Collections.sort(mAppProcessInfos,
+                            (v2, v1) -> (int) (v1.memory - v2.memory));
+                }
+                else {
+                    Collections.sort(mAppProcessInfos,
+                            (v1, v2) -> (int) (v1.memory - v2.memory));
+                }
+                recyclerAdapter.notifyDataSetChanged();
+                item.setChecked(true);
+                break;
+            case MemoryClean.BASE_ID + 3:
+                if (item.isChecked()) return true;
+                if (isdesc) {
+                    Collections.sort(mAppProcessInfos, (v2, v1) -> {
+                        if (v1.checked == v2.checked) {
+                            return 0;
+                        }
+                        else if (v1.checked) {
+                            return 1;
+                        }
+                        else {
+                            return -1;
+                        }
+                    });
+                }
+                else {
+                    Collections.sort(mAppProcessInfos, (v1, v2) -> {
+                        if (v1.checked == v2.checked) {
+                            return 0;
+                        }
+                        else if (v1.checked) {
+                            return 1;
+                        }
+                        else {
+                            return -1;
+                        }
+                    });
+                }
+                recyclerAdapter.notifyDataSetChanged();
+                item.setChecked(true);
+                break;
+            case MemoryClean.BASE_ID + 4:
+                isdesc = !item.isChecked();
+                item.setChecked(isdesc);
         }
         return false;
     }

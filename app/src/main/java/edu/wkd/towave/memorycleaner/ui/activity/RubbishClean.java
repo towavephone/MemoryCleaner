@@ -87,13 +87,6 @@ public class RubbishClean extends BaseActivity implements RubbishCleanView {
     }
 
 
-    @Override public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_memory_clean, menu);
-        return true;
-    }
-
-
     @Override
     public void initViews(CacheListAdapter recyclerAdapter, Context context, ItemTouchHelper itemTouchHelper) {
         recyclerView.setLayoutManager(
