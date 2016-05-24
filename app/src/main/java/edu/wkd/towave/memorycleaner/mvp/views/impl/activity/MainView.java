@@ -7,9 +7,14 @@ import java.util.ArrayList;
 /**
  * Created by Administrator on 2016/5/4.
  */
-public interface MainView extends View{
+public interface MainView extends View {
     void initToolbar();
+
     void initDrawerView();
+
     void initViewPager(ArrayList<Fragment> items);
+
     void showSnackbar();
+
+    void reCreate();
 }

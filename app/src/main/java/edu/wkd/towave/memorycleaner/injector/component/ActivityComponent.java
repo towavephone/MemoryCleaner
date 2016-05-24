@@ -10,11 +10,14 @@ import edu.wkd.towave.memorycleaner.ui.activity.MainActivity;
 import edu.wkd.towave.memorycleaner.ui.activity.AppManage;
 import edu.wkd.towave.memorycleaner.ui.activity.MemoryClean;
 import edu.wkd.towave.memorycleaner.ui.activity.RubbishClean;
+import edu.wkd.towave.memorycleaner.ui.activity.SettingActivity;
 
 @Activity @Component(dependencies = AppComponent.class,
                      modules = { ActivityModule.class })
 public interface ActivityComponent {
     void inject(MainActivity activity);
+
+    void inject(SettingActivity activity);
 
     void inject(AppManage activity);
 

@@ -101,6 +101,11 @@ public class MainActivity extends BaseActivity
     }
 
 
+    @Override public void reCreate() {
+        super.recreate();
+    }
+
+
     @Override public void onDestroy() {
         mMainPresenter.onDestroy();
         super.onDestroy();

@@ -133,13 +133,7 @@ public class MemoryCleanPresenter implements Presenter,
                         else {
                             values.checked = true;
                         }
-                        int check_count=0;
-                        for(AppProcessInfo appProcessInfo:mAppProcessInfos){
-                            if(appProcessInfo.checked){
-                                check_count++;
-                            }
-                        }
-                        mMemoryClean.updateBadge(check_count);
+                        updateMemoryCount();
                         recyclerAdapter.update(values);
                     }
                 });
@@ -157,15 +151,12 @@ public class MemoryCleanPresenter implements Presenter,
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
-                //recyclerAdapter.remove(position);
-                //T.showShort(mContext, );
                 mMemoryClean.showSnackBar("清理" + TextFormater.dataSizeFormat(
                         mAppProcessInfos.get(position).memory) + "内存");
                 mCoreService.killBackgroundProcesses(
                         mAppProcessInfos.get(position).processName);
-                //mAppProcessInfos.remove(mAppProcessInfos.get(i));
-                //mClearMemoryAdapter.notifyDataSetChanged();
                 recyclerAdapter.remove(position);
+                updateMemoryCount();
             }
 
 
@@ -186,6 +177,20 @@ public class MemoryCleanPresenter implements Presenter,
         mContext.bindService(new Intent(mContext, CoreService.class),
                 mServiceConnection, Context.BIND_AUTO_CREATE);
         mMemoryClean.initViews(recyclerAdapter, mContext, itemTouchHelper);
+    }
+
+
+    void updateMemoryCount() {
+        int check_count = 0;
+        long memory_count = 0;
+        for (AppProcessInfo appProcessInfo : mAppProcessInfos) {
+            if (appProcessInfo.checked) {
+                check_count++;
+                memory_count += appProcessInfo.memory;
+            }
+        }
+        mMemoryClean.updateTitle(mContext, memory_count);
+        mMemoryClean.updateBadge(check_count);
     }
 
 
@@ -233,15 +238,13 @@ public class MemoryCleanPresenter implements Presenter,
                     for (AppProcessInfo appProcessInfo : mAppProcessInfos) {
                         appProcessInfo.checked = true;
                     }
-                    ActionItemBadge.update(item, mAppProcessInfos.size());
                 }
                 else {
                     for (AppProcessInfo appProcessInfo : mAppProcessInfos) {
                         appProcessInfo.checked = false;
                     }
-                    ActionItemBadge.update(item, 0);
                 }
-                //mMemoryClean.invalidateOptions();
+                updateMemoryCount();
                 recyclerAdapter.notifyDataSetChanged();
                 break;
             case MemoryClean.BASE_ID + 1:
@@ -364,8 +367,9 @@ public class MemoryCleanPresenter implements Presenter,
     public void cleanMemory() {
         long killAppmemory = 0;
         for (int i = mAppProcessInfos.size() - 1; i >= 0; i--) {
+            long memory = mAppProcessInfos.get(i).memory;
             if (mAppProcessInfos.get(i).checked) {
-                killAppmemory += mAppProcessInfos.get(i).memory;
+                killAppmemory += memory;
                 mCoreService.killBackgroundProcesses(
                         mAppProcessInfos.get(i).processName);
                 //mAppProcessInfos.remove(mAppProcessInfos.get(i));
@@ -373,6 +377,8 @@ public class MemoryCleanPresenter implements Presenter,
                 recyclerAdapter.remove(mAppProcessInfos.get(i));
             }
         }
+        mMemoryClean.updateBadge(0);
+        mMemoryClean.updateTitle(mContext, 0);
         mMemoryClean.showSnackBar(
                 "共清理" + TextFormater.dataSizeFormat(killAppmemory) + "内存");
     }

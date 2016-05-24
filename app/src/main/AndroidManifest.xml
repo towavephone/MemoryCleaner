@@ -34,7 +34,9 @@
         <activity
             android:name=".ui.activity.AutoStartManage"
             android:label="自启管理"></activity>
-
+        <activity
+            android:name=".ui.activity.SettingActivity"
+            android:label="设置"></activity>
         <service
             android:name=".service.CleanerService"
             android:exported="false"/>

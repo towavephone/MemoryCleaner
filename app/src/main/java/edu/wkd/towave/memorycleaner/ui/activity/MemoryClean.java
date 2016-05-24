@@ -148,19 +148,10 @@ public class MemoryClean extends BaseActivity implements MemoryCleanView {
 
     @Override
     public void onScanProgressUpdated(Context context, int current, int max, long memory, String processName) {
-
-        float scanMemoryPercent = AppUtils.getPercent(memory);
-        mCollapsingToolbarLayout.setTitle(
-                TextFormater.dataSizeFormat(memory) + " " +
-                        scanMemoryPercent + "%-->" +
-                        new BigDecimal(AppUtils.getPercent(context) -
-                                scanMemoryPercent).setScale(2,
-                                BigDecimal.ROUND_HALF_UP).floatValue() +
-                        "%");
-        mWaveView.setProgress((int) scanMemoryPercent);
+        updateTitle(context, memory);
+        updateBadge(current);
         mTextView.setText("正在扫描:" + current + "/" + max + " 进程名:" +
                 processName);
-        updateBadge(current);
         float percent = (int) (1.0 * current / max * 100);
         mProgressBar.setProgress((int) percent);
     }
@@ -220,6 +211,19 @@ public class MemoryClean extends BaseActivity implements MemoryCleanView {
 
     @Override public void updateBadge(int count) {
         ActionItemBadge.update(mMenuItem, count);
+    }
+
+
+    @Override public void updateTitle(Context context, long memory) {
+        float scanMemoryPercent = AppUtils.getPercent(memory);
+        mCollapsingToolbarLayout.setTitle(
+                TextFormater.dataSizeFormat(memory) + " " +
+                        scanMemoryPercent + "%-->" +
+                        new BigDecimal(AppUtils.getPercent(context) -
+                                scanMemoryPercent).setScale(2,
+                                BigDecimal.ROUND_HALF_UP).floatValue() +
+                        "%");
+        mWaveView.setProgress((int) scanMemoryPercent);
     }
 
 

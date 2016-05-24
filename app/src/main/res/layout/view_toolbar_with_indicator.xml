@@ -3,16 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/app_bar_layout"
     android:layout_width="match_parent"
+    android:paddingTop="@dimen/appbar_padding_top"
     android:theme="@style/AppTheme.AppBarOverlay"
-    android:layout_height="wrap_content"
-    app:elevation="3dp">
+    android:layout_height="wrap_content">
 
     <include layout="@layout/view_toolbar"/>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="4dp"
         app:tabIndicatorColor="@color/colorAccent"/>
 
 </android.support.design.widget.AppBarLayout>

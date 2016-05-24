@@ -3,6 +3,7 @@ package edu.wkd.towave.memorycleaner.mvp.presenters.impl.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IntDef;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
@@ -17,11 +18,13 @@ import edu.wkd.towave.memorycleaner.mvp.views.View;
 import edu.wkd.towave.memorycleaner.mvp.views.impl.activity.MainView;
 import edu.wkd.towave.memorycleaner.tools.PreferenceUtils;
 import edu.wkd.towave.memorycleaner.ui.activity.AppManage;
+import edu.wkd.towave.memorycleaner.ui.activity.SettingActivity;
 import edu.wkd.towave.memorycleaner.ui.fragment.CircularLoader;
 import edu.wkd.towave.memorycleaner.ui.fragment.LineChart;
 import java.util.ArrayList;
 import javax.inject.Inject;
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 /**
  * Created by Administrator on 2016/5/4.
@@ -50,7 +53,7 @@ public class MainPresenter implements Presenter {
         mMainView.initToolbar();
         mMainView.initDrawerView();
         initViewPager();
-        //EventBus.getDefault().register(this);
+        EventBus.getDefault().register(this);
     }
 
 
@@ -61,14 +64,55 @@ public class MainPresenter implements Presenter {
         mMainView.initViewPager(items);
     }
 
+    @Subscribe
+    public void onEventMainThread(NotifyEvent event) {
+        switch (event.getType()) {
+            case NotifyEvent.CHANGE_THEME:
+                mMainView.reCreate();
+                break;
+        }
+    }
+
+
+    public static class NotifyEvent<T> {
+        public static final int CHANGE_THEME = 0;
+        public static final int CHANGE_ITEM_LAYOUT = 1;
+        private int type;
+        private T data;
+
+        @IntDef({ CHANGE_THEME, CHANGE_ITEM_LAYOUT }) public @interface Type {}
+
+
+        public @Type int getType() {
+            return type;
+        }
+
+
+        public void setType(@Type int type) {
+            this.type = type;
+        }
+
+
+        public T getData() {
+            return data;
+        }
+
+
+        public void setData(T data) {
+            this.data = data;
+        }
+    }
+
+
     @Override public void onResume() {
 
     }
 
 
     @Override public void onStart() {
-
+        //EventBus.getDefault().register(this);
     }
+
 
 
     @Override public void onPause() {
@@ -77,12 +121,12 @@ public class MainPresenter implements Presenter {
 
 
     @Override public void onStop() {
-
+        //EventBus.getDefault().unregister(this);
     }
 
 
     @Override public void onDestroy() {
-        //EventBus.getDefault().unregister(this);
+        EventBus.getDefault().unregister(this);
         RefWatcher refWatcher = App.getRefWatcher(mContext);
         refWatcher.watch(this);
     }
@@ -92,7 +136,8 @@ public class MainPresenter implements Presenter {
         // Handle navigation view item clicks here.
         switch (id) {
             case R.id.main_content:
-                mContext.startActivity(new Intent(mContext, AppManage.class));
+                mContext.startActivity(
+                        new Intent(mContext, SettingActivity.class));
                 break;
         }
         return true;

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.jenzz.materialpreference.PreferenceCategory android:title="@string/general_settings">
+        <com.jenzz.materialpreference.CheckBoxPreference
+            android:key="@string/show_start_activity_key"
+            android:title="@string/show_start_activity"
+            android:summary="@string/show_start_activity_summary"/>
+        <com.jenzz.materialpreference.Preference
+            android:key="@string/add_shortcut_key"
+            android:title="@string/add_shortcut"/>
+        <com.jenzz.materialpreference.Preference
+            android:key="@string/change_theme_key"
+            android:title="@string/change_theme"/>
+        <com.jenzz.materialpreference.Preference
+            android:key="@string/check_update_key"
+            android:title="@string/check_update"
+            android:summary="@string/check_update_summary"/>
+        <com.jenzz.materialpreference.Preference
+            android:key="@string/github_address_key"
+            android:title="@string/github_address"
+            android:summary="@string/github_address_summary"/>
+        <com.jenzz.materialpreference.Preference
+            android:key="@string/about_key"
+            android:title="@string/about"/>
+
+    </com.jenzz.materialpreference.PreferenceCategory>
+</PreferenceScreen>

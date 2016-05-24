@@ -32,4 +32,6 @@ public interface MemoryCleanView extends View {
     void showSnackBar(String message);
 
     void updateBadge(int count);
+
+    void updateTitle(Context context,long memory);
 }

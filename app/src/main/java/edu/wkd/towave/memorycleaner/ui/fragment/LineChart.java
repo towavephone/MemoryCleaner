@@ -51,8 +51,10 @@ public class LineChart extends BaseFragment implements LineChartView {
     }
 
 
-    @Override public void initViews() {
+    @Override public int initViews() {
+        mTextView.setTextColor(getColorPrimary());
         mLineChartView.setInteractive(false);
+        return getColorPrimary();
     }
 
 

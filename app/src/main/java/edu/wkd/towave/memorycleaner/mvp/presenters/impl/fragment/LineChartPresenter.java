@@ -39,6 +39,7 @@ public class LineChartPresenter implements Presenter {
     public final static int MAX_COUNT = 60;
     Timer mTimer;
     int count;
+    int color;
 
 
     @Inject
@@ -79,7 +80,6 @@ public class LineChartPresenter implements Presenter {
             mPointValues.remove(0);
             mAxisValues.remove(0);
         }
-        int color = mContext.getResources().getColor(R.color.colorPrimary);
         Line line = new Line(mPointValues).setColor(color)
                                           .setCubic(true)
                                           .setFilled(true)
@@ -122,7 +122,7 @@ public class LineChartPresenter implements Presenter {
         count = 0;
         mPointValues = new ArrayList<>();
         mAxisValues = new ArrayList<>();
-        mLineChart.initViews();
+        color = mLineChart.initViews();
         //set chart data to initialize viewport, otherwise it will be[0,0;0,0]
         //get initialized viewport and change if ranges according to your needs.
     }
