@@ -10,7 +10,7 @@ import edu.wkd.towave.memorycleaner.R;
 public class ThemeUtils {
     public static void changeTheme(Activity activity, Theme theme) {
         if (activity == null) return;
-        int style = R.style.RedTheme;
+        int style = R.style.DeepPurpleTheme;
         switch (theme) {
             case BROWN:
                 style = R.style.BrownTheme;
@@ -24,8 +24,8 @@ public class ThemeUtils {
             case YELLOW:
                 style = R.style.YellowTheme;
                 break;
-            case DEEP_PURPLE:
-                style = R.style.DeepPurpleTheme;
+            case RED:
+                style = R.style.RedTheme;
                 break;
             case PINK:
                 style = R.style.PinkTheme;

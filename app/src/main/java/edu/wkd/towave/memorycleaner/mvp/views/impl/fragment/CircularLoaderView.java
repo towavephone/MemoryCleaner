@@ -14,4 +14,8 @@ public interface CircularLoaderView extends View {
     void initViews(MenuListAdapter recyclerAdapter);
 
     void updateViews(long sum, long available, float percent);
+
+    void onCleanStarted(Context context);
+
+    void onCleanCompleted(Context context, long memory);
 }

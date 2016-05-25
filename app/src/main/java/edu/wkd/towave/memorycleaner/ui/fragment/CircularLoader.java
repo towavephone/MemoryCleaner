@@ -1,5 +1,6 @@
 package edu.wkd.towave.memorycleaner.ui.fragment;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import butterknife.Bind;
+import butterknife.OnClick;
 import com.mikhaellopez.circularfillableloaders.CircularFillableLoaders;
 import edu.wkd.towave.memorycleaner.R;
 import edu.wkd.towave.memorycleaner.mvp.presenters.Presenter;
@@ -80,8 +82,25 @@ public class CircularLoader extends BaseFragment implements CircularLoaderView {
     }
 
 
+    @Override public void onCleanStarted(Context context) {
+        mButton.setClickable(false);
+        mCircularFillableLoaders.setAmplitudeRatio(0.1f);
+    }
+
+
+    @Override public void onCleanCompleted(Context context, long memory) {
+        mCircularFillableLoaders.setAmplitudeRatio(0.03f);
+        mButton.setClickable(true);
+    }
+
+
     @Override public void onDestroy() {
         mCircularLoaderPresenter.onDestroy();
         super.onDestroy();
+    }
+
+
+    @OnClick(R.id.onekeyclean) public void cleanMemory() {
+        mCircularLoaderPresenter.cleanMemory();
     }
 }

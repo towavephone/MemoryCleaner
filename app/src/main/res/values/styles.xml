@@ -123,7 +123,7 @@
     </style>
 
     <style name="GreenTheme"
-        parent="Theme.AppCompat.Light.DarkActionBar">
+        parent="AppTheme">
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/dark_green</item>
         <item name="colorAccent">@color/colorAccent</item>

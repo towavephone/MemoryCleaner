@@ -4,7 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/view_toolbar"/>
+    <android.support.design.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:paddingTop="@dimen/appbar_padding_top"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:layout_height="wrap_content"
+        app:elevation="8dp">
+
+        <include layout="@layout/view_toolbar"/>
+    </android.support.design.widget.AppBarLayout>
 
     <FrameLayout
         android:id="@+id/fragment_content"

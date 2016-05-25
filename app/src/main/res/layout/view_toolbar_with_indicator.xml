@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:paddingTop="@dimen/appbar_padding_top"
     android:theme="@style/AppTheme.AppBarOverlay"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    app:elevation="8dp">
 
     <include layout="@layout/view_toolbar"/>
 
@@ -13,6 +14,6 @@
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="4dp"
-        app:tabIndicatorColor="@color/colorAccent"/>
+        app:tabIndicatorColor="?attr/colorAccent"/>
 
 </android.support.design.widget.AppBarLayout>
