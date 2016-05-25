@@ -3,12 +3,9 @@ package edu.wkd.towave.memorycleaner.mvp.presenters.impl.activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import com.squareup.leakcanary.RefWatcher;
-import edu.wkd.towave.memorycleaner.App;
 import edu.wkd.towave.memorycleaner.injector.ContextLifeCycle;
 import edu.wkd.towave.memorycleaner.mvp.presenters.Presenter;
 import edu.wkd.towave.memorycleaner.mvp.views.View;
-import edu.wkd.towave.memorycleaner.mvp.views.impl.activity.AppManageView;
 import edu.wkd.towave.memorycleaner.mvp.views.impl.activity.AutoStartManageView;
 import edu.wkd.towave.memorycleaner.ui.fragment.AppsFragment;
 import edu.wkd.towave.memorycleaner.ui.fragment.AutoStartFragment;
@@ -73,10 +70,9 @@ public class AutoStartManagePresenter implements Presenter {
 
     }
 
-
     @Override public void onDestroy() {
-        RefWatcher refWatcher = App.getRefWatcher(mContext);
-        refWatcher.watch(this);
+        //RefWatcher refWatcher = App.getRefWatcher(mContext);
+        //refWatcher.watch(this);
     }
 
 

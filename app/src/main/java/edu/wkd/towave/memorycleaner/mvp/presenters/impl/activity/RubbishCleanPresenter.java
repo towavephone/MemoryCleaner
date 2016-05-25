@@ -12,8 +12,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.format.Formatter;
-import com.squareup.leakcanary.RefWatcher;
-import edu.wkd.towave.memorycleaner.App;
 import edu.wkd.towave.memorycleaner.R;
 import edu.wkd.towave.memorycleaner.adapter.CacheListAdapter;
 import edu.wkd.towave.memorycleaner.adapter.base.BaseRecyclerViewAdapter;
@@ -195,8 +193,8 @@ public class RubbishCleanPresenter implements Presenter,
 
     @Override public void onDestroy() {
         mContext.unbindService(mServiceConnection);
-        RefWatcher refWatcher = App.getRefWatcher(mContext);
-        refWatcher.watch(this);
+        //RefWatcher refWatcher = App.getRefWatcher(mContext);
+        //refWatcher.watch(this);
     }
 
 

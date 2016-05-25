@@ -5,19 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
-import android.widget.PopupMenu;
-import com.squareup.leakcanary.RefWatcher;
-import edu.wkd.towave.memorycleaner.App;
 import edu.wkd.towave.memorycleaner.R;
-import edu.wkd.towave.memorycleaner.adapter.base.BaseFragmentPageAdapter;
 import edu.wkd.towave.memorycleaner.injector.ContextLifeCycle;
 import edu.wkd.towave.memorycleaner.mvp.presenters.Presenter;
 import edu.wkd.towave.memorycleaner.mvp.views.View;
 import edu.wkd.towave.memorycleaner.mvp.views.impl.activity.MainView;
 import edu.wkd.towave.memorycleaner.tools.PreferenceUtils;
-import edu.wkd.towave.memorycleaner.ui.activity.AppManage;
 import edu.wkd.towave.memorycleaner.ui.activity.SettingActivity;
 import edu.wkd.towave.memorycleaner.ui.fragment.CircularLoader;
 import edu.wkd.towave.memorycleaner.ui.fragment.LineChart;
@@ -64,8 +58,19 @@ public class MainPresenter implements Presenter {
         mMainView.initViewPager(items);
     }
 
-    @Subscribe
-    public void onEventMainThread(NotifyEvent event) {
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                mContext.startActivity(
+                        new Intent(mContext, SettingActivity.class));
+                return true;
+        }
+        return false;
+    }
+
+
+    @Subscribe public void onEventMainThread(NotifyEvent event) {
         switch (event.getType()) {
             case NotifyEvent.CHANGE_THEME:
                 mMainView.reCreate();
@@ -114,7 +119,6 @@ public class MainPresenter implements Presenter {
     }
 
 
-
     @Override public void onPause() {
 
     }
@@ -127,8 +131,8 @@ public class MainPresenter implements Presenter {
 
     @Override public void onDestroy() {
         EventBus.getDefault().unregister(this);
-        RefWatcher refWatcher = App.getRefWatcher(mContext);
-        refWatcher.watch(this);
+        //RefWatcher refWatcher = App.getRefWatcher(mContext);
+        //refWatcher.watch(this);
     }
 
 
@@ -136,8 +140,7 @@ public class MainPresenter implements Presenter {
         // Handle navigation view item clicks here.
         switch (id) {
             case R.id.main_content:
-                mContext.startActivity(
-                        new Intent(mContext, SettingActivity.class));
+
                 break;
         }
         return true;

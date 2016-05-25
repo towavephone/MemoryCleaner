@@ -3,8 +3,6 @@ package edu.wkd.towave.memorycleaner.mvp.presenters.impl.activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import com.squareup.leakcanary.RefWatcher;
-import edu.wkd.towave.memorycleaner.App;
 import edu.wkd.towave.memorycleaner.injector.ContextLifeCycle;
 import edu.wkd.towave.memorycleaner.mvp.presenters.Presenter;
 import edu.wkd.towave.memorycleaner.mvp.views.View;
@@ -72,8 +70,8 @@ public class AppManagePresenter implements Presenter {
 
 
     @Override public void onDestroy() {
-        RefWatcher refWatcher = App.getRefWatcher(mContext);
-        refWatcher.watch(this);
+        //RefWatcher refWatcher = App.getRefWatcher(mContext);
+        //refWatcher.watch(this);
     }
 
 

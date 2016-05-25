@@ -16,7 +16,7 @@
         android:orderInCategory="2"/>
     <item
         android:id="@+id/action_settings"
-        android:title="更多"
+        android:title="忽略设置"
         app:showAsAction="never"
         android:orderInCategory="3"/>
 
