@@ -19,16 +19,19 @@ import edu.wkd.towave.memorycleaner.adapter.ProcessListAdapter;
 import edu.wkd.towave.memorycleaner.adapter.base.BaseRecyclerViewAdapter;
 import edu.wkd.towave.memorycleaner.injector.ContextLifeCycle;
 import edu.wkd.towave.memorycleaner.model.AppProcessInfo;
+import edu.wkd.towave.memorycleaner.model.Ignore;
 import edu.wkd.towave.memorycleaner.mvp.presenters.Presenter;
 import edu.wkd.towave.memorycleaner.mvp.views.View;
 import edu.wkd.towave.memorycleaner.mvp.views.impl.activity.MemoryCleanView;
 import edu.wkd.towave.memorycleaner.service.CoreService;
 import edu.wkd.towave.memorycleaner.tools.TextFormater;
+import edu.wkd.towave.memorycleaner.ui.activity.IgnoreSetting;
 import edu.wkd.towave.memorycleaner.ui.activity.MemoryClean;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
+import net.tsz.afinal.FinalDb;
 
 /**
  * Created by Administrator on 2016/5/4.
@@ -42,11 +45,14 @@ public class MemoryCleanPresenter implements Presenter,
     List<AppProcessInfo> mAppProcessInfos = new ArrayList<>();
     ProcessListAdapter recyclerAdapter;
     boolean isdesc = true;
+    FinalDb mFinalDb;
 
 
     @Inject
-    public MemoryCleanPresenter(@ContextLifeCycle("Activity") Context context) {
+    public MemoryCleanPresenter(
+            @ContextLifeCycle("Activity") Context context, FinalDb finalDb) {
         this.mContext = context;
+        this.mFinalDb = finalDb;
     }
 
 
@@ -96,7 +102,22 @@ public class MemoryCleanPresenter implements Presenter,
                                                  })
                                          .setPositiveButton("添加至忽略列表",
                                                  (dialogInterface, i) -> {
-
+                                                     Ignore ignore = new Ignore(
+                                                             values.icon,
+                                                             values.appName);
+                                                     if (mFinalDb.saveBindId(
+                                                             ignore)) {
+                                                         recyclerAdapter.remove(
+                                                                 values);
+                                                         mMemoryClean.showSnackBar(
+                                                                 values.appName +
+                                                                         "已添加");
+                                                     }
+                                                     else {
+                                                         mMemoryClean.showSnackBar(
+                                                                 values.appName +
+                                                                         "添加失败");
+                                                     }
                                                  })
                                          .setNeutralButton("详情",
                                                  (dialogInterface, i) -> {
@@ -215,9 +236,10 @@ public class MemoryCleanPresenter implements Presenter,
             return true;
         }
         switch (item.getItemId()) {
-            //case R.id.setting:
-            //    startSettingActivity();
-            //    return true;
+            case R.id.action_settings:
+                mContext.startActivity(
+                        new Intent(mContext, IgnoreSetting.class));
+                return true;
             case R.id.refresh:
                 mMemoryClean.startRefresh();
                 onRefresh();

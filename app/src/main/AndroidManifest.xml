@@ -37,6 +37,10 @@
         <activity
             android:name=".ui.activity.SettingActivity"
             android:label="设置"></activity>
+        <activity
+            android:name=".ui.activity.IgnoreSetting"
+            android:label="白名单"></activity>
+
         <service
             android:name=".service.CleanerService"
             android:exported="false"/>

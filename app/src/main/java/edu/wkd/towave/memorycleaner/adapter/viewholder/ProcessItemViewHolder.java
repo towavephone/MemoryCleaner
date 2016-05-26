@@ -1,4 +1,4 @@
-package edu.wkd.towave.memorycleaner.adapter;
+package edu.wkd.towave.memorycleaner.adapter.viewholder;
 
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
@@ -18,15 +18,10 @@ public class ProcessItemViewHolder extends RecyclerView.ViewHolder {
     @Bind(R.id.name) TextView mTextView;
     @Bind(R.id.memory) TextView mTextView2;
     @Bind(R.id.is_clean) CheckBox mCheckBox;
-    //ImageView mImageView;
-    //TextView mTextView;
-
 
     public ProcessItemViewHolder(View parent) {
         super(parent);
         ButterKnife.bind(this, parent);
-        //mImageView = (ImageView) parent.findViewById(R.id.icon);
-        //mTextView = (TextView) parent.findViewById(R.id.content);
     }
 
 

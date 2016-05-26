@@ -6,6 +6,7 @@ import edu.wkd.towave.memorycleaner.App;
 import edu.wkd.towave.memorycleaner.injector.ContextLifeCycle;
 import edu.wkd.towave.memorycleaner.injector.module.AppModule;
 import javax.inject.Singleton;
+import net.tsz.afinal.FinalDb;
 
 /**
  * Created by Administrator on 2016/5/4.
@@ -15,7 +16,9 @@ import javax.inject.Singleton;
     App app();
 
     @ContextLifeCycle("App") Context context();
-    //FinalDb finalDb();
-    //FinalDb.DaoConfig daoConfig();
+
+    FinalDb finalDb();
+
+    FinalDb.DaoConfig daoConfig();
     //void inject(BaseActivity baseActivity);
 }

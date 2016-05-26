@@ -10,23 +10,22 @@ import android.view.ViewGroup;
 import edu.wkd.towave.memorycleaner.R;
 import edu.wkd.towave.memorycleaner.adapter.base.BaseRecyclerViewAdapter;
 import edu.wkd.towave.memorycleaner.adapter.viewholder.ProcessItemViewHolder;
-import edu.wkd.towave.memorycleaner.model.CacheListItem;
-import edu.wkd.towave.memorycleaner.tools.TextFormater;
+import edu.wkd.towave.memorycleaner.model.Ignore;
 import java.util.List;
 
 /**
- * Created by towave on 2016/5/16.
+ * Created by towave on 2016/5/21.
  */
-public class CacheListAdapter extends BaseRecyclerViewAdapter<CacheListItem> {
+public class IgnoreListAdapter extends BaseRecyclerViewAdapter<Ignore> {
     private Context mContext;
 
 
-    public CacheListAdapter(List<CacheListItem> list) {
+    public IgnoreListAdapter(List<Ignore> list) {
         super(list);
     }
 
 
-    public CacheListAdapter(List<CacheListItem> list, Context context) {
+    public IgnoreListAdapter(List<Ignore> list, Context context) {
         super(list, context);
     }
 
@@ -45,13 +44,12 @@ public class CacheListAdapter extends BaseRecyclerViewAdapter<CacheListItem> {
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         super.onBindViewHolder(viewHolder, position);
         ProcessItemViewHolder holder = (ProcessItemViewHolder) viewHolder;
-        CacheListItem cacheListItem = list.get(position);
-        if (cacheListItem == null) return;
-        holder.setIcon(cacheListItem.getApplicationIcon());
-        holder.setName(cacheListItem.getApplicationName());
-        holder.setMemory(
-                TextFormater.dataSizeFormat(cacheListItem.getCacheSize()));
-        holder.setCheckBoxVisible(false);
+        Ignore ignore = list.get(position);
+        if (ignore == null) return;
+        holder.setIcon(ignore.getAppIcon());
+        holder.setName(ignore.getAppName());
+        holder.setChecked(ignore.getChecked());
+        holder.setMemoryVisible(false);
         animate(viewHolder, position);
     }
 
