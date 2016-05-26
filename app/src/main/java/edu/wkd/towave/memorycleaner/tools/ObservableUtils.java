@@ -1,21 +1,9 @@
 package edu.wkd.towave.memorycleaner.tools;
 
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.IPackageStatsObserver;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageStats;
-import android.graphics.drawable.Drawable;
-import android.os.RemoteException;
-import edu.wkd.towave.memorycleaner.model.AppInfo;
 import edu.wkd.towave.memorycleaner.model.AutoStartInfo;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import javax.inject.Inject;
 import rx.Observable;
 import rx.Subscriber;

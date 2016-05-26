@@ -10,9 +10,7 @@ import android.view.ViewGroup;
 import edu.wkd.towave.memorycleaner.R;
 import edu.wkd.towave.memorycleaner.adapter.base.BaseRecyclerViewAdapter;
 import edu.wkd.towave.memorycleaner.model.AppInfo;
-import edu.wkd.towave.memorycleaner.model.CacheListItem;
 import edu.wkd.towave.memorycleaner.tools.StorageUtil;
-import edu.wkd.towave.memorycleaner.tools.TextFormater;
 import java.util.List;
 
 /**

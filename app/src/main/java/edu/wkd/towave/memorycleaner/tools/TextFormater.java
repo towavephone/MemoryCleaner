@@ -1,7 +1,5 @@
 package edu.wkd.towave.memorycleaner.tools;
 
-import java.text.DecimalFormat;
-
 public class TextFormater {
     public static String dataSizeFormat(long size) {
         long kb = 1024;

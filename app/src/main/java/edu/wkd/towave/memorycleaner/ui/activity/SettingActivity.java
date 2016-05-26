@@ -2,8 +2,6 @@ package edu.wkd.towave.memorycleaner.ui.activity;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-
-import android.view.MenuItem;
 import butterknife.Bind;
 import edu.wkd.towave.memorycleaner.App;
 import edu.wkd.towave.memorycleaner.R;

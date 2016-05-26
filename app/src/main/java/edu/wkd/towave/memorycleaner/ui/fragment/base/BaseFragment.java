@@ -5,19 +5,15 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import butterknife.ButterKnife;
-import edu.wkd.towave.memorycleaner.R;
 import edu.wkd.towave.memorycleaner.injector.component.DaggerFragmentComponent;
 import edu.wkd.towave.memorycleaner.injector.component.FragmentComponent;
 import edu.wkd.towave.memorycleaner.injector.module.FragmentModule;
 import edu.wkd.towave.memorycleaner.mvp.presenters.Presenter;
-import edu.wkd.towave.memorycleaner.ui.activity.MainActivity;
 import edu.wkd.towave.memorycleaner.ui.activity.base.BaseActivity;
-import edu.wkd.towave.memorycleaner.ui.fragment.CircularLoader;
 
 /**
  * Created by towave on 2016/5/14.

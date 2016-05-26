@@ -9,9 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import edu.wkd.towave.memorycleaner.R;
 import edu.wkd.towave.memorycleaner.adapter.base.BaseRecyclerViewAdapter;
-import edu.wkd.towave.memorycleaner.model.AppInfo;
 import edu.wkd.towave.memorycleaner.model.AutoStartInfo;
-import edu.wkd.towave.memorycleaner.tools.StorageUtil;
 import java.util.List;
 
 /**

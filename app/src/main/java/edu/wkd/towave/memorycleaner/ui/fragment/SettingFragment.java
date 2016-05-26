@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.GridView;
 import android.widget.ListView;
 import com.jenzz.materialpreference.CheckBoxPreference;
-import com.jenzz.materialpreference.Preference;
 import edu.wkd.towave.memorycleaner.R;
 import edu.wkd.towave.memorycleaner.adapter.ColorsListAdapter;
 import edu.wkd.towave.memorycleaner.injector.component.DaggerFragmentComponent;

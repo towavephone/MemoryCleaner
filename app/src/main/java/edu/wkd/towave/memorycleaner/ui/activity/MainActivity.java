@@ -22,8 +22,6 @@ import edu.wkd.towave.memorycleaner.mvp.views.impl.activity.MainView;
 import edu.wkd.towave.memorycleaner.tools.SnackbarUtils;
 import edu.wkd.towave.memorycleaner.tools.ToolbarUtils;
 import edu.wkd.towave.memorycleaner.ui.activity.base.BaseActivity;
-import edu.wkd.towave.memorycleaner.ui.fragment.CircularLoader;
-import edu.wkd.towave.memorycleaner.ui.fragment.LineChart;
 import java.util.ArrayList;
 import javax.inject.Inject;
 

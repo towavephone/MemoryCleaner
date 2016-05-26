@@ -1,7 +1,6 @@
 package edu.wkd.towave.memorycleaner.mvp.views.impl.fragment;
 
 import android.content.Context;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.widget.RelativeLayout;
 import edu.wkd.towave.memorycleaner.adapter.AppsListAdapter;
 import edu.wkd.towave.memorycleaner.mvp.views.View;

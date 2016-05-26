@@ -1,7 +1,6 @@
 package edu.wkd.towave.memorycleaner.injector.module;
 
 import android.content.Context;
-
 import dagger.Module;
 import dagger.Provides;
 import edu.wkd.towave.memorycleaner.injector.Activity;

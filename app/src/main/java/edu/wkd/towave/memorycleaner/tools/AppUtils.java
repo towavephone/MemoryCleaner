@@ -1,10 +1,10 @@
 package edu.wkd.towave.memorycleaner.tools;
 
 import android.app.ActivityManager;
+import android.app.ActivityManager.MemoryInfo;
 import android.content.Context;
 import java.io.BufferedReader;
 import java.io.FileReader;
-import android.app.ActivityManager.MemoryInfo;
 import java.math.BigDecimal;
 
 /**

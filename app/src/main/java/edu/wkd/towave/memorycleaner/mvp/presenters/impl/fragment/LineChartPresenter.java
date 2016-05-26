@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.Toast;
-import edu.wkd.towave.memorycleaner.R;
 import edu.wkd.towave.memorycleaner.injector.ContextLifeCycle;
 import edu.wkd.towave.memorycleaner.mvp.presenters.Presenter;
 import edu.wkd.towave.memorycleaner.mvp.views.View;

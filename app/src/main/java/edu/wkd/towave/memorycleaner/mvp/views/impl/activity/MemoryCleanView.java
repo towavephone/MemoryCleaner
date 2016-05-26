@@ -1,7 +1,6 @@
 package edu.wkd.towave.memorycleaner.mvp.views.impl.activity;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.widget.RelativeLayout;
 import edu.wkd.towave.memorycleaner.adapter.ProcessListAdapter;

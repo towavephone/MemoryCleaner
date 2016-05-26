@@ -1,7 +1,6 @@
 package edu.wkd.towave.memorycleaner.ui.fragment;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,9 +15,9 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import com.mikhaellopez.circularfillableloaders.CircularFillableLoaders;
 import edu.wkd.towave.memorycleaner.R;
+import edu.wkd.towave.memorycleaner.adapter.MenuListAdapter;
 import edu.wkd.towave.memorycleaner.mvp.presenters.Presenter;
 import edu.wkd.towave.memorycleaner.mvp.presenters.impl.fragment.CircularLoaderPresenter;
-import edu.wkd.towave.memorycleaner.adapter.MenuListAdapter;
 import edu.wkd.towave.memorycleaner.mvp.views.impl.fragment.CircularLoaderView;
 import edu.wkd.towave.memorycleaner.tools.TextFormater;
 import edu.wkd.towave.memorycleaner.ui.fragment.base.BaseFragment;

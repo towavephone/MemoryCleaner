@@ -1,7 +1,6 @@
 package edu.wkd.towave.memorycleaner.tools;
 
 import android.content.Context;
-
 import edu.wkd.towave.memorycleaner.R;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

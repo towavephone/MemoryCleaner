@@ -1,19 +1,15 @@
 package edu.wkd.towave.memorycleaner.ui.fragment;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -26,12 +22,8 @@ import edu.wkd.towave.memorycleaner.adapter.AppsListAdapter;
 import edu.wkd.towave.memorycleaner.mvp.presenters.Presenter;
 import edu.wkd.towave.memorycleaner.mvp.presenters.impl.fragment.AppsPresenter;
 import edu.wkd.towave.memorycleaner.mvp.views.impl.fragment.AppsView;
-import edu.wkd.towave.memorycleaner.tools.AppUtils;
-import edu.wkd.towave.memorycleaner.tools.L;
 import edu.wkd.towave.memorycleaner.tools.StorageUtil;
-import edu.wkd.towave.memorycleaner.tools.TextFormater;
 import edu.wkd.towave.memorycleaner.ui.fragment.base.BaseFragment;
-import java.math.BigDecimal;
 import javax.inject.Inject;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 

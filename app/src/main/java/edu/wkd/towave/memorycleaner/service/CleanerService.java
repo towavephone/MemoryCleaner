@@ -1,6 +1,5 @@
 package edu.wkd.towave.memorycleaner.service;
 
-import android.app.ActivityManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -21,8 +20,6 @@ import android.util.Log;
 import android.widget.Toast;
 import edu.wkd.towave.memorycleaner.R;
 import edu.wkd.towave.memorycleaner.model.CacheListItem;
-import edu.wkd.towave.memorycleaner.tools.L;
-import edu.wkd.towave.memorycleaner.tools.T;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;

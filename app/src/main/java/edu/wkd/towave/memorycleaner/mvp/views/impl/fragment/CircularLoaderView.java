@@ -2,9 +2,7 @@ package edu.wkd.towave.memorycleaner.mvp.views.impl.fragment;
 
 import android.content.Context;
 import edu.wkd.towave.memorycleaner.adapter.MenuListAdapter;
-import edu.wkd.towave.memorycleaner.model.Menu;
 import edu.wkd.towave.memorycleaner.mvp.views.View;
-import java.util.ArrayList;
 
 /**
  * Created by towave on 2016/5/10.

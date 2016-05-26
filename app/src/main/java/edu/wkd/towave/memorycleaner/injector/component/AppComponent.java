@@ -5,7 +5,6 @@ import dagger.Component;
 import edu.wkd.towave.memorycleaner.App;
 import edu.wkd.towave.memorycleaner.injector.ContextLifeCycle;
 import edu.wkd.towave.memorycleaner.injector.module.AppModule;
-import edu.wkd.towave.memorycleaner.ui.activity.base.BaseActivity;
 import javax.inject.Singleton;
 
 /**
