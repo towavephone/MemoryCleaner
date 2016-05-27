@@ -10,8 +10,10 @@ import net.tsz.afinal.annotation.sqlite.Transient;
  */
 @Table(name = "ignores") public class Ignore implements Serializable {
     private int id;
-    private Drawable appIcon;
-    private String appName;
+    private String packName;
+
+    @Transient private String appName;
+    @Transient private Drawable appIcon;
     @Transient private Boolean isChecked = false;
 
 
@@ -20,15 +22,30 @@ import net.tsz.afinal.annotation.sqlite.Transient;
     }
 
 
-    public Ignore(Drawable appIcon, String appName) {
-        this.appName = appName;
-        this.appIcon = appIcon;
+    public Ignore(String packName) {
+        this.packName = packName;
     }
 
 
-    public Ignore(int id, Drawable appIcon, String appName) {
-        this(appIcon, appName);
+    public Ignore(String packName, String appName) {
+        this(packName);
+        this.appName = appName;
+    }
+
+
+    public Ignore(int id, String packName, String appName) {
+        this(packName, appName);
         this.id = id;
+    }
+
+
+    public String getPackName() {
+        return packName;
+    }
+
+
+    public void setPackName(String packName) {
+        this.packName = packName;
     }
 
 

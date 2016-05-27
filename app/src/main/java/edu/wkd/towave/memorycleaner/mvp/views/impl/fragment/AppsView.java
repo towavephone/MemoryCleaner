@@ -26,4 +26,6 @@ public interface AppsView extends View {
     void initViews(AppsListAdapter recyclerAdapter, Context context);
 
     RelativeLayout setDialogValues(String[] memory);
+
+    void showSnackBar(String message);
 }

@@ -27,11 +27,8 @@ import edu.wkd.towave.memorycleaner.injector.component.DaggerActivityComponent;
 import edu.wkd.towave.memorycleaner.injector.module.ActivityModule;
 import edu.wkd.towave.memorycleaner.mvp.presenters.impl.activity.IgnoreSettingPresenter;
 import edu.wkd.towave.memorycleaner.mvp.views.impl.activity.IgnoreSettingView;
-import edu.wkd.towave.memorycleaner.tools.AppUtils;
 import edu.wkd.towave.memorycleaner.tools.SnackbarUtils;
-import edu.wkd.towave.memorycleaner.tools.TextFormater;
 import edu.wkd.towave.memorycleaner.ui.activity.base.BaseActivity;
-import java.math.BigDecimal;
 import javax.inject.Inject;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 

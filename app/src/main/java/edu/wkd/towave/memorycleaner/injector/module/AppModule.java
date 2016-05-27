@@ -31,8 +31,9 @@ import net.tsz.afinal.FinalDb;
         return app.getApplicationContext();
     }
 
-    @Provides @Singleton
-    FinalDb.DaoConfig provideDaoConfig(@ContextLifeCycle("App") Context context) {
+
+    @Provides @Singleton FinalDb.DaoConfig provideDaoConfig(
+            @ContextLifeCycle("App") Context context) {
         FinalDb.DaoConfig config = new FinalDb.DaoConfig();
         config.setDbName("ignore.db");
         config.setDbVersion(2);
@@ -49,8 +50,8 @@ import net.tsz.afinal.FinalDb;
         return config;
     }
 
-    @Provides @Singleton
-    FinalDb provideFinalDb(FinalDb.DaoConfig config) {
+
+    @Provides @Singleton FinalDb provideFinalDb(FinalDb.DaoConfig config) {
         return FinalDb.create(config);
     }
 }

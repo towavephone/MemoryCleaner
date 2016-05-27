@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
 import net.tsz.afinal.FinalDb;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -37,6 +38,7 @@ public class IgnoreSettingPresenter implements Presenter {
     ObservableUtils mObservableUtils;
     FinalDb mFinalDb;
     boolean isdesc = true;
+    Subscription mSubscription;
 
 
     @Inject
@@ -56,24 +58,26 @@ public class IgnoreSettingPresenter implements Presenter {
 
     public void loadData() {
         mIgnoreSettingView.startRefresh();
-        mObservableUtils.getIgnoreApps(mFinalDb)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe((v) -> {
-                            mIgnores.addAll(v);
-                            updateMemoryCount();
-                            recyclerAdapter.notifyDataSetChanged();
-                            mIgnoreSettingView.stopRefresh();
-                            mIgnoreSettingView.enableSwipeRefreshLayout(false);
-                        }, (e) -> {
-                            e.printStackTrace();
-                        });
+        mSubscription = mObservableUtils.getIgnoreApps(mFinalDb, mContext)
+                                        .subscribeOn(Schedulers.io())
+                                        .observeOn(
+                                                AndroidSchedulers.mainThread())
+                                        .subscribe((v) -> {
+                                            mIgnores.addAll(v);
+                                            updateMemoryCount();
+                                            recyclerAdapter.notifyDataSetChanged();
+                                            mIgnoreSettingView.stopRefresh();
+                                            mIgnoreSettingView.enableSwipeRefreshLayout(
+                                                    false);
+                                        }, (e) -> {
+                                            e.printStackTrace();
+                                        });
     }
 
 
     public void initViews() {
         recyclerAdapter = new IgnoreListAdapter(mIgnores, mContext);
-        recyclerAdapter.setOnInViewClickListener(R.id.is_clean,
+        recyclerAdapter.setOnInViewClickListener(R.id.card_item_root,
                 new BaseRecyclerViewAdapter.onInternalClickListenerImpl<Ignore>() {
                     @Override
                     public void OnClickListener(android.view.View parentV, android.view.View v, Integer position, Ignore values) {
@@ -101,6 +105,7 @@ public class IgnoreSettingPresenter implements Presenter {
                         mIgnores.get(position).getAppName() + "已移除白名单");
                 //mCoreService.killBackgroundProcesses(
                 //        mAppProcessInfos.get(position).processName);
+                mFinalDb.delete(mIgnores.get(position));
                 recyclerAdapter.remove(position);
                 updateMemoryCount();
             }
@@ -258,21 +263,16 @@ public class IgnoreSettingPresenter implements Presenter {
 
 
     public void cleanMemory() {
-        //long killAppmemory = 0;
-        //for (int i = mAppProcessInfos.size() - 1; i >= 0; i--) {
-        //    long memory = mAppProcessInfos.get(i).memory;
-        //    if (mAppProcessInfos.get(i).checked) {
-        //        killAppmemory += memory;
-        //        mCoreService.killBackgroundProcesses(
-        //                mAppProcessInfos.get(i).processName);
-        //        //mAppProcessInfos.remove(mAppProcessInfos.get(i));
-        //        //mClearMemoryAdapter.notifyDataSetChanged();
-        //        recyclerAdapter.remove(mAppProcessInfos.get(i));
-        //    }
-        //}
-        //mMemoryClean.updateBadge(0);
-        //mMemoryClean.updateTitle(mContext, 0);
-        //mMemoryClean.showSnackBar(
-        //        "共清理" + TextFormater.dataSizeFormat(killAppmemory) + "内存");
+        long count = 0;
+        for (int i = mIgnores.size() - 1; i >= 0; i--) {
+            if (mIgnores.get(i).getChecked()) {
+                mFinalDb.delete(mIgnores.get(i));
+                count++;
+                recyclerAdapter.remove(mIgnores.get(i));
+            }
+        }
+        updateMemoryCount();
+        mIgnoreSettingView.showSnackBar(
+                count > 0 ? count + "个应用从白名单中移除" : "未选中要移除的应用");
     }
 }

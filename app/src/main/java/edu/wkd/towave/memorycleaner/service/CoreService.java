@@ -16,9 +16,12 @@ import android.util.Log;
 import android.widget.Toast;
 import edu.wkd.towave.memorycleaner.R;
 import edu.wkd.towave.memorycleaner.model.AppProcessInfo;
+import edu.wkd.towave.memorycleaner.model.Ignore;
+import edu.wkd.towave.memorycleaner.tools.L;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import net.tsz.afinal.FinalDb;
 
 public class CoreService extends Service {
 
@@ -30,11 +33,11 @@ public class CoreService extends Service {
     private OnProcessActionListener mOnActionListener;
     private boolean mIsScanning = false;
     private boolean mIsCleaning = false;
-
     ActivityManager activityManager = null;
     List<AppProcessInfo> list = null;
     PackageManager packageManager = null;
     Context mContext;
+    //private FinalDb mFinalDb;
 
     public interface OnProcessActionListener {
         void onScanStarted(Context context);
@@ -140,6 +143,11 @@ public class CoreService extends Service {
 
         private long mAppMemory = 0;
 
+        private FinalDb mFinalDb = FinalDb.create(mContext);
+        //public TaskScan(FinalDb finalDb) {
+        //    this.mFinalDb = finalDb;
+        //}
+
 
         @Override protected void onPreExecute() {
             if (mOnActionListener != null) {
@@ -162,6 +170,7 @@ public class CoreService extends Service {
                 abAppProcessInfo = new AppProcessInfo(
                         appProcessInfo.processName, appProcessInfo.pid,
                         appProcessInfo.uid);
+                String packName = appProcessInfo.processName;
                 try {
                     appInfo = packageManager.getApplicationInfo(
                             appProcessInfo.processName, 0);
@@ -177,31 +186,37 @@ public class CoreService extends Service {
                                             .toString();
                     abAppProcessInfo.icon = icon;
                     abAppProcessInfo.appName = appName;
+                    //abAppProcessInfo.packName = packName;
                 } catch (PackageManager.NameNotFoundException e) {
-                    //   e.printStackTrace();
-
-                    // :服务的命名
                     abAppProcessInfo.icon = mContext.getResources()
                                                     .getDrawable(
                                                             R.mipmap.ic_launcher);
+                    //String packName = appProcessInfo.processName;
                     appInfo = getApplicationInfo(
                             appProcessInfo.processName.split(":")[0]);
                     if (appInfo != null) {
                         Drawable icon = appInfo.loadIcon(packageManager);
                         abAppProcessInfo.icon = icon;
+                        packName = appProcessInfo.processName.split(":")[0];
                     }
                     abAppProcessInfo.isSystem = true;
                     abAppProcessInfo.appName = appProcessInfo.processName;
+                    //abAppProcessInfo.packName = packName;
                 }
-
+                abAppProcessInfo.packName = packName;
                 long memory = activityManager.getProcessMemoryInfo(new int[] {
                         appProcessInfo.pid })[0].getTotalPrivateDirty() * 1024;
                 abAppProcessInfo.memory = memory;
-                mAppMemory += memory;
-                publishProgress(++mAppCount, appProcessList.size(), mAppMemory,
-                        abAppProcessInfo.processName);
 
-                list.add(abAppProcessInfo);
+                List<Ignore> ignores = mFinalDb.findAllByWhere(Ignore.class,
+                        "packName='" + abAppProcessInfo.packName + "'");
+                // List<Ignore> ignores = mFinalDb.findAll(Ignore.class);
+                if (ignores.size() == 0) {
+                    list.add(abAppProcessInfo);
+                    mAppMemory += memory;
+                    publishProgress(++mAppCount, appProcessList.size(),
+                            mAppMemory, abAppProcessInfo.processName);
+                }
             }
 
             return list;
@@ -230,7 +245,7 @@ public class CoreService extends Service {
 
     public void scanRunProcess() {
         // mIsScanning = true;
-
+        //mFinalDb = finalDb;
         new TaskScan().execute();
     }
 
@@ -264,6 +279,9 @@ public class CoreService extends Service {
 
     private class TaskClean extends AsyncTask<Void, Void, Long> {
 
+        private FinalDb mFinalDb = FinalDb.create(mContext);
+
+
         @Override protected void onPreExecute() {
             if (mOnActionListener != null) {
                 mOnActionListener.onCleanStarted(CoreService.this);
@@ -280,8 +298,24 @@ public class CoreService extends Service {
             beforeMemory = memoryInfo.availMem;
             List<ActivityManager.RunningAppProcessInfo> appProcessList
                     = activityManager.getRunningAppProcesses();
+            ApplicationInfo appInfo = null;
             for (ActivityManager.RunningAppProcessInfo info : appProcessList) {
-                killBackgroundProcesses(info.processName);
+                String packName = info.processName;
+                try {
+                    packageManager.getApplicationInfo(info.processName, 0);
+                } catch (PackageManager.NameNotFoundException e) {
+                    appInfo = getApplicationInfo(
+                            info.processName.split(":")[0]);
+                    if (appInfo != null) {
+                        packName = info.processName.split(":")[0];
+                    }
+                }
+                List<Ignore> ignores = mFinalDb.findAllByWhere(Ignore.class,
+                        "packName='" + packName + "'");
+                if (ignores.size() == 0) {
+                    L.e(info.processName);
+                    killBackgroundProcesses(info.processName);
+                }
             }
             activityManager.getMemoryInfo(memoryInfo);
             endMemory = memoryInfo.availMem;

@@ -28,6 +28,7 @@ public class SettingPresenter implements Presenter {
     private PreferenceUtils mPreferenceUtils;
     private MainPresenter.NotifyEvent<Void> event;
 
+
     @Inject
     public SettingPresenter(@ContextLifeCycle("Activity")
                             Context context, PreferenceUtils mPreferenceUtils) {
@@ -102,14 +103,15 @@ public class SettingPresenter implements Presenter {
         //EventBus.getDefault().unregister(this);
     }
 
-    @Subscribe
-    public void onEventMainThread(Boolean result){
+
+    @Subscribe public void onEventMainThread(Boolean result) {
         //handleLoginResult(result);
     }
 
+
     @Override public void onDestroy() {
         if (event != null &&
-                event.getType() != MainPresenter.NotifyEvent.CHANGE_THEME){
+                event.getType() != MainPresenter.NotifyEvent.CHANGE_THEME) {
             EventBus.getDefault().post(event);
         }
         EventBus.getDefault().unregister(this);

@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import butterknife.Bind;
 import edu.wkd.towave.memorycleaner.App;
 import edu.wkd.towave.memorycleaner.R;
@@ -33,7 +34,7 @@ public class MainActivity extends BaseActivity
     @Bind(R.id.nav_view) NavigationView navigationView;
     @Bind(R.id.drawer_layout) DrawerLayout drawer;
     @Bind(R.id.toolbar) Toolbar toolbar;
-
+    //@Bind(R.id.side_nav) LinearLayout mLinearLayout;
     @Inject MainPresenter mMainPresenter;
 
     ActionBarDrawerToggle toggle;
@@ -121,8 +122,8 @@ public class MainActivity extends BaseActivity
                 R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getHeaderView(0).setBackgroundColor(getColorPrimary());
     }
 
 
@@ -154,20 +155,18 @@ public class MainActivity extends BaseActivity
         }
     }
 
+    //@Override public boolean onCreateOptionsMenu(Menu menu) {
+    //    // Inflate the menu; this adds items to the action bar if it is present.
+    //    getMenuInflater().inflate(R.menu.main, menu);
+    //    return true;
+    //}
 
-    @Override public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-
-    @Override public boolean onOptionsItemSelected(MenuItem item) {
-        if (mMainPresenter.onOptionsItemSelected(item)) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+    //@Override public boolean onOptionsItemSelected(MenuItem item) {
+    //    if (mMainPresenter.onOptionsItemSelected(item)) {
+    //        return true;
+    //    }
+    //    return super.onOptionsItemSelected(item);
+    //}
 
 
     @SuppressWarnings("StatementWithEmptyBody") @Override

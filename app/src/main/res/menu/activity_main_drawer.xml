@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/main_content"
-            android:icon="@drawable/ic_home_black_24dp"
-            android:title="首页"/>
+    <group>
         <item
             android:id="@+id/speedup"
             android:icon="@drawable/ic_memory_black_24dp"
@@ -19,21 +15,21 @@
             android:icon="@drawable/ic_power_black_24dp"
             android:title="自启管理"/>
         <item
-            android:id="@+id/media"
+            android:id="@+id/apps"
             android:icon="@drawable/ic_storage_black_24dp"
             android:title="软件管理"/>
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="其他">
         <menu>
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Share"/>
+                android:title="分享"/>
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send"/>
+                android:id="@+id/nav_setting"
+                android:icon="@drawable/ic_settings_black_24dp"
+                android:title="设置"/>
         </menu>
     </item>
 

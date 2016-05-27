@@ -35,20 +35,10 @@ public class RubbishCleanPresenter implements Presenter,
         SwipeRefreshLayout.OnRefreshListener {
 
     RubbishCleanView mRubbishClean;
-    protected static final int SCANING = 5;
-
-    protected static final int SCAN_FINIFSH = 6;
-    protected static final int PROCESS_MAX = 8;
-    protected static final int PROCESS_PROCESS = 9;
-
-    private static final int INITIAL_DELAY_MILLIS = 300;
-    int ptotal = 0;
-    int pprocess = 0;
 
     private CleanerService mCleanerService;
 
     private boolean mAlreadyScanned = false;
-    private boolean mAlreadyCleaned = false;
     final Context mContext;
     List<CacheListItem> mCacheListItems = new ArrayList<>();
     CacheListAdapter recyclerAdapter;
@@ -261,7 +251,6 @@ public class RubbishCleanPresenter implements Presenter,
         if (mCleanerService != null && !mCleanerService.isScanning() &&
                 !mCleanerService.isCleaning() &&
                 mCleanerService.getCacheSize() > 0) {
-            mAlreadyCleaned = false;
 
             mCleanerService.cleanCache();
         }

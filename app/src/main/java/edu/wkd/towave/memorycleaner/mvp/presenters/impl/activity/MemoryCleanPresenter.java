@@ -103,8 +103,7 @@ public class MemoryCleanPresenter implements Presenter,
                                          .setPositiveButton("添加至忽略列表",
                                                  (dialogInterface, i) -> {
                                                      Ignore ignore = new Ignore(
-                                                             values.icon,
-                                                             values.appName);
+                                                             values.packName);
                                                      if (mFinalDb.saveBindId(
                                                              ignore)) {
                                                          recyclerAdapter.remove(
@@ -129,9 +128,7 @@ public class MemoryCleanPresenter implements Presenter,
                                                              android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                                                      intent.setData(Uri.parse(
                                                              "package:" +
-                                                                     mCoreService
-                                                                             .getApplicationInfo(
-                                                                                     values.processName).packageName));
+                                                                     values.packName));
                                                      mContext.startActivity(
                                                              intent);
                                                  })
@@ -384,9 +381,11 @@ public class MemoryCleanPresenter implements Presenter,
 
     public void cleanMemory() {
         long killAppmemory = 0;
+        long count = 0;
         for (int i = mAppProcessInfos.size() - 1; i >= 0; i--) {
             long memory = mAppProcessInfos.get(i).memory;
             if (mAppProcessInfos.get(i).checked) {
+                count++;
                 killAppmemory += memory;
                 mCoreService.killBackgroundProcesses(
                         mAppProcessInfos.get(i).processName);
@@ -397,8 +396,9 @@ public class MemoryCleanPresenter implements Presenter,
         }
         mMemoryClean.updateBadge(0);
         mMemoryClean.updateTitle(mContext, 0);
-        mMemoryClean.showSnackBar(
-                "共清理" + TextFormater.dataSizeFormat(killAppmemory) + "内存");
+        mMemoryClean.showSnackBar(count > 0 ? "共清理" + count + "个进程,共占内存" +
+                TextFormater.dataSizeFormat(killAppmemory) +
+                "内存" : "未选中要清理的进程");
     }
 
 

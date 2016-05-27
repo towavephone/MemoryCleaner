@@ -2,19 +2,11 @@ package edu.wkd.towave.memorycleaner.tools;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
-import android.content.pm.IPackageStatsObserver;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.PackageStats;
-import android.graphics.drawable.Drawable;
-import android.os.RemoteException;
-import edu.wkd.towave.memorycleaner.model.AppInfo;
 import edu.wkd.towave.memorycleaner.model.AutoStartInfo;
 import edu.wkd.towave.memorycleaner.model.Ignore;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 import javax.inject.Inject;
 import net.tsz.afinal.FinalDb;
 import rx.Observable;
@@ -37,9 +29,14 @@ public class ObservableUtils {
     }
 
 
-    public Observable<List<Ignore>> getIgnoreApps(FinalDb finalDb) {
-        return create(new getIgnoreAppsFun(finalDb));
+    public Observable<List<Ignore>> getIgnoreApps(FinalDb finalDb, Context context) {
+        return create(new getIgnoreAppsFun(finalDb, context));
     }
+
+    //public Observable<List<Ignore>> addIgnore(FinalDb finalDb, Context
+    //        context) {
+    //    return create(new getIgnoreAppsFun(finalDb, context));
+    //}
 
 
     private <T> Observable<T> create(Fun<T> fun) {
@@ -129,15 +126,25 @@ public class ObservableUtils {
     private class getIgnoreAppsFun implements Fun<List<Ignore>> {
 
         FinalDb mFinalDb;
+        Context mContext;
 
 
-        public getIgnoreAppsFun(FinalDb finalDb) {
+        public getIgnoreAppsFun(FinalDb finalDb, Context context) {
             this.mFinalDb = finalDb;
+            this.mContext = context;
         }
 
 
         @Override public List<Ignore> call() throws Exception {
-            return mFinalDb.findAll(Ignore.class);
+            List<Ignore> ignores = mFinalDb.findAll(Ignore.class);
+            PackageManager mPackageManager = mContext.getPackageManager();
+            for (Ignore ignore : ignores) {
+                ApplicationInfo info = mPackageManager.getApplicationInfo(
+                        ignore.getPackName(), 0);
+                ignore.setAppName(info.loadLabel(mPackageManager).toString());
+                ignore.setAppIcon(info.loadIcon(mPackageManager));
+            }
+            return ignores;
         }
     }
 

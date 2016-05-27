@@ -20,6 +20,7 @@ import edu.wkd.towave.memorycleaner.adapter.AppsListAdapter;
 import edu.wkd.towave.memorycleaner.adapter.base.BaseRecyclerViewAdapter;
 import edu.wkd.towave.memorycleaner.injector.ContextLifeCycle;
 import edu.wkd.towave.memorycleaner.model.AppInfo;
+import edu.wkd.towave.memorycleaner.model.Ignore;
 import edu.wkd.towave.memorycleaner.mvp.presenters.Presenter;
 import edu.wkd.towave.memorycleaner.mvp.views.View;
 import edu.wkd.towave.memorycleaner.mvp.views.impl.fragment.AppsView;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import javax.inject.Inject;
+import net.tsz.afinal.FinalDb;
 
 /**
  * Created by Administrator on 2016/5/5.
@@ -46,12 +48,15 @@ public class AppsPresenter
 
     private Method mGetPackageSizeInfoMethod;
 
+    private FinalDb mFinalDb;
     //private TaskScanApps mTaskScanApps;
 
 
     @Inject
-    public AppsPresenter(@ContextLifeCycle("Activity") Context context) {
+    public AppsPresenter(
+            @ContextLifeCycle("Activity") Context context, FinalDb finalDb) {
         this.mContext = context;
+        this.mFinalDb = finalDb;
     }
 
 
@@ -118,16 +123,13 @@ public class AppsPresenter
                                 values.getPkgSize()).split(" ");
                         RelativeLayout relativeLayout
                                 = mAppsView.setDialogValues(memory);
+
                         AlertDialog.Builder builder = new AlertDialog.Builder(
                                 mContext).setTitle(values.getAppName())
                                          .setIcon(values.getAppIcon())
                                          .setNegativeButton("取消",
                                                  (dialogInterface, i) -> {
                                                      dialogInterface.dismiss();
-                                                 })
-                                         .setPositiveButton("添加至忽略列表",
-                                                 (dialogInterface, i) -> {
-
                                                  })
                                          .setNeutralButton("详情",
                                                  (dialogInterface, i) -> {
@@ -144,6 +146,27 @@ public class AppsPresenter
                                                              intent);
                                                  })
                                          .setView(relativeLayout);
+
+                        List<Ignore> ignores = mFinalDb.findAllByWhere(
+                                Ignore.class,
+                                "packName='" + values.getPackname() + "'");
+                        if (ignores.size() == 0) {
+                            builder.setPositiveButton("添加至忽略列表",
+                                    (dialogInterface, i) -> {
+                                        Ignore ignore = new Ignore(
+                                                values.getPackname());
+                                        if (mFinalDb.saveBindId(ignore)) {
+                                            mAppsView.showSnackBar(
+                                                    values.getAppName() +
+                                                            "已添加");
+                                        }
+                                        else {
+                                            mAppsView.showSnackBar(
+                                                    values.getAppName() +
+                                                            "添加失败");
+                                        }
+                                    });
+                        }
                         builder.create().show();
                     }
                 });

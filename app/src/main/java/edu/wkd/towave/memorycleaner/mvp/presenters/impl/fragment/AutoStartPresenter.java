@@ -111,41 +111,41 @@ public class AutoStartPresenter
             recyclerAdapter = new AutoStartAdapter(isSystemAuto, mContext);
         }
 
-        recyclerAdapter.setOnInViewClickListener(R.id.card_item_root,
-                new BaseRecyclerViewAdapter.onInternalClickListenerImpl<AutoStartInfo>() {
-                    @Override
-                    public void OnClickListener(android.view.View parentV, android.view.View v, Integer position, AutoStartInfo values) {
-                        super.OnClickListener(parentV, v, position, values);
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(
-                                mContext).setTitle(values.getLabel())
-                                         .setIcon(values.getIcon())
-                                         .setNegativeButton("取消",
-                                                 (dialogInterface, i) -> {
-                                                     dialogInterface.dismiss();
-                                                 })
-                                         .setPositiveButton("添加至忽略列表",
-                                                 (dialogInterface, i) -> {
-
-                                                 })
-                                         .setNeutralButton("详情",
-                                                 (dialogInterface, i) -> {
-                                                     Intent intent
-                                                             = new Intent();
-                                                     intent.setFlags(
-                                                             Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                                     intent.setAction(
-                                                             android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                                     intent.setData(Uri.parse(
-                                                             "package:" +
-                                                                     values.getPackageName()));
-                                                     mContext.startActivity(
-                                                             intent);
-                                                 })
-                                         .setView(null);
-                        builder.create().show();
-                    }
-                });
+        //recyclerAdapter.setOnInViewClickListener(R.id.card_item_root,
+        //        new BaseRecyclerViewAdapter.onInternalClickListenerImpl<AutoStartInfo>() {
+        //            @Override
+        //            public void OnClickListener(android.view.View parentV, android.view.View v, Integer position, AutoStartInfo values) {
+        //                super.OnClickListener(parentV, v, position, values);
+        //
+        //                AlertDialog.Builder builder = new AlertDialog.Builder(
+        //                        mContext).setTitle(values.getLabel())
+        //                                 .setIcon(values.getIcon())
+        //                                 .setNegativeButton("取消",
+        //                                         (dialogInterface, i) -> {
+        //                                             dialogInterface.dismiss();
+        //                                         })
+        //                                 .setPositiveButton("添加至忽略列表",
+        //                                         (dialogInterface, i) -> {
+        //
+        //                                         })
+        //                                 .setNeutralButton("详情",
+        //                                         (dialogInterface, i) -> {
+        //                                             Intent intent
+        //                                                     = new Intent();
+        //                                             intent.setFlags(
+        //                                                     Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        //                                             intent.setAction(
+        //                                                     android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        //                                             intent.setData(Uri.parse(
+        //                                                     "package:" +
+        //                                                             values.getPackageName()));
+        //                                             mContext.startActivity(
+        //                                                     intent);
+        //                                         })
+        //                                 .setView(null);
+        //                builder.create().show();
+        //            }
+        //        });
 
         recyclerAdapter.setOnInViewClickListener(R.id.is_clean,
                 new BaseRecyclerViewAdapter.onInternalClickListenerImpl<AutoStartInfo>() {

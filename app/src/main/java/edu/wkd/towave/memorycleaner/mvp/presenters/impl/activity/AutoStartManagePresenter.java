@@ -70,6 +70,7 @@ public class AutoStartManagePresenter implements Presenter {
 
     }
 
+
     @Override public void onDestroy() {
         //RefWatcher refWatcher = App.getRefWatcher(mContext);
         //refWatcher.watch(this);

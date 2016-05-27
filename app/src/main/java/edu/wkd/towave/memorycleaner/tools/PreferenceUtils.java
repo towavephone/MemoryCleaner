@@ -15,13 +15,6 @@ public class PreferenceUtils {
 
     private static PreferenceUtils preferenceUtils = null;
 
-    //public static final String NOTE_TYPE_KEY = "NOTE_TYPE_KEY";
-    //
-    //public static final String EVERNOTE_ACCOUNT_KEY = "EVERNOTE_ACCOUNT_KEY";
-    //
-    //public static final String EVERNOTE_NOTEBOOK_GUID_KEY
-    //        = "EVERNOTE_NOTEBOOK_GUID_KEY";
-
 
     @Inject @Singleton
     protected PreferenceUtils(@ContextLifeCycle("App") Context context) {

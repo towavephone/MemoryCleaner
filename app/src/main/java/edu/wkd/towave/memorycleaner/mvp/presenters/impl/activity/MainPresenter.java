@@ -12,6 +12,10 @@ import edu.wkd.towave.memorycleaner.mvp.presenters.Presenter;
 import edu.wkd.towave.memorycleaner.mvp.views.View;
 import edu.wkd.towave.memorycleaner.mvp.views.impl.activity.MainView;
 import edu.wkd.towave.memorycleaner.tools.PreferenceUtils;
+import edu.wkd.towave.memorycleaner.ui.activity.AppManage;
+import edu.wkd.towave.memorycleaner.ui.activity.AutoStartManage;
+import edu.wkd.towave.memorycleaner.ui.activity.MemoryClean;
+import edu.wkd.towave.memorycleaner.ui.activity.RubbishClean;
 import edu.wkd.towave.memorycleaner.ui.activity.SettingActivity;
 import edu.wkd.towave.memorycleaner.ui.fragment.CircularLoader;
 import edu.wkd.towave.memorycleaner.ui.fragment.LineChart;
@@ -58,16 +62,15 @@ public class MainPresenter implements Presenter {
         mMainView.initViewPager(items);
     }
 
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                mContext.startActivity(
-                        new Intent(mContext, SettingActivity.class));
-                return true;
-        }
-        return false;
-    }
+    //public boolean onOptionsItemSelected(MenuItem item) {
+    //    switch (item.getItemId()) {
+    //        case R.id.action_settings:
+    //            mContext.startActivity(
+    //                    new Intent(mContext, SettingActivity.class));
+    //            return true;
+    //    }
+    //    return false;
+    //}
 
 
     @Subscribe public void onEventMainThread(NotifyEvent event) {
@@ -136,13 +139,32 @@ public class MainPresenter implements Presenter {
     }
 
 
-    public boolean onNavigationItemSelected(int id) {
+    public void startActivity(Class activity) {
+        mContext.startActivity(new Intent(mContext, activity));
+    }
+
+
+    public void onNavigationItemSelected(int id) {
         // Handle navigation view item clicks here.
         switch (id) {
-            case R.id.main_content:
-
+            case R.id.speedup:
+                startActivity(MemoryClean.class);
+                break;
+            case R.id.trash:
+                startActivity(RubbishClean.class);
+                break;
+            case R.id.autorun:
+                startActivity(AutoStartManage.class);
+                break;
+            case R.id.apps:
+                startActivity(AppManage.class);
+                break;
+            case R.id.nav_share:
+                //startActivity(MemoryClean.class);
+                break;
+            case R.id.nav_setting:
+                startActivity(SettingActivity.class);
                 break;
         }
-        return true;
     }
 }

@@ -83,6 +83,7 @@ public class CircularLoader extends BaseFragment implements CircularLoaderView {
 
     @Override public void onCleanStarted(Context context) {
         mButton.setClickable(false);
+        mButton.setText("正在清理");
         mCircularFillableLoaders.setAmplitudeRatio(0.1f);
     }
 
@@ -90,6 +91,7 @@ public class CircularLoader extends BaseFragment implements CircularLoaderView {
     @Override public void onCleanCompleted(Context context, long memory) {
         mCircularFillableLoaders.setAmplitudeRatio(0.03f);
         mButton.setClickable(true);
+        mButton.setText("一键清理");
     }
 
 

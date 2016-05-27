@@ -22,6 +22,7 @@ import edu.wkd.towave.memorycleaner.adapter.AppsListAdapter;
 import edu.wkd.towave.memorycleaner.mvp.presenters.Presenter;
 import edu.wkd.towave.memorycleaner.mvp.presenters.impl.fragment.AppsPresenter;
 import edu.wkd.towave.memorycleaner.mvp.views.impl.fragment.AppsView;
+import edu.wkd.towave.memorycleaner.tools.SnackbarUtils;
 import edu.wkd.towave.memorycleaner.tools.StorageUtil;
 import edu.wkd.towave.memorycleaner.ui.fragment.base.BaseFragment;
 import javax.inject.Inject;
@@ -148,6 +149,11 @@ public class AppsFragment extends BaseFragment implements AppsView {
         mTextView2.setText(memory[0]);
         mTextView3.setText(memory[1]);
         return dialog_process_detail;
+    }
+
+
+    @Override public void showSnackBar(String message) {
+        SnackbarUtils.show(getActivity(), message);
     }
 
 

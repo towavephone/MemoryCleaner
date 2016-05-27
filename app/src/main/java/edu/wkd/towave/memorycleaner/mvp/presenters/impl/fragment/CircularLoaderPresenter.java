@@ -41,7 +41,6 @@ public class CircularLoaderPresenter
 
     private CircularLoaderView mCircularLoaderView;
     private final Context mContext;
-    private boolean isCardLayout = false;
     private long sum, available;
     private float percent;
     private static final int IS_NORMAL = 101;
