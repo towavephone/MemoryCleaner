@@ -3,6 +3,8 @@ package edu.wkd.towave.memorycleaner.tools;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
+import edu.wkd.towave.memorycleaner.R;
 import edu.wkd.towave.memorycleaner.model.AutoStartInfo;
 import edu.wkd.towave.memorycleaner.model.Ignore;
 import java.util.ArrayList;
@@ -135,14 +137,45 @@ public class ObservableUtils {
         }
 
 
+        public ApplicationInfo getApplicationInfo(String processName) {
+            if (processName == null) {
+                return null;
+            }
+            List<ApplicationInfo> appList = mContext.getPackageManager()
+                                                    .getInstalledApplications(
+                                                            PackageManager.GET_UNINSTALLED_PACKAGES);
+            for (ApplicationInfo appInfo : appList) {
+                if (processName.equals(appInfo.processName)) {
+                    return appInfo;
+                }
+            }
+            return null;
+        }
+
+
         @Override public List<Ignore> call() throws Exception {
             List<Ignore> ignores = mFinalDb.findAll(Ignore.class);
             PackageManager mPackageManager = mContext.getPackageManager();
+            ApplicationInfo info = null;
             for (Ignore ignore : ignores) {
-                ApplicationInfo info = mPackageManager.getApplicationInfo(
-                        ignore.getPackName(), 0);
-                ignore.setAppName(info.loadLabel(mPackageManager).toString());
-                ignore.setAppIcon(info.loadIcon(mPackageManager));
+                try {
+                    info = mPackageManager.getApplicationInfo(
+                            ignore.getPackName(), 0);
+                    Drawable icon = info.loadIcon(mPackageManager);
+                    String appName = info.loadLabel(mPackageManager).toString();
+                    ignore.setAppIcon(icon);
+                    ignore.setAppName(appName);
+                } catch (PackageManager.NameNotFoundException e) {
+                    ignore.setAppIcon(mContext.getResources()
+                                              .getDrawable(
+                                                      R.mipmap.ic_launcher));
+                    info = getApplicationInfo(ignore.getPackName());
+                    if (info != null) {
+                        Drawable icon = info.loadIcon(mPackageManager);
+                        ignore.setAppIcon(icon);
+                    }
+                    ignore.setAppName(ignore.getPackName());
+                }
             }
             return ignores;
         }

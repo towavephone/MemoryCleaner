@@ -108,6 +108,7 @@ public class MemoryCleanPresenter implements Presenter,
                                                              ignore)) {
                                                          recyclerAdapter.remove(
                                                                  values);
+                                                         updateMemoryCount();
                                                          mMemoryClean.showSnackBar(
                                                                  values.appName +
                                                                          "已添加");
