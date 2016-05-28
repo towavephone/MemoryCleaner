@@ -155,15 +155,27 @@ public class AppsPresenter
                                     (dialogInterface, i) -> {
                                         Ignore ignore = new Ignore(
                                                 values.getPackname());
-                                        if (mFinalDb.saveBindId(ignore)) {
-                                            mAppsView.showSnackBar(
-                                                    values.getAppName() +
-                                                            "已添加");
+                                        List<Ignore> mIgnore
+                                                = mFinalDb.findAllByWhere(
+                                                Ignore.class, "packName='" +
+                                                        values.getPackname() +
+                                                        "'");
+                                        if (mIgnore.size() == 0) {
+                                            if (mFinalDb.saveBindId(ignore)) {
+                                                mAppsView.showSnackBar(
+                                                        values.getAppName() +
+                                                                "已添加");
+                                            }
+                                            else {
+                                                mAppsView.showSnackBar(
+                                                        values.getAppName() +
+                                                                "添加失败");
+                                            }
                                         }
                                         else {
                                             mAppsView.showSnackBar(
                                                     values.getAppName() +
-                                                            "添加失败");
+                                                            "已在白名单中");
                                         }
                                     });
                         }

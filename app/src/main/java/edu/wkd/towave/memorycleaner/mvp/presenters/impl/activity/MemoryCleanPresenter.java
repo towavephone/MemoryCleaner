@@ -100,25 +100,6 @@ public class MemoryCleanPresenter implements Presenter,
                                                  (dialogInterface, i) -> {
                                                      dialogInterface.dismiss();
                                                  })
-                                         .setPositiveButton("添加至忽略列表",
-                                                 (dialogInterface, i) -> {
-                                                     Ignore ignore = new Ignore(
-                                                             values.packName);
-                                                     if (mFinalDb.saveBindId(
-                                                             ignore)) {
-                                                         recyclerAdapter.remove(
-                                                                 values);
-                                                         updateMemoryCount();
-                                                         mMemoryClean.showSnackBar(
-                                                                 values.appName +
-                                                                         "已添加");
-                                                     }
-                                                     else {
-                                                         mMemoryClean.showSnackBar(
-                                                                 values.appName +
-                                                                         "添加失败");
-                                                     }
-                                                 })
                                          .setNeutralButton("详情",
                                                  (dialogInterface, i) -> {
                                                      Intent intent
@@ -134,6 +115,38 @@ public class MemoryCleanPresenter implements Presenter,
                                                              intent);
                                                  })
                                          .setView(relativeLayout);
+                        List<Ignore> ignores = mFinalDb.findAllByWhere(
+                                Ignore.class,
+                                "packName='" + values.packName + "'");
+                        if (ignores.size() == 0) {
+                            builder.setPositiveButton("添加至忽略列表",
+                                    (dialogInterface, i) -> {
+                                        Ignore ignore = new Ignore(
+                                                values.packName);
+                                        List<Ignore> mIgnore
+                                                = mFinalDb.findAllByWhere(
+                                                Ignore.class, "packName='" +
+                                                        values.packName +
+                                                        "'");
+                                        if (mIgnore.size() == 0) {
+                                            if (mFinalDb.saveBindId(ignore)) {
+                                                recyclerAdapter.remove(values);
+                                                updateMemoryCount();
+                                                mMemoryClean.showSnackBar(
+                                                        values.appName + "已添加");
+                                            }
+                                            else {
+                                                mMemoryClean.showSnackBar(
+                                                        values.appName +
+                                                                "添加失败");
+                                            }
+                                        }
+                                        else {
+                                            mMemoryClean.showSnackBar(
+                                                    values.appName + "已在白名单中");
+                                        }
+                                    });
+                        }
                         builder.create().show();
                     }
                 });
