@@ -36,17 +36,17 @@ import net.tsz.afinal.FinalDb;
             @ContextLifeCycle("App") Context context) {
         FinalDb.DaoConfig config = new FinalDb.DaoConfig();
         config.setDbName("ignore.db");
-        config.setDbVersion(2);
+        //config.setDbVersion(2);
         config.setDebug(BuildConfig.DEBUG);
         config.setContext(context);
-        config.setDbUpdateListener((db, oldVersion, newVersion) -> {
-            //if (newVersion == 2 && oldVersion == 1) {
-            //    db.execSQL("ALTER TABLE '" + "ignore" + "' ADD COLUMN " +
-            //            "appName" + " TEXT;");
-            //    db.execSQL("ALTER TABLE '" + "ignore" + "' ADD COLUMN " +
-            //            "appIcon" + " BLOB;");
-            //}
-        });
+        //config.setDbUpdateListener((db, oldVersion, newVersion) -> {
+        //    //if (newVersion == 2 && oldVersion == 1) {
+        //    //    db.execSQL("ALTER TABLE '" + "ignore" + "' ADD COLUMN " +
+        //    //            "appName" + " TEXT;");
+        //    //    db.execSQL("ALTER TABLE '" + "ignore" + "' ADD COLUMN " +
+        //    //            "appIcon" + " BLOB;");
+        //    //}
+        //});
         return config;
     }
 
