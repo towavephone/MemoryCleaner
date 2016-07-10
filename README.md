@@ -16,12 +16,12 @@
 
 ## 应用截图
 <img src="./screenshot/screenshot_0.jpg" width="30%" height="30%">
-<img src="./screenshot/screenshot_1.png" width="30%" height="30%"> 
-<img src="./screenshot/screenshot_2.png" width="30%" height="30%"> 
-<img src="./screenshot/screenshot_3.png" width="30%" height="30%"> 
-<img src="./screenshot/screenshot_4.png" width="30%" height="30%"> 
-<img src="./screenshot/screenshot_5.png" width="30%" height="30%"> 
-<img src="./screenshot/screenshot_6.png" width="30%" height="30%"> 
+<img src="./screenshot/screenshot_1.jpg" width="30%" height="30%"> 
+<img src="./screenshot/screenshot_2.jpg" width="30%" height="30%"> 
+<img src="./screenshot/screenshot_3.jpg" width="30%" height="30%"> 
+<img src="./screenshot/screenshot_4.jpg" width="30%" height="30%"> 
+<img src="./screenshot/screenshot_5.jpg" width="30%" height="30%"> 
+<img src="./screenshot/screenshot_6.jpg" width="30%" height="30%"> 
 
 
 ##Open source projects
