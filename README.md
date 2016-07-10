@@ -2,9 +2,7 @@
 安卓手机内存清理 开源版，包括内存加速，垃圾清理，自启管理，软件管理等。 <br> 
 
 ## 说明
-由于对第一版的安卓手机内存用到的技术以及UI不满意，同时第一版也有运行过程中易崩溃的BUG，故对第一版的MemoryClean进行改进
-同时作为我的毕业设计，我基本满意此次用到的技术以及UI，大部分功能借鉴于[superCleanMaster](https://github.com/joyoyao/superCleanMaster)，UI借鉴于[Notes](https://github.com/lguipeng/Notes)
-通过对这些项目的模仿开发出一款比较美观的安卓手机内存清理软件
+由于对第一版的安卓手机内存用到的技术以及UI不满意，同时第一版也有运行过程中易崩溃的BUG，故对第一版的MemoryClean进行改进，同时作为我的毕业设计，我基本满意此次用到的技术以及UI，大部分功能借鉴于[superCleanMaster](https://github.com/joyoyao/superCleanMaster)，UI借鉴于[Notes](https://github.com/lguipeng/Notes)，通过对这些项目的模仿开发出一款比较美观的安卓手机内存清理软件
 
 ## 基本功能
 * 内存加速
@@ -15,13 +13,13 @@
 * 白名单<br>
 
 ## 应用截图
-<img src="./screenshot/screenshot_0.jpg" width="30%" height="30%">
-<img src="./screenshot/screenshot_1.jpg" width="30%" height="30%"> 
-<img src="./screenshot/screenshot_2.jpg" width="30%" height="30%"> 
-<img src="./screenshot/screenshot_3.jpg" width="30%" height="30%"> 
-<img src="./screenshot/screenshot_4.jpg" width="30%" height="30%"> 
-<img src="./screenshot/screenshot_5.jpg" width="30%" height="30%"> 
-<img src="./screenshot/screenshot_6.jpg" width="30%" height="30%"> 
+<img src="./screenshot/screenshot_0.jpg" width="10%" height="10%">
+<img src="./screenshot/screenshot_1.jpg" width="10%" height="10%"> 
+<img src="./screenshot/screenshot_2.jpg" width="10%" height="10%"> 
+<img src="./screenshot/screenshot_3.jpg" width="10%" height="10%"> 
+<img src="./screenshot/screenshot_4.jpg" width="10%" height="10%"> 
+<img src="./screenshot/screenshot_5.jpg" width="10%" height="10%"> 
+<img src="./screenshot/screenshot_6.jpg" width="10%" height="10%"> 
 
 
 ##Open source projects
