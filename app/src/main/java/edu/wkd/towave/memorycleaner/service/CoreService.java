@@ -14,6 +14,9 @@ import android.os.IBinder;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.jaredrummler.android.processes.AndroidProcesses;
+
 import edu.wkd.towave.memorycleaner.R;
 import edu.wkd.towave.memorycleaner.model.AppProcessInfo;
 import edu.wkd.towave.memorycleaner.model.Ignore;
@@ -163,7 +166,7 @@ public class CoreService extends Service {
             AppProcessInfo abAppProcessInfo = null;
             //得到所有正在运行的进程
             List<ActivityManager.RunningAppProcessInfo> appProcessList
-                    = activityManager.getRunningAppProcesses();
+                    = AndroidProcesses.getRunningAppProcessInfo(mContext);
             publishProgress(0, appProcessList.size(), 0, "开始扫描");
 
             for (ActivityManager.RunningAppProcessInfo appProcessInfo : appProcessList) {
@@ -297,7 +300,7 @@ public class CoreService extends Service {
             activityManager.getMemoryInfo(memoryInfo);
             beforeMemory = memoryInfo.availMem;
             List<ActivityManager.RunningAppProcessInfo> appProcessList
-                    = activityManager.getRunningAppProcesses();
+                    = AndroidProcesses.getRunningAppProcessInfo(mContext);
             ApplicationInfo appInfo = null;
             for (ActivityManager.RunningAppProcessInfo info : appProcessList) {
                 String packName = info.processName;

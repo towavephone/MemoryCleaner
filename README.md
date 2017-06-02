@@ -2,7 +2,9 @@
 安卓手机内存清理 开源版，包括内存加速，垃圾清理，自启管理，软件管理等。 <br> 
 
 ## 说明
-由于对第一版的安卓手机内存用到的技术以及UI不满意，同时第一版也有运行过程中易崩溃的BUG，故对第一版的[MemoryClean](https://github.com/towavephone/MemoryClean)进行改进，同时作为我的毕业设计，我基本满意此次用到的技术以及UI，大部分功能借鉴于[superCleanMaster](https://github.com/joyoyao/superCleanMaster)，UI借鉴于[Notes](https://github.com/lguipeng/Notes)，通过对这些项目的模仿开发出一款比较美观的安卓手机内存清理软件
+>现修复android5.0以上不能查看进程的问题，暂时不能支持7.0的查看进程的功能，欢迎各位提出相应的意见或建议，如不能配置好环境，请下载安装包[MemoryCleaner](https://github.com/towavephone/MemoryCleaner/blob/master/app-debug.apk)
+
+>由于对第一版的安卓手机内存用到的技术以及UI不满意，同时第一版也有运行过程中易崩溃的BUG，故对第一版的[MemoryClean](https://github.com/towavephone/MemoryClean)进行改进，大部分功能借鉴于[superCleanMaster](https://github.com/joyoyao/superCleanMaster)，UI借鉴于[Notes](https://github.com/lguipeng/Notes)
 
 ## 基本功能
 * 内存加速
