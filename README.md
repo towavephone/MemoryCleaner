@@ -1,8 +1,14 @@
 ## MemoryCleaner
-安卓手机内存清理 开源版，包括内存加速，垃圾清理，自启管理，软件管理等。 <br> 
+[![total downloads](https://img.shields.io/github/downloads/towavephone/MemoryCleaner/total.svg)](https://github.com/towavephone/MemoryCleaner/releases/download/v1.0/app-debug.apk)
+[![GitHub release](https://img.shields.io/github/release/towavephone/MemoryCleaner.svg)](https://github.com/towavephone/MemoryCleaner/releases)
+[![Github commits (since latest release)](https://img.shields.io/github/commits-since/towavephone/MemoryCleaner/latest.svg)]()
+[![Crates.io](https://img.shields.io/crates/l/rustc-serialize.svg)]()
+[![](http://progressed.io/bar/80)]()
+
+>安卓手机内存清理开源版，包括进程清理，垃圾清理，自启管理，软件管理等，还有进程清理黑名单尚未完成
 
 ## 说明
->现修复android5.0以上不能查看进程的问题，暂时不能支持7.0的查看进程的功能，欢迎各位提出相应的意见或建议，如不能配置好环境，请下载安装包[MemoryCleaner](https://github.com/towavephone/MemoryCleaner/blob/master/app-debug.apk)
+>现修复android5.0以上不能查看进程的问题，暂时不能支持7.0的查看进程的功能，欢迎各位提出Issues
 
 >由于对第一版的安卓手机内存用到的技术以及UI不满意，同时第一版也有运行过程中易崩溃的BUG，故对第一版的[MemoryClean](https://github.com/towavephone/MemoryClean)进行改进，大部分功能借鉴于[superCleanMaster](https://github.com/joyoyao/superCleanMaster)，UI借鉴于[Notes](https://github.com/lguipeng/Notes)
 
@@ -12,7 +18,7 @@
 * 自启管理
 * 软件管理
 * 设备信息
-* 白名单<br>
+* 白名单
 
 ## 应用截图
 <div align="center">
